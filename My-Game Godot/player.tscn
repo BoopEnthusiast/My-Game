@@ -1,0 +1,71 @@
+[gd_scene load_steps=4 format=3 uid="uid://xe4qc2fp45xq"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_775wy"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_46fnu"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cca7b"]
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.23081, 0)
+script = ExtResource("1_775wy")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+gi_mode = 2
+mesh = SubResource("CapsuleMesh_46fnu")
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_cca7b")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.663102, 0)
+
+[node name="Menu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseMenu" type="VBoxContainer" parent="Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Resume" type="Button" parent="Menu/PauseMenu"]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../TestPopup")
+focus_next = NodePath("../TestPopup")
+focus_previous = NodePath("../Quit")
+mouse_default_cursor_shape = 2
+text = "Resume"
+
+[node name="TestPopup" type="MenuButton" parent="Menu/PauseMenu"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Resume")
+focus_neighbor_bottom = NodePath("../Quit")
+focus_next = NodePath("../Quit")
+focus_previous = NodePath("../Resume")
+text = "Test popup
+"
+
+[node name="Quit" type="Button" parent="Menu/PauseMenu"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../TestPopup")
+focus_next = NodePath("../Resume")
+focus_previous = NodePath("../TestPopup")
+mouse_default_cursor_shape = 2
+text = "Quit"
+
+[connection signal="pressed" from="Menu/PauseMenu/Resume" to="." method="unpause_game"]
+[connection signal="pressed" from="Menu/PauseMenu/Quit" to="." method="quit_game"]
