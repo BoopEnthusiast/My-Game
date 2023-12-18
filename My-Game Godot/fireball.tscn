@@ -45,7 +45,7 @@ radial_segments = 32
 rings = 16
 
 [node name="Fireball" type="AnimatableBody3D"]
-transform = Transform3D(0.178824, 0, 0, 0, 0.178824, 0, 0, 0, 0.178824, -0.00511551, 2.11498, 3.19334)
+transform = Transform3D(0.178824, 0, 0, 0, 0.178824, 0, 0, 0, 0.178824, 0, 0, 0)
 collision_layer = 2
 sync_to_physics = false
 script = ExtResource("1_ax3gi")

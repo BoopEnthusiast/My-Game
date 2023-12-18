@@ -1,0 +1,120 @@
+[gd_scene load_steps=6 format=3 uid="uid://xe4qc2fp45xq"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_775wy"]
+[ext_resource type="Script" path="res://ide.gd" id="2_lr6ov"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_46fnu"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cca7b"]
+
+[sub_resource type="Theme" id="Theme_jcnih"]
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.23081, 0)
+script = ExtResource("1_775wy")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+gi_mode = 2
+mesh = SubResource("CapsuleMesh_46fnu")
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_cca7b")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.663102, 0)
+
+[node name="Menu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_jcnih")
+
+[node name="PauseMenu" type="VBoxContainer" parent="Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Resume" type="Button" parent="Menu/PauseMenu"]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../Quit")
+focus_next = NodePath("../Quit")
+focus_previous = NodePath("../Quit")
+mouse_default_cursor_shape = 2
+text = "Resume"
+
+[node name="Quit" type="Button" parent="Menu/PauseMenu"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Resume")
+focus_next = NodePath("../Resume")
+focus_previous = NodePath("../Resume")
+mouse_default_cursor_shape = 2
+text = "Quit"
+
+[node name="IDE" type="Control" parent="Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_lr6ov")
+
+[node name="DimWorld" type="ColorRect" parent="Menu/IDE"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.0627451)
+
+[node name="Map" type="Control" parent="Menu/IDE"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Menu/IDE/Map"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -390.0
+offset_top = -117.0
+offset_right = -251.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect2" type="ColorRect" parent="Menu/IDE/Map"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 212.0
+offset_top = -128.0
+offset_right = 303.0
+offset_bottom = -37.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[connection signal="pressed" from="Menu/PauseMenu/Resume" to="." method="unpause_game"]
+[connection signal="pressed" from="Menu/PauseMenu/Quit" to="." method="quit_game"]

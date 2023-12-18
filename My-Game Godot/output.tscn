@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://ovhge4jm6ich"]
+
+[ext_resource type="Script" path="res://output.gd" id="1_0gxau"]
+
+[node name="Output" type="HBoxContainer"]
+script = ExtResource("1_0gxau")
+
+[node name="TypeSelection" type="OptionButton" parent="."]
+layout_mode = 2
+item_count = 6
+selected = 0
+popup/item_0/text = "null"
+popup/item_0/id = 0
+popup/item_1/text = "bool"
+popup/item_1/id = 1
+popup/item_2/text = "int"
+popup/item_2/id = 2
+popup/item_3/text = "float"
+popup/item_3/id = 3
+popup/item_4/text = "char"
+popup/item_4/id = 4
+popup/item_5/text = "string"
+popup/item_5/id = 5
+
+[node name="Connect" type="Button" parent="."]
+layout_mode = 2
+text = ">"
+
+[connection signal="item_selected" from="TypeSelection" to="." method="_on_type_selection_item_selected"]
+[connection signal="pressed" from="Connect" to="." method="_on_connect_pressed"]

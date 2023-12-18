@@ -8,23 +8,31 @@ const JUMP_VELOCITY = 4.5
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 # Get relevant nodes
-@onready var main_camera := $Camera
-@onready var base_menu := $Menu
+@onready var main_camera: Camera3D = $Camera
+@onready var pause_menu: VBoxContainer = $Menu/PauseMenu
+@onready var ide: Control = $Menu/IDE
 
-var camera_rotation = Vector2(0, 0)
-var mouse_sensitivity := 0.005
+var camera_rotation := Vector2(0, 0)
+var mouse_sensitivity := 0.003
 
-var fireball = preload("res://fireball.tscn")
+var in_menu := false
+
+var fireball: PackedScene = preload("res://fireball.tscn")
 
 func _ready() -> void:
-	# Remove the mouse from the screen and just capture its movement
+	main_camera.rotation = Basis().y
+	
 	unpause_game()
+	end_code_editing()
 
 
 func _input(event) -> void:
 	# If escape is pressed pause the game
 	if event.is_action_pressed("ui_cancel"):
 		pause_game()
+	
+	if event.is_action_pressed("start_coding"):
+		start_code_editing()
 	
 	# Get the mouse movement
 	if event is InputEventMouseMotion:
@@ -56,20 +64,20 @@ func camera_look(movement: Vector2) -> void:
 	main_camera.rotate_object_local(Vector3.RIGHT, -camera_rotation.y)
 
 
-func _physics_process(delta):
+func _physics_process(delta) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
 	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	if Input.is_action_just_pressed("jump") and is_on_floor() and not in_menu:
 		velocity.y = JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
+	if direction and not in_menu:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 	else:
@@ -79,19 +87,35 @@ func _physics_process(delta):
 	move_and_slide()
 
 
-func pause_game():
+func pause_game() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	base_menu.visible = true
-	base_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+	pause_menu.visible = true
+	pause_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	get_tree().paused = true
 
 
-func unpause_game():
+func unpause_game() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	base_menu.visible = false
-	base_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	pause_menu.visible = false
+	pause_menu.process_mode = Node.PROCESS_MODE_DISABLED
 	get_tree().paused = false
 
 
-func quit_game():
+func start_code_editing() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	set_process_input(false)
+	ide.visible = true
+	ide.process_mode = Node.PROCESS_MODE_ALWAYS
+	in_menu = true
+
+
+func end_code_editing() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	set_process_input(true)
+	ide.visible = false
+	ide.process_mode = Node.PROCESS_MODE_DISABLED
+	in_menu = false
+
+
+func quit_game() -> void:
 	get_tree().quit()

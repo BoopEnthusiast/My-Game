@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2v8sg5vesx2e"]
+
+[ext_resource type="Script" path="res://input.gd" id="1_v22sj"]
+
+[node name="Input" type="HBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_v22sj")
+
+[node name="VariableName" type="LineEdit" parent="."]
+layout_mode = 2
+size_flags_vertical = 4
+max_length = 15
+
+[connection signal="mouse_entered" from="VariableName" to="." method="_on_text_field_mouse_entered"]
+[connection signal="text_changed" from="VariableName" to="." method="_on_text_changed"]
