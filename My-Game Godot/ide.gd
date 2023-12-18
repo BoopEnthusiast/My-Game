@@ -8,6 +8,8 @@ const min_zoom = Vector2(0.1, 0.1)
 @onready var map: Control = $Map
 @onready var player: CharacterBody3D = $"../.."
 
+var code_editor_scene: PackedScene = preload("res://code_editor.tscn")
+
 var map_initial_position: Vector2
 var code_editors := []
 
@@ -65,15 +67,10 @@ func _input(event) -> void:
 			currently_moving_editor.position += event.relative / map.scale
 			
 			for output: CodeOutput in currently_moving_editor.outputs:
-				for connection_line: Line2D in output.connected_inputs:
-					var connected_input = output.connected_inputs[connection_line]
-					if connection_line.get_point_count() > 1:
-						connection_line.set_point_position(1, connection_line.to_local(connected_input.global_position) + Vector2(0, 15))
+				output.update_all_connected_line_positions()
 			for input: CodeInput in currently_moving_editor.inputs:
 				for output: CodeOutput in input.connected_outputs:
-					var connection_line = output.connected_inputs.keys()[output.connected_inputs.values().find(input)]
-					if output != null and connection_line.get_point_count() > 1:
-						connection_line.set_point_position(1, connection_line.to_local(input.global_position) + Vector2(0, 15))
+					output.update_all_connected_line_positions()
 		
 	elif event is InputEventMouseButton:
 		if event.button_index == 1 and connecting:
@@ -84,11 +81,12 @@ func _input(event) -> void:
 			connecting_from = null
 			connecting_from_line = null
 			connecting_from_editor = null
-		elif event.button_index == 4:
-			map.scale += zoom_amount
-		elif event.button_index == 5:
-			map.scale -= zoom_amount
-		map.scale = clamp(map.scale, min_zoom, max_zoom)
+		elif CodeEditor.can_zoom:
+			if event.button_index == 4:
+				map.scale += zoom_amount
+			elif event.button_index == 5:
+				map.scale -= zoom_amount
+			map.scale = clamp(map.scale, min_zoom, max_zoom)
 	
 	if event.is_action_pressed("ui_cancel"):
 		player.end_code_editing()
@@ -118,3 +116,9 @@ func code_editor_found_connection(input_id: int, code_editor: CodeEditor) -> voi
 			connecting_from_line.remove_point(1)
 		connecting_from_line.add_point(connecting_from_line.to_local(connecting_to.global_position) + Vector2(0, 15))
 		connecting = false
+
+
+func _on_add_editor_pressed():
+	var new_editor = code_editor_scene.instantiate()
+	new_editor.position -= map.position
+	map.add_child(new_editor)

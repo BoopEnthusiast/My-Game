@@ -85,6 +85,12 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0.0588235)
 metadata/_edit_lock_ = true
 
+[node name="AddEditor" type="Button" parent="Menu/IDE"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+text = "+"
+
 [node name="Map" type="Control" parent="Menu/IDE"]
 layout_mode = 1
 anchors_preset = 15
@@ -111,3 +117,4 @@ offset_bottom = 297.0
 
 [connection signal="pressed" from="Menu/PauseMenu/Resume" to="." method="unpause_game"]
 [connection signal="pressed" from="Menu/PauseMenu/Quit" to="." method="quit_game"]
+[connection signal="pressed" from="Menu/IDE/AddEditor" to="Menu/IDE" method="_on_add_editor_pressed"]
