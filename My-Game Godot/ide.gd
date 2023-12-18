@@ -121,4 +121,6 @@ func code_editor_found_connection(input_id: int, code_editor: CodeEditor) -> voi
 func _on_add_editor_pressed():
 	var new_editor = code_editor_scene.instantiate()
 	new_editor.position -= map.position
+	new_editor.started_line_connection.connect(code_editor_started_line_connection)
+	new_editor.connection_found.connect(code_editor_found_connection)
 	map.add_child(new_editor)

@@ -115,6 +115,13 @@ offset_top = -566.0
 offset_right = 1530.0
 offset_bottom = 297.0
 
+[node name="CodeEditor3" parent="Menu/IDE/Map" instance=ExtResource("3_wnra2")]
+layout_mode = 1
+offset_left = -1695.0
+offset_top = -246.0
+offset_right = -734.0
+offset_bottom = 635.0
+
 [connection signal="pressed" from="Menu/PauseMenu/Resume" to="." method="unpause_game"]
 [connection signal="pressed" from="Menu/PauseMenu/Quit" to="." method="quit_game"]
 [connection signal="pressed" from="Menu/IDE/AddEditor" to="Menu/IDE" method="_on_add_editor_pressed"]
