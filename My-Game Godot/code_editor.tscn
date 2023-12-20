@@ -1,15 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://w14p0oj6jj5w"]
+[gd_scene load_steps=7 format=3 uid="uid://w14p0oj6jj5w"]
 
 [ext_resource type="Script" path="res://code_editor.gd" id="1_bvjvr"]
 [ext_resource type="PackedScene" uid="uid://b2v8sg5vesx2e" path="res://input.tscn" id="2_dpgr0"]
 [ext_resource type="Script" path="res://code_resize.gd" id="3_03rok"]
 [ext_resource type="PackedScene" uid="uid://ovhge4jm6ich" path="res://output.tscn" id="3_rii6m"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ds4o1"]
+bg_color = Color(0, 0, 0, 0.192157)
+
 [sub_resource type="CodeHighlighter" id="CodeHighlighter_qwu16"]
-number_color = Color(0.913725, 0, 0, 1)
-symbol_color = Color(0.678431, 0.384314, 0.603922, 1)
-function_color = Color(0.501961, 0.0941176, 0.87451, 1)
-member_variable_color = Color(0, 0, 0.72549, 1)
+number_color = Color(0.564706, 0.654902, 0.901961, 1)
+symbol_color = Color(0.670588, 0.788235, 1, 1)
+function_color = Color(0.329412, 0.415686, 0.682353, 1)
+member_variable_color = Color(0.4, 0.611765, 0.803922, 1)
 
 [node name="CodeEditor" type="Control"]
 layout_mode = 3
@@ -18,9 +21,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -480.0
+offset_left = -546.0
 offset_top = -431.0
-offset_right = 481.0
+offset_right = 547.0
 offset_bottom = 450.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -28,7 +31,17 @@ size_flags_horizontal = 6
 size_flags_vertical = 4
 script = ExtResource("1_bvjvr")
 
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ds4o1")
+
 [node name="DimBackground" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,7 +61,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-split_offset = 100
+split_offset = 120
 
 [node name="Inputs" type="VBoxContainer" parent="LeftResize"]
 layout_mode = 2
@@ -70,7 +83,7 @@ text = "+"
 
 [node name="RightResize" type="HSplitContainer" parent="LeftResize"]
 layout_mode = 2
-split_offset = 700
+split_offset = 2335
 
 [node name="CodeResize" type="VSplitContainer" parent="LeftResize/RightResize"]
 layout_mode = 2
@@ -109,6 +122,11 @@ text = "X"
 
 [node name="CodeEditor" type="CodeEdit" parent="LeftResize/RightResize/CodeResize"]
 layout_mode = 2
+text = "mouse_left {
+	Vector3 wizard_position = Wizard.position
+	Object fireball = spawn(Fireball, wizard_position)
+	fireball.move_continuously(Player.forward)
+}"
 placeholder_text = "Your magnificent code..."
 scroll_smooth = true
 minimap_draw = true

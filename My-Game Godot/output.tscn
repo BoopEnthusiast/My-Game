@@ -12,7 +12,7 @@ text = "X"
 [node name="TypeSelection" type="OptionButton" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
-item_count = 6
+item_count = 10
 selected = 0
 popup/item_0/text = "null"
 popup/item_0/id = 0
@@ -22,10 +22,18 @@ popup/item_2/text = "int"
 popup/item_2/id = 2
 popup/item_3/text = "float"
 popup/item_3/id = 3
-popup/item_4/text = "char"
-popup/item_4/id = 4
-popup/item_5/text = "string"
-popup/item_5/id = 5
+popup/item_4/text = "String"
+popup/item_4/id = 5
+popup/item_5/text = "Array"
+popup/item_5/id = 6
+popup/item_6/text = "Dictionary"
+popup/item_6/id = 6
+popup/item_7/text = "Object"
+popup/item_7/id = 7
+popup/item_8/text = "Vector3"
+popup/item_8/id = 8
+popup/item_9/text = "NormalVector3"
+popup/item_9/id = 9
 
 [node name="Connect" type="Button" parent="."]
 layout_mode = 2

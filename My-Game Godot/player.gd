@@ -17,7 +17,7 @@ var mouse_sensitivity := 0.003
 
 var in_menu := false
 
-var fireball: PackedScene = preload("res://fireball.tscn")
+#var fireball: PackedScene = preload("res://fireball.tscn")
 
 func _ready() -> void:
 	main_camera.rotation = Basis().y
@@ -40,13 +40,13 @@ func _input(event) -> void:
 		var relative_position = event.relative * mouse_sensitivity
 		camera_look(relative_position)
 	
-	if event.is_action_pressed("fire"):
-		var new_fireball: Fireball = fireball.instantiate()
-		get_parent().add_child(new_fireball)
-		new_fireball.global_position = main_camera.global_position
-		new_fireball.position.y -= 0.5
-		new_fireball.rotation.x = -main_camera.rotation.x
-		new_fireball.rotation.y = rotation.y - PI
+	#if event.is_action_pressed("fire"):
+		#var new_fireball: Fireball = fireball.instantiate()
+		#get_parent().add_child(new_fireball)
+		#new_fireball.global_position = main_camera.global_position
+		#new_fireball.position.y -= 0.5
+		#new_fireball.rotation.x = -main_camera.rotation.x
+		#new_fireball.rotation.y = rotation.y - PI
 
 # Rotate the camera
 func camera_look(movement: Vector2) -> void:

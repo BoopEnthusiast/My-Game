@@ -1,6 +1,7 @@
 extends AnimatableBody3D
-class_name Fireball
 
+const INHERITS_FROM: StringName = "TObject"
+const CLASS_NAME: StringName = "Fireball"
 
 func _physics_process(_delta):
 	if move_and_collide(basis.z) is KinematicCollision3D:
@@ -9,3 +10,4 @@ func _physics_process(_delta):
 
 func _on_timeout():
 	queue_free()
+
