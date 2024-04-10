@@ -5,10 +5,10 @@ const ZOOM_AMOUNT = Vector2(0.02, 0.02)
 const MAX_ZOOM = Vector2(3, 3)
 const MIN_ZOOM = Vector2(0.1, 0.1)
 
+const CODE_EDITOR = preload("res://scenes/code_editor.tscn")
+
 @onready var map: Control = $Map
 @onready var player: CharacterBody3D = $"../.."
-
-const CODE_EDITOR_SCENE: PackedScene = preload("res://code_editor.tscn")
 
 var map_initial_position: Vector2
 var map_initial_size: Vector2
@@ -175,7 +175,7 @@ func code_editor_found_connection(input_id: int, code_editor: CodeEditor) -> voi
 
 func _on_add_editor_pressed():
 	# Make new editor
-	var new_editor = CODE_EDITOR_SCENE.instantiate()
+	var new_editor = CODE_EDITOR.instantiate()
 	new_editor.position -= map.position
 	new_editor.started_line_connection.connect(code_editor_started_line_connection)
 	new_editor.connection_found.connect(code_editor_found_connection)

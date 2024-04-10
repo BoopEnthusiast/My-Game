@@ -6,8 +6,8 @@ var editor_class_name: String
 signal started_line_connection(output_id: int, code_editor: CodeEditor)
 signal connection_found(input_id: int, code_editor: CodeEditor)
 
-const OUTPUT_SCENE = preload("res://output.tscn")
-const INPUT_SCENE = preload("res://input.tscn")
+const INPUT_SCENE = preload("res://scenes/input.tscn")
+const OUTPUT_SCENE = preload("res://scenes/output.tscn")
 
 @onready var inputs: Array[CodeInput] = [$LeftResize/Inputs/Input]
 @onready var input_box: VBoxContainer = $LeftResize/Inputs
@@ -112,7 +112,7 @@ func _on_class_name_changed(text: String) -> void:
 	editor_class_name = class_name_box.text
 
 
-func _on_compile_pressed() -> Error:
+func _on_compile_pressed() -> int:
 	var code_lines: PackedStringArray = code_editor.text.split("\n", false)
 	
 	var code_tree: TreeArray = TreeArray.new()
@@ -124,37 +124,9 @@ func _on_compile_pressed() -> Error:
 		print("Line: " + code_line + " Tokens: " + str(code_line.split(" ", false)))
 		
 		var current_token: String = ""
-		var char_index := 0
-		var possible_mode: TreeArray.PARSE_MODE
-		for character: String in code_line:
-			# Has the token ended
-			var is_character_white_space := IDE.WHITE_SPACES.has(character)
-			if is_character_white_space and current_token.length() > 1:
-				current_parent = current_parent.add_child(current_token, possible_mode)
-				current_token = ""
-				continue
-			elif is_character_white_space:
-				return 1
-			
-				continue
-			
-			
-			current_token += character
-			
-			if current_parent.mode == TreeArray.PARSE_MODE.ROOT:
-				for input in inputs:
-					if input.variable_name == current_token:
-						possible_mode = TreeArray.PARSE_MODE.INPUT
-						break
-			
-			if current_parent.mode == TreeArray.PARSE_MODE.INPUT:
-				if character == "{" and not possible_mode != TreeArray.PARSE_MODE.INPUT:
-					return 1
-				elif character == "{":
-					break
-			
-			
-			char_index += 1
+		var tokens: PackedStringArray = code_line.split(" ", false)
+		
+		# A way of doing this might be to go to functions for specific modes
 		
 		line_index += 1
 	

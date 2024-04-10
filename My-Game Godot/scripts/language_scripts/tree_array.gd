@@ -1,4 +1,4 @@
-extends Object
+extends Node
 class_name TreeArray
 
 var parent: TreeArray
@@ -32,11 +32,11 @@ func _notification(p_what):
 			pass
 
 
-func get_children() -> Array[TreeArray]:
+func get_object_children() -> Array[TreeArray]:
 	return children
 
 
-func get_parent() -> TreeArray:
+func get_object_parent() -> TreeArray:
 	return parent
 
 
@@ -45,7 +45,7 @@ func set_value(value_to_set, mode_to_set: PARSE_MODE) -> void:
 	mode = mode_to_set
 
 
-func add_child(value_to_set, mode_to_set: PARSE_MODE) -> TreeArray:
+func add_object_child(value_to_set, mode_to_set: PARSE_MODE) -> TreeArray:
 	var new_child = TreeArray.new()
 	new_child.set_value(value_to_set, mode_to_set)
 	children.append(new_child)

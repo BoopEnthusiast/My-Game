@@ -42,7 +42,7 @@ func _input(event) -> void:
 	
 	#if event.is_action_pressed("fire"):
 		#var new_fireball: Fireball = fireball.instantiate()
-		#get_parent().add_child(new_fireball)
+		#get_object_parent().add_child(new_fireball)
 		#new_fireball.global_position = main_camera.global_position
 		#new_fireball.position.y -= 0.5
 		#new_fireball.rotation.x = -main_camera.rotation.x
