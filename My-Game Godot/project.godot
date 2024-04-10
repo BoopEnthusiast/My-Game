@@ -11,15 +11,15 @@ config_version=5
 [application]
 
 config/name="My-Game Godot"
-run/main_scene="res://Test Level.tscn"
+run/main_scene="res://scenes/test_level.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://resources/icon.svg"
 
 [autoload]
 
-FireballScene="*res://fireball.tscn"
-TObjectGlobal="res://language_scripts/object.gd"
-TreeArrayGlobal="res://language_scripts/tree_array.gd"
+FireballScene="*res://scenes/fireball.tscn"
+TObjectGlobal="res://scripts/language_scripts/object.gd"
+TreeArrayGlobal="res://scripts/language_scripts/tree_array.gd"
 
 [display]
 
