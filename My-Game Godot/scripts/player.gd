@@ -17,7 +17,9 @@ var mouse_sensitivity := 0.003
 
 var in_menu := false
 
-#var fireball: PackedScene = preload("res://fireball.tscn")
+var fireball: PackedScene = preload("res://scenes/fireball.tscn")
+
+
 
 func _ready() -> void:
 	main_camera.rotation = Basis().y
