@@ -2,5 +2,9 @@ class_name NodeOutput
 extends NodeIOPort
 
 
-func _on_button_pressed() -> void:
-	pass # Replace with function body.
+var connected_input: NodeInput
+
+
+func _ready() -> void:
+	remove_child(button)
+	add_child(button)

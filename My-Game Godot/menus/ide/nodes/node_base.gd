@@ -5,8 +5,8 @@ extends Control
 const MAX_INPUTS: int = 1
 const MAX_OUTPUTS: int = 1
 
-var input_connections: Array[Connector]
-var output_connections: Array[Connector]
+@onready var inputs: Array[NodeInput] = [$Background/Inputs/Input]
+@onready var outputs: Array[NodeOutput] = [$Background/Inputs/Input]
 
 var is_dragging := false
 var drag_offset: Vector2

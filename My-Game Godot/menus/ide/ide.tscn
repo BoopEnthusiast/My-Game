@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cellv0ubckd05"]
+[gd_scene load_steps=3 format=3 uid="uid://cellv0ubckd05"]
 
 [ext_resource type="Script" path="res://menus/ide/ide_holder.gd" id="1_baq4u"]
 [ext_resource type="PackedScene" uid="uid://dfqffeb2xu3ho" path="res://menus/ide/nodes/node_base.tscn" id="2_bm5b5"]
-[ext_resource type="PackedScene" uid="uid://b33la30qw2odn" path="res://menus/ide/nodes/connector/connector.tscn" id="3_e4bwr"]
 
 [node name="IDEHolder" type="Control"]
 layout_mode = 3
@@ -36,5 +35,3 @@ offset_left = 2.0
 offset_top = -9.0
 offset_right = 0.279968
 offset_bottom = 0.303955
-
-[node name="Connector" parent="." instance=ExtResource("3_e4bwr")]

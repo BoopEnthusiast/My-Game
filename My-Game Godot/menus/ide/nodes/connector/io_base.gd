@@ -3,13 +3,14 @@ extends HBoxContainer
 
 
 @onready var name_field: TextEdit = $NameField
+@onready var button: Button = $Button
 
 var variable_name: String
 
 
 func _on_button_pressed() -> void:
 	if not IDE.connecting_from is NodeOutput:
-		IDE.connecting_from = self
+		IDE.start_connecting(self)
 	else:
 		IDE.connect_nodes(self)
 

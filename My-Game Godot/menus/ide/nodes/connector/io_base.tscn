@@ -23,7 +23,6 @@ icon = SubResource("GradientTexture2D_pjw1k")
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 13
-text = "wwwwwww"
 placeholder_text = "placeholder"
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
