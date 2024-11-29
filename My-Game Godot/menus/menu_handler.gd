@@ -13,7 +13,7 @@ func _input(event: InputEvent) -> void:
 		MenuHandler.pause_game()
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("start_coding"):
 		if not IDE.ide_holder.visible:
 			MenuHandler.start_code_editing()
