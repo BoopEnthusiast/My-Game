@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://qgfpf1gtl165"]
+
+[ext_resource type="Script" path="res://menus/ide/nodes/connector/io_base.gd" id="1_qmsw5"]
+
+[sub_resource type="Gradient" id="Gradient_8jh6b"]
+offsets = PackedFloat32Array(0, 0.38961, 1)
+colors = PackedColorArray(0.786341, 0.823113, 3.85046e-07, 1, 0, 1, 0.5, 1, 0.990078, 0.623762, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_pjw1k"]
+gradient = SubResource("Gradient_8jh6b")
+width = 5
+height = 30
+fill_to = Vector2(1, 1)
+
+[node name="IOBase" type="HBoxContainer"]
+script = ExtResource("1_qmsw5")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+icon = SubResource("GradientTexture2D_pjw1k")
+
+[node name="NameField" type="TextEdit" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "wwwwwww"
+placeholder_text = "placeholder"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="text_changed" from="NameField" to="." method="_on_name_field_text_changed"]
