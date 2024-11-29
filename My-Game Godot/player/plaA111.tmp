@@ -1,0 +1,123 @@
+[gd_scene load_steps=8 format=3 uid="uid://xe4qc2fp45xq"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_775wy"]
+[ext_resource type="Script" path="res://menus/ide/ide_old.gd" id="2_lr6ov"]
+[ext_resource type="Script" path="res://menus/pause_menu.gd" id="2_v7j87"]
+[ext_resource type="PackedScene" uid="uid://w14p0oj6jj5w" path="res://menus/ide/code_editor.tscn" id="3_wnra2"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_46fnu"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cca7b"]
+
+[sub_resource type="Theme" id="Theme_jcnih"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_775wy")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+gi_mode = 2
+mesh = SubResource("CapsuleMesh_46fnu")
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_cca7b")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.663102, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" type="VBoxContainer" parent="CanvasLayer"]
+process_mode = 2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_v7j87")
+
+[node name="Resume" type="Button" parent="CanvasLayer/PauseMenu"]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../Quit")
+focus_next = NodePath("../Quit")
+focus_previous = NodePath("../Quit")
+mouse_default_cursor_shape = 2
+text = "Resume"
+
+[node name="Quit" type="Button" parent="CanvasLayer/PauseMenu"]
+layout_mode = 2
+focus_neighbor_top = NodePath("../Resume")
+focus_next = NodePath("../Resume")
+focus_previous = NodePath("../Resume")
+mouse_default_cursor_shape = 2
+text = "Quit"
+
+[node name="Menu" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_jcnih")
+metadata/_edit_lock_ = true
+
+[node name="IDE" type="Control" parent="CanvasLayer/Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_lr6ov")
+metadata/_edit_lock_ = true
+
+[node name="DimWorld" type="ColorRect" parent="CanvasLayer/Menu/IDE"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.0588235)
+metadata/_edit_lock_ = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Menu/IDE"]
+layout_mode = 1
+offset_right = 85.0
+offset_bottom = 40.0
+
+[node name="AddEditor" type="Button" parent="CanvasLayer/Menu/IDE/HBoxContainer"]
+layout_mode = 2
+text = "+"
+
+[node name="Button" type="Button" parent="CanvasLayer/Menu/IDE/HBoxContainer"]
+layout_mode = 2
+text = "+ Input"
+
+[node name="Map" type="Control" parent="CanvasLayer/Menu/IDE"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="CodeEditor" parent="CanvasLayer/Menu/IDE/Map" instance=ExtResource("3_wnra2")]
+layout_mode = 1
+offset_left = -523.0
+offset_top = -252.0
+offset_right = 438.0
+offset_bottom = 629.0
+
+[connection signal="pressed" from="CanvasLayer/PauseMenu/Resume" to="." method="unpause_game"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/Quit" to="." method="quit_game"]
+[connection signal="pressed" from="CanvasLayer/Menu/IDE/HBoxContainer/AddEditor" to="CanvasLayer/Menu/IDE" method="_on_add_editor_pressed"]

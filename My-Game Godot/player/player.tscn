@@ -1,0 +1,30 @@
+[gd_scene load_steps=7 format=3 uid="uid://xe4qc2fp45xq"]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1_775wy"]
+[ext_resource type="PackedScene" uid="uid://1ebvp7qxcka5" path="res://menus/pause_menu/pause_menu.tscn" id="2_rvqv4"]
+[ext_resource type="PackedScene" uid="uid://cellv0ubckd05" path="res://menus/ide/ide.tscn" id="3_pjdec"]
+[ext_resource type="Script" path="res://menus/ide/ide_holder.gd" id="4_tuaml"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_46fnu"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cca7b"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_775wy")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+gi_mode = 2
+mesh = SubResource("CapsuleMesh_46fnu")
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_cca7b")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.663102, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenuHolder" parent="CanvasLayer" instance=ExtResource("2_rvqv4")]
+
+[node name="IDE" parent="CanvasLayer" instance=ExtResource("3_pjdec")]
+script = ExtResource("4_tuaml")
