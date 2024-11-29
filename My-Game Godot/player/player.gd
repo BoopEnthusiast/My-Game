@@ -26,7 +26,7 @@ func _ready() -> void:
 	main_camera.rotation = Basis().y
 	
 	MenuHandler.unpause_game()
-	MenuHandler.end_code_editing()
+	MenuHandler.stop_code_editing()
 
 
 func _input(event) -> void:
@@ -79,5 +79,5 @@ func _physics_process(delta) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-
+	
 	move_and_slide()

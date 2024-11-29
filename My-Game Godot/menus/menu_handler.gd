@@ -11,15 +11,14 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		MenuHandler.pause_game()
-	
-	elif event.is_action_pressed("start_coding") and not IDE.ide_holder.visible:
-		MenuHandler.start_code_editing()
-		print("start")
-		IDE.code_start_input_released = false
-	
-	if event.is_action_released("start_coding"):
-		print("released")
-		IDE.code_start_input_released = true
+
+
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("start_coding"):
+		if not IDE.ide_holder.visible:
+			MenuHandler.start_code_editing()
+		else:
+			MenuHandler.stop_code_editing()
 
 
 func pause_game() -> void:
@@ -38,13 +37,15 @@ func unpause_game() -> void:
 
 func start_code_editing() -> void:
 	assert(IDE.ide_holder, "Could not find IDE holder")
+	Singleton.player.stop_movement = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	set_process_input(false)
 	IDE.ide_holder.visible = true
 
 
-func end_code_editing() -> void:
+func stop_code_editing() -> void:
 	assert(IDE.ide_holder, "Could not find IDE holder")
+	Singleton.player.stop_movement = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	set_process_input(true)
 	IDE.ide_holder.visible = false
