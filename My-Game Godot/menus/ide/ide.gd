@@ -17,6 +17,13 @@ func start_connecting(connect_from: NodeIOPort) -> void:
 	else:
 		connector.output = connecting_from
 	ide_holder.add_child(connector)
+	connecting_from.connector = connector
+
+
+func stop_connecting() -> void:
+	connecting_from = null
+	if is_instance_valid(connector):
+		connector.queue_free()
 
 
 func connect_nodes(connecting_to: NodeIOPort) -> void:
@@ -25,3 +32,4 @@ func connect_nodes(connecting_to: NodeIOPort) -> void:
 		connector.output = connecting_to
 	else:
 		connector.input = connecting_to
+	connecting_to.connector = connector

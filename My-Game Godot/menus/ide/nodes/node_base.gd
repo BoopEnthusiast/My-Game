@@ -5,8 +5,8 @@ extends Control
 const MAX_INPUTS: int = 1
 const MAX_OUTPUTS: int = 1
 
-@onready var inputs: Array[NodeInput] = [$Background/Inputs/Input]
-@onready var outputs: Array[NodeOutput] = [$Background/Inputs/Input]
+@onready var inputs: Array = [$Background/Inputs/Input]
+@onready var outputs: Array = [$Background/Inputs/Input]
 
 var is_dragging := false
 var drag_offset: Vector2
