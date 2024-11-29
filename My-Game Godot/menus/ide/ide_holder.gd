@@ -1,4 +1,5 @@
-class_name IDEHolder extends Control
+class_name IDEHolder 
+extends Control
 
 
 func _enter_tree() -> void:

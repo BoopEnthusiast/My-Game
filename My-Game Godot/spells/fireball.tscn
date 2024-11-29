@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://bn8h1p7qi7l03"]
 
-[ext_resource type="Script" path="res://menus/ide/fireball.gd" id="1_ax3gi"]
+[ext_resource type="Script" path="res://spells/fireball.gd" id="1_ax3gi"]
 [ext_resource type="Shader" uid="uid://dye1xybnc55nd" path="res://shaders/fire.tres" id="1_s6fm3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6ufkm"]

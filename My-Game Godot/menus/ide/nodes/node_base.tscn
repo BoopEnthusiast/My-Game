@@ -1,9 +1,12 @@
-[gd_scene format=3 uid="uid://dfqffeb2xu3ho"]
+[gd_scene load_steps=2 format=3 uid="uid://dfqffeb2xu3ho"]
+
+[ext_resource type="Script" path="res://menus/ide/nodes/node_base.gd" id="1_xueml"]
 
 [node name="Node" type="Control"]
 layout_mode = 3
 anchor_right = 0.217014
 anchor_bottom = 0.385802
+script = ExtResource("1_xueml")
 metadata/_edit_use_anchors_ = true
 
 [node name="Background" type="Panel" parent="."]
@@ -13,6 +16,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="Title" type="RichTextLabel" parent="Background"]
 layout_mode = 1
@@ -20,6 +24,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 25.0
 grow_horizontal = 2
+mouse_filter = 1
 bbcode_enabled = true
 text = "[center]Title here"
 
@@ -52,3 +57,4 @@ offset_top = 25.0
 offset_right = -50.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cellv0ubckd05"]
+[gd_scene load_steps=3 format=3 uid="uid://cellv0ubckd05"]
 
 [ext_resource type="Script" path="res://menus/ide/ide.gd" id="1_rj56f"]
+[ext_resource type="PackedScene" uid="uid://dfqffeb2xu3ho" path="res://menus/ide/nodes/node_base.tscn" id="2_bm5b5"]
 
 [node name="IDEHolder" type="Control"]
 layout_mode = 3
@@ -8,3 +9,8 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_rj56f")
+
+[node name="Node" parent="." instance=ExtResource("2_bm5b5")]
+layout_mode = 1
+anchor_right = 4.925
+anchor_bottom = 4.225

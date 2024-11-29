@@ -1,4 +1,5 @@
-class_name PauseMenu extends VBoxContainer
+class_name PauseMenu 
+extends VBoxContainer
 
 
 func _enter_tree() -> void:
