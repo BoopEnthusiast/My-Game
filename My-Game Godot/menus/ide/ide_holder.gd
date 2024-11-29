@@ -15,6 +15,12 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.is_released():
 			is_dragging = false
+		#elif event.button_index == MOUSE_BUTTON_WHEEL_UP and scale.x < 20:
+			#pivot_offset = event.position
+			#scale *= 1.1
+		#elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and scale.x > 0.3:
+			#pivot_offset = event.position
+			#scale *= 0.9
 
 
 func _gui_input(event: InputEvent) -> void:
