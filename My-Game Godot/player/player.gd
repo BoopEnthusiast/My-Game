@@ -82,3 +82,6 @@ func _physics_process(delta) -> void:
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 	
 	move_and_slide()
+	
+	if Input.is_action_just_pressed("fire") and not stop_movement:
+		IDE.current_spell.cast()

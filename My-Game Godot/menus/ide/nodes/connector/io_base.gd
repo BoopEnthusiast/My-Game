@@ -40,3 +40,10 @@ func _check_class() -> bool:
 			return true
 		else:
 			return false
+
+
+func get_connected_node() -> NodeBase:
+	if self is NodeInput:
+		return connector.output.parent_node
+	else:
+		return connector.input.parent_node

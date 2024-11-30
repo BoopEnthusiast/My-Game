@@ -8,6 +8,8 @@ var ide_holder: IDEHolder
 var connecting_from: NodeIOPort
 var connector: Connector
 
+var current_spell: Spell
+
 
 func start_connecting(connect_from: NodeIOPort) -> void:
 	connecting_from = connect_from

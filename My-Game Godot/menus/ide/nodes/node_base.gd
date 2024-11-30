@@ -1,15 +1,32 @@
 class_name NodeBase 
 extends Control
 
+const INPUT = preload("res://menus/ide/nodes/connector/input.tscn")
+const OUTPUT = preload("res://menus/ide/nodes/connector/output.tscn")
 
-const MAX_INPUTS: int = 1
-const MAX_OUTPUTS: int = 1
+@export var title: String = "TITLE YOUR NODE"
+@export var max_inputs: int = 0
+@export var max_outputs: int = 0
 
-@onready var inputs: Array = [$Background/Inputs/Input]
-@onready var outputs: Array = [$Background/Inputs/Input]
+@onready var inputs_container: VBoxContainer = $Background/Inputs
+@onready var outputs_container: VBoxContainer = $Background/Outputs
+
+@onready var inputs: Array = []
+@onready var outputs: Array = []
 
 var is_dragging := false
 var drag_offset: Vector2
+
+
+func _ready() -> void:
+	for i in range(max_inputs):
+		var new_input = INPUT.instantiate()
+		inputs_container.add_child(new_input)
+		inputs.append(new_input)
+	for i in range(max_outputs):
+		var new_output = OUTPUT.instantiate()
+		outputs_container.add_child(new_output)
+		outputs.append(new_output)
 
 
 func _input(event: InputEvent) -> void:

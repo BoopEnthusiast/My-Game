@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cellv0ubckd05"]
+[gd_scene load_steps=4 format=3 uid="uid://cellv0ubckd05"]
 
 [ext_resource type="Script" path="res://menus/ide/ide_holder.gd" id="1_baq4u"]
-[ext_resource type="PackedScene" uid="uid://dfqffeb2xu3ho" path="res://menus/ide/nodes/node_base.tscn" id="2_bm5b5"]
+[ext_resource type="PackedScene" uid="uid://spfxkimhnsd2" path="res://menus/ide/nodes/start.tscn" id="3_llwkk"]
+[ext_resource type="PackedScene" uid="uid://x1ytor1da8i5" path="res://menus/ide/nodes/program.tscn" id="3_v4uew"]
 
 [node name="IDEHolder" type="Control"]
 layout_mode = 3
@@ -14,24 +15,17 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_baq4u")
 
-[node name="Node" parent="." instance=ExtResource("2_bm5b5")]
+[node name="Start" parent="." instance=ExtResource("3_llwkk")]
 layout_mode = 1
-anchor_left = 0.215278
-anchor_top = 0.16821
-anchor_right = 0.434
-anchor_bottom = 0.54
-offset_left = 2.0
-offset_top = -9.0
-offset_right = 0.0319824
-offset_bottom = 0.0799866
+anchor_left = 0.0590273
+anchor_top = 0.345679
+anchor_right = 0.175347
+anchor_bottom = 0.518518
+offset_right = 6.10352e-05
 
-[node name="Node2" parent="." instance=ExtResource("2_bm5b5")]
+[node name="Program" parent="." instance=ExtResource("3_v4uew")]
 layout_mode = 1
-anchor_left = 0.516493
-anchor_top = 0.305556
-anchor_right = 0.735
-anchor_bottom = 0.677
-offset_left = 2.0
-offset_top = -9.0
-offset_right = 0.279968
-offset_bottom = 0.303955
+anchor_left = 0.251736
+anchor_top = 0.114198
+anchor_right = 0.835069
+anchor_bottom = 0.726852

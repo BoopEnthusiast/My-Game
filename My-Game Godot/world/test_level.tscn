@@ -1,6 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://c46nxdw6veud6"]
+[gd_scene load_steps=10 format=3 uid="uid://c46nxdw6veud6"]
 
 [ext_resource type="PackedScene" uid="uid://xe4qc2fp45xq" path="res://player/player.tscn" id="1_pwcel"]
+
+[sub_resource type="GDScript" id="GDScript_ah36y"]
+script/source = "extends Node3D
+
+
+func _enter_tree() -> void:
+	Singleton.world_root = self
+"
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_s3a2q"]
 
@@ -23,6 +31,7 @@ volumetric_fog_density = 0.01
 size = Vector3(5.48218, 3.7168, 0.460693)
 
 [node name="TestLevel" type="Node3D"]
+script = SubResource("GDScript_ah36y")
 
 [node name="BasePlatform" type="StaticBody3D" parent="."]
 

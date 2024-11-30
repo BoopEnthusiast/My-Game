@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://x1ytor1da8i5"]
+
+[ext_resource type="PackedScene" uid="uid://dfqffeb2xu3ho" path="res://menus/ide/nodes/node_base.tscn" id="1_h4tdy"]
+[ext_resource type="Script" path="res://menus/ide/nodes/program.gd" id="2_uwork"]
+
+[node name="Program" instance=ExtResource("1_h4tdy")]
+script = ExtResource("2_uwork")
+title = "Program"
+max_inputs = 10
+max_outputs = 10
+
+[node name="Title" parent="Background" index="0"]
+text = "[center]Program"
+
+[node name="CodeEdit" type="CodeEdit" parent="Background/Central" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

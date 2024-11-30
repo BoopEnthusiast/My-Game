@@ -23,6 +23,7 @@ TreeArrayGlobal="res://menus/ide/language_scripts/tree_array.gd"
 IDE="*res://menus/ide/ide.gd"
 MenuHandler="*res://menus/menu_handler.gd"
 Singleton="*res://world/singleton.gd"
+Lang="*res://menus/ide/language_scripts/lang.gd"
 
 [display]
 
