@@ -43,29 +43,22 @@ func compile_program_node(spell: Spell, text: String) -> Array[Array]:
 	var store_name: String
 	var i = 0
 	for token in code:
-		print(i, token, waiting_for_stack)
 		token = token.strip_edges()
 		if not waiting_for_stack.is_empty():
-			print(waiting_for_stack.front())
 			if waiting_for_stack.front() == WaitingFor.NAME:
 				store_name = token
 				waiting_for_stack.pop_front()
-				print("name")
 			elif waiting_for_stack.front() == WaitingFor.SPAWN:
-				print("spawn:")
 				if token == "ball":
 					action_list.push_front(spell.spawn_ball)
 					action_args.push_front(store_name)
 					waiting_for_stack.pop_front()
-					print("ball")
 				else:
 					add_error("Unknown spawnable object")
 			elif waiting_for_stack.front() == WaitingFor.APPLY_EFFECT:
-				print("effect:")
 				if token == "push":
 					action_list.push_front(spell.apply_effect)
 					action_args.push_front(Effects.PUSH)
-					print("push")
 				else:
 					add_error("Uknown effect")
 		elif token == "spawn":
@@ -75,7 +68,5 @@ func compile_program_node(spell: Spell, text: String) -> Array[Array]:
 			action_list.push_front(spell.find_object)
 			action_args.push_front(token)
 			waiting_for_stack.push_front(WaitingFor.APPLY_EFFECT)
-			print("find")
-		print(action_list)
 		i += 1
 	return [action_list, action_args]
