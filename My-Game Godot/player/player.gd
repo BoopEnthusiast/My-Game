@@ -84,4 +84,5 @@ func _physics_process(delta) -> void:
 	move_and_slide()
 	
 	if Input.is_action_just_pressed("fire") and not stop_movement:
-		IDE.current_spell.cast()
+		if is_instance_valid(IDE.current_spell):
+			IDE.current_spell.cast()

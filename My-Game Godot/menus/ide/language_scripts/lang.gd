@@ -30,7 +30,7 @@ func compile_spell(start_node: StartNode) -> void:
 	IDE.current_spell = new_spell
 
 
-func add_error(error_text: String = "Unspecified error...", line: int = -1) -> void:
+func add_error(_error_text: String = "Unspecified error...", _line: int = -1) -> void:
 	pass
 
 
@@ -41,7 +41,6 @@ func compile_program_node(spell: Spell, text: String) -> Array[Array]:
 	var code = text.split(" ")
 	var waiting_for_stack: Array[WaitingFor] = []
 	var store_name: String
-	var i = 0
 	for token in code:
 		token = token.strip_edges()
 		if not waiting_for_stack.is_empty():
@@ -68,5 +67,4 @@ func compile_program_node(spell: Spell, text: String) -> Array[Array]:
 			action_list.push_front(spell.find_object)
 			action_args.push_front(token)
 			waiting_for_stack.push_front(WaitingFor.APPLY_EFFECT)
-		i += 1
 	return [action_list, action_args]
