@@ -17,9 +17,6 @@ config/icon="res://resources/icon.svg"
 
 [autoload]
 
-FireballScene="*res://spells/fireball.tscn"
-TObjectGlobal="res://menus/ide/language_scripts/object.gd"
-TreeArrayGlobal="res://menus/ide/language_scripts/tree_array.gd"
 IDE="*res://menus/ide/ide.gd"
 MenuHandler="*res://menus/menu_handler.gd"
 Singleton="*res://world/singleton.gd"

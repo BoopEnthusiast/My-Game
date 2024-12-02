@@ -21,6 +21,8 @@ shape = SubResource("CapsuleShape3D_cca7b")
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.663102, 0)
 
+[node name="CameraRotation" type="Marker3D" parent="Camera"]
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PauseMenuHolder" parent="CanvasLayer" instance=ExtResource("2_rvqv4")]

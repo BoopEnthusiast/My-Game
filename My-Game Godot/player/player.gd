@@ -3,18 +3,19 @@ extends CharacterBody3D
 
 
 const SPEED = 5.0
-const JUMP_VELOCITY = 4.5
+const _JUMP_VELOCITY = 4.5
 
-const FIREBALL = preload("res://spells/fireball.tscn")
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+const _FIREBALL = preload("res://spells/fireball.tscn")
 
 # Get relevant nodes
 @onready var main_camera: Camera3D = $Camera
+@onready var camera_rotation_marker: Marker3D = $Camera/CameraRotation
 
-var camera_rotation := Vector2(0, 0)
-var mouse_sensitivity := 0.003
+# The camera's basis.z 
+var camera_rotation: Vector3
+
+var _camera_rotation := Vector2(0, 0)
+var _mouse_sensitivity := 0.003
 
 var stop_movement := false
 
@@ -34,7 +35,7 @@ func _input(event) -> void:
 	# Get the mouse movement
 	if event is InputEventMouseMotion and not stop_movement:
 		# Get how much the mouse has moved and pass it onto the camera_look function
-		var relative_position = event.relative * mouse_sensitivity
+		var relative_position = event.relative * _mouse_sensitivity
 		camera_look(relative_position)
 	
 	#if event.is_action_pressed("fire"):
@@ -48,27 +49,29 @@ func _input(event) -> void:
 # Rotate the camera
 func camera_look(movement: Vector2) -> void:
 	# Add how much the camera has moved to the camera rotation
-	camera_rotation += movement 
+	_camera_rotation += movement 
 	# Stop the player from making the camera go upside down by looking too far up and down
-	camera_rotation.y = clamp(camera_rotation.y, deg_to_rad(-90), deg_to_rad(90)) 
+	_camera_rotation.y = clamp(_camera_rotation.y, deg_to_rad(-90), deg_to_rad(90)) 
 	
 	# Reset the transform basis
 	transform.basis = Basis()
 	main_camera.transform.basis = Basis()
 	
 	# Finally rotate the object, the player and camera needs to rotate on the x and only the camera should rotate on the y
-	rotate_object_local(Vector3.UP, -camera_rotation.x)
-	main_camera.rotate_object_local(Vector3.RIGHT, -camera_rotation.y)
+	rotate_object_local(Vector3.UP, -_camera_rotation.x)
+	main_camera.rotate_object_local(Vector3.RIGHT, -_camera_rotation.y)
+	
+	camera_rotation = -main_camera.global_transform.basis.z
 
 
 func _physics_process(delta) -> void:
 	# Add the gravity.
 	if not is_on_floor():
-		velocity.y -= gravity * delta
+		velocity += get_gravity() * delta
 
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor() and not stop_movement:
-		velocity.y = JUMP_VELOCITY
+		velocity.y = _JUMP_VELOCITY
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.

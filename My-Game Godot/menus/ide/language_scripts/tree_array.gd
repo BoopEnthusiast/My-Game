@@ -1,4 +1,4 @@
-extends Node
+extends Resource
 class_name TreeArray
 
 var parent: TreeArray
@@ -19,6 +19,7 @@ enum PARSE_MODE {
 	SET_PARAMETER,
 	KEY_WORD,
 	SET_STRING,
+	
 } 
 
 func _notification(p_what):

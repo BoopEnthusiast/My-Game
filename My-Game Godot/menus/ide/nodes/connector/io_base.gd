@@ -2,9 +2,10 @@ class_name NodeIOPort
 extends HBoxContainer
 
 
-@onready var name_field: TextEdit = $NameField
 @onready var button: Button = $Button
 @onready var parent_node: NodeBase = $"../../../"
+
+@onready var _name_field: TextEdit = $NameField
 
 var connector: Connector
 
@@ -21,12 +22,14 @@ func _on_button_down() -> void:
 		IDE.connect_nodes(self)
 
 
-func _on_name_field_text_changed() -> void:
-	if name_field.text.length() > 50:
-		name_field.text = variable_name
-	while name_field.text.find("\n") >= 0:
-		name_field.text[name_field.text.find("\n")] = ""
-	variable_name = name_field.text
+func _on__name_field_text_changed() -> void:
+	var text = _name_field.text
+	if text.length() > 50:
+		text = variable_name
+	while text.find("\n") >= 0:
+		text[text.find("\n")] = ""
+	variable_name = text
+	_name_field.text = text
 
 
 func _check_class() -> bool:
