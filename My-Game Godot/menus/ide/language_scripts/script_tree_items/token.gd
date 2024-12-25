@@ -6,16 +6,18 @@ enum Type {
 	FUNCTION_NAME,
 	METHOD_NAME,
 	PARAMETER,
+	PROPERTY,
 	FLOAT,
 	STRING,
 	KEYWORD,
 	NONE,
+	BOOLEAN,
 }
 
-var str: String
+var string: String
 var types: Array[Type]
 
 
-func _init(str: String, types: Array[Type]) -> void:
-	self.str = str
-	self.types = types
+func _init(token_string: String, token_types: Array[Type]) -> void:
+	string = token_string
+	types = token_types
