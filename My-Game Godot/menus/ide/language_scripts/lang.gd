@@ -109,7 +109,7 @@ func compile_program_node(spell: Spell, text: String) -> Array[Array]:
 	#return text
 
 
-func compile_program_node_try_two(spell: Spell, text: String, inputs: Array[NodeInput], outputs: Array[NodeOutput]) -> Array[Array]:
+func compile_program_node_try_two(spell: Spell, text: String, inputs: Array, outputs: Array) -> Array[Array]:
 	var tree_root = ScriptTreeRoot.new()
 	var tokenized_code: Array[Token] = tokenize_code_try_two(text)
 	var working_st: ScriptTree = tree_root
@@ -122,11 +122,11 @@ func compile_program_node_try_two(spell: Spell, text: String, inputs: Array[Node
 	for token in tokenized_code:
 		if token.types.has(Token.Type.BREAK):
 			working_st = tree_root
-			
+			print("SETTING TO TREE ROOT")
 		elif token.types.has(Token.Type.OBJECT_NAME):
 			# The inputs are the objects
 			var input = get_input(token.string, inputs)
-			assert(is_instance_valid(input), "Can't find input with name" + token.string)
+			assert(is_instance_valid(input), "Can't find input with name: " + token.string)
 			
 			var new_child = ScriptTreeObject.new(working_st, input)
 			working_st.add_child(new_child)
@@ -138,7 +138,7 @@ func compile_program_node_try_two(spell: Spell, text: String, inputs: Array[Node
 			var input
 			input = get_input(token.string, inputs)
 			input = FUNCTION_NAMES[FUNCTION_NAMES.find(token.string)]
-			assert(is_instance_valid(input), "Can't find input with name" + token.string)
+			assert(is_instance_valid(input) or typeof(input) == TYPE_STRING, "Can't find input with name: " + token.string)
 			
 			var new_child = ScriptTreeFunction.new(working_st, input)
 			working_st.add_child(new_child)
@@ -146,18 +146,51 @@ func compile_program_node_try_two(spell: Spell, text: String, inputs: Array[Node
 			working_st = new_child
 			
 		elif token.types.has(Token.Type.METHOD_NAME):
-			assert(working_st.type == ScriptTree.Type.OBJECT, "Parent of Script Tree Method isn't an object")
+			assert(working_st.type == ScriptTree.Type.OBJECT, "Parent of Script Tree Method isn't an object, parent is: " + str(working_st.type))
 			var new_child = ScriptTreeMethod.new(working_st, token.string.strip_edges())
 			working_st.add_child(new_child)
 			
 			working_st = new_child
 			
 		elif token.types.has(Token.Type.PARAMETER):
-			assert(working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD, "Parent of Script Tree Parameter isn't a function or method")
+			assert(working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD, "Parent of Script Tree Parameter isn't a function or method, parent is: " + str(working_st.type) + " with value: " + str(working_st.value))
+			# Parameters are always objects
 			
-		
-	spell.actions = []
+			var input = get_input(token.string, inputs)
+			assert(is_instance_valid(input), "Can't find input with name: " + token.string)
+			
+			var new_child = ScriptTreeObject.new(working_st, input)
+			working_st.add_child(new_child)
+			
+			working_st = new_child
+	
+	var tree_node_root: Tree = Tree.new()
+	var tree_item_root: TreeItem = tree_node_root.create_item()
+	add_child(tree_node_root)
+	spell.actions = form_actions(tree_root, tree_item_root)
 	return []
+
+
+func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable]:
+	var callable_list: Array[Callable] = []
+	
+	print(working_st.type,"  ",working_st.value,"    HAS ",working_st.children.size()," CHILDREN: ")
+	for child in working_st.children:
+		print(child.type,"  ",child.value)
+	print("END OF CHILDREN")
+	
+	for child in working_st.children:
+		print("STARTING WORK ON: ",child.type,"  ",child.value)
+		var new_tree_item = tree_item.create_child()
+		new_tree_item.set_text(0, str(working_st.type)+" | "+str(working_st.value))
+		callable_list.append(form_actions(child, new_tree_item))
+	
+	#if working_st.type == ScriptTree.Type.OBJECT:
+		#if working_st.get_parent().type == ScriptTree.Type.FUNCTION:
+			#pass 
+	
+	
+	return callable_list
 
 
 func tokenize_code_try_two(text: String) -> Array[Token]:
@@ -198,7 +231,7 @@ func tokenize_code_try_two(text: String) -> Array[Token]:
 			continue
 			
 		elif chr == "\n":
-			tokenized_code.append(Token.new(working_token, [Token.Type.KEYWORD]))
+			tokenized_code.append(Token.new(working_token, [Token.Type.BREAK]))
 			working_token = ""
 			continue
 			
@@ -263,7 +296,7 @@ func tokenize_code_try_two(text: String) -> Array[Token]:
 # while fireball.is_alive():
 #     fireball.push(1) # moves fireball in direction player is facing, the cooldown so that the while loop isn't infinitely fast is the TTC (time to cast) for the push method on the ball
 
-func get_input(find_name: String, inputs: Array[NodeInput]) -> NodeInput:
+func get_input(find_name: String, inputs: Array) -> NodeInput:
 	for input in inputs:
 		if input.get_name_field().strip_edges() == find_name.strip_edges():
 			return input
