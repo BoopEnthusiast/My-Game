@@ -12,6 +12,7 @@ enum Type {
 	KEYWORD,
 	NONE,
 	BOOLEAN,
+	BREAK, # New line, new commad
 }
 
 var string: String

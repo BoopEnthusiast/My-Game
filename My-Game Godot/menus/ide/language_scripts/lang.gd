@@ -48,7 +48,7 @@ func compile_spell(start_node: StartNode) -> void:
 	new_spell.start_node = start_node
 	var connected_node = start_node.outputs[0].get_connected_node()
 	if connected_node is ProgramNode:
-		var parsed_code = compile_program_node_try_two(new_spell, connected_node.code_edit.text)
+		var parsed_code = compile_program_node_try_two(new_spell, connected_node.code_edit.text, connected_node.inputs, connected_node.outputs)
 		new_spell.actions.append_array(parsed_code[0])
 		new_spell.action_args.append_array((parsed_code[1]))
 	spells.append(new_spell)
@@ -109,15 +109,53 @@ func compile_program_node(spell: Spell, text: String) -> Array[Array]:
 	#return text
 
 
-func compile_program_node_try_two(spell: Spell, text: String) -> Array[Array]:
+func compile_program_node_try_two(spell: Spell, text: String, inputs: Array[NodeInput], outputs: Array[NodeOutput]) -> Array[Array]:
 	var tree_root = ScriptTreeRoot.new()
 	var tokenized_code: Array[Token] = tokenize_code_try_two(text)
+	var working_st: ScriptTree = tree_root
+	
+	const FUNCTION_NAMES: Array[String] = [
+		"spawn"
+	]
+	
+	# Loop through tokens and build out the Script Tree
 	for token in tokenized_code:
-		if token.types.has(Token.Type.OBJECT_NAME):
-			var new_child = ScriptTree.new(ScriptTree.Type.OBJECT)
+		if token.types.has(Token.Type.BREAK):
+			working_st = tree_root
 			
-			tree_root.add_child(new_child)
+		elif token.types.has(Token.Type.OBJECT_NAME):
+			# The inputs are the objects
+			var input = get_input(token.string, inputs)
+			assert(is_instance_valid(input), "Can't find input with name" + token.string)
 			
+			var new_child = ScriptTreeObject.new(working_st, input)
+			working_st.add_child(new_child)
+			
+			working_st = new_child
+			
+		elif token.types.has(Token.Type.FUNCTION_NAME):
+			# Has to either be a built-in function or a function from another node
+			var input
+			input = get_input(token.string, inputs)
+			input = FUNCTION_NAMES[FUNCTION_NAMES.find(token.string)]
+			assert(is_instance_valid(input), "Can't find input with name" + token.string)
+			
+			var new_child = ScriptTreeFunction.new(working_st, input)
+			working_st.add_child(new_child)
+			
+			working_st = new_child
+			
+		elif token.types.has(Token.Type.METHOD_NAME):
+			assert(working_st.type == ScriptTree.Type.OBJECT, "Parent of Script Tree Method isn't an object")
+			var new_child = ScriptTreeMethod.new(working_st, token.string.strip_edges())
+			working_st.add_child(new_child)
+			
+			working_st = new_child
+			
+		elif token.types.has(Token.Type.PARAMETER):
+			assert(working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD, "Parent of Script Tree Parameter isn't a function or method")
+			
+		
 	spell.actions = []
 	return []
 
@@ -136,6 +174,7 @@ func tokenize_code_try_two(text: String) -> Array[Token]:
 		"for",
 	]
 	
+	# Loop through characters and turn them into tokens with types that can then be compiled into a Script Tree
 	for chr in text:
 		if is_comment and chr == "\n":
 			is_comment = false
@@ -156,6 +195,11 @@ func tokenize_code_try_two(text: String) -> Array[Token]:
 				
 		elif chr == "#":
 			is_comment = true
+			continue
+			
+		elif chr == "\n":
+			tokenized_code.append(Token.new(working_token, [Token.Type.KEYWORD]))
+			working_token = ""
 			continue
 			
 		elif chr == " " and KEYWORDS.has(working_token):
@@ -194,6 +238,7 @@ func tokenize_code_try_two(text: String) -> Array[Token]:
 			if not working_token.is_empty():
 				tokenized_code.append(Token.new(working_token, [Token.Type.PARAMETER]))
 			next_type = []
+			working_token = ""
 			continue
 			
 		working_token += chr
@@ -217,3 +262,9 @@ func tokenize_code_try_two(text: String) -> Array[Token]:
 # fireball.push((4 + 3) * 2)
 # while fireball.is_alive():
 #     fireball.push(1) # moves fireball in direction player is facing, the cooldown so that the while loop isn't infinitely fast is the TTC (time to cast) for the push method on the ball
+
+func get_input(find_name: String, inputs: Array[NodeInput]) -> NodeInput:
+	for input in inputs:
+		if input.get_name_field().strip_edges() == find_name.strip_edges():
+			return input
+	return null

@@ -50,3 +50,7 @@ func get_connected_node() -> NodeBase:
 		return connector.output.parent_node
 	else:
 		return connector.input.parent_node
+
+
+func get_name_field() -> String:
+	return _name_field.text
