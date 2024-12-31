@@ -183,13 +183,19 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 		print("STARTING WORK ON: ",child.type,"  ",child.value)
 		var new_tree_item = tree_item.create_child()
 		new_tree_item.set_text(0, str(working_st.type)+" | "+str(working_st.value))
-		callable_list.append(form_actions(child, new_tree_item))
+		callable_list.append_array(form_actions(child, new_tree_item))
 	
-	#if working_st.type == ScriptTree.Type.OBJECT:
-		#if working_st.get_parent().type == ScriptTree.Type.FUNCTION:
-			#pass 
+	if working_st.type == ScriptTree.Type.OBJECT:
+		if working_st.get_parent().type == ScriptTree.Type.FUNCTION:
+			if working_st.get_parent().value == "spawn":
+				callable_list.append(Callable(Functions, "spawn").bind(working_st.value))
+				
+	elif working_st.type == ScriptTree.Type.METHOD:
+		if working_st.get_parent().type == ScriptTree.Type.OBJECT:
+			callable_list.append(Callable(working_st.get_parent().get_output_node(), working_st.value))
+			
 	
-	
+	print("Callable list: " + str(callable_list))
 	return callable_list
 
 

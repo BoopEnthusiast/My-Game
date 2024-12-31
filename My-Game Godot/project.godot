@@ -21,6 +21,7 @@ IDE="*res://menus/ide/ide.gd"
 MenuHandler="*res://menus/menu_handler.gd"
 Singleton="*res://world/singleton.gd"
 Lang="*res://menus/ide/language_scripts/lang.gd"
+Functions="*res://menus/ide/language_scripts/functions.gd"
 
 [display]
 
@@ -28,7 +29,7 @@ window/size/mode=2
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/icon_explorer/plugin.cfg")
 
 [input]
 

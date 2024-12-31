@@ -21,6 +21,7 @@ var value: Variant
 func _init(node_type: Type, parent: ScriptTree, node_value: Variant = null) -> void:
 	type = node_type
 	value = node_value
+	_parent = parent
 
 
 func add_child(child: ScriptTree) -> void:
