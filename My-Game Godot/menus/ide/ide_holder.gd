@@ -33,7 +33,6 @@ func _gui_input(event: InputEvent) -> void:
 
 func _process(_delta: float) -> void:
 	if is_dragging:
-		print(last_drag_position - get_global_mouse_position() )
 		for child in get_children():
 			if child is not Connector:
 				child.position -= last_drag_position - get_global_mouse_position() 
