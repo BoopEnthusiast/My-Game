@@ -7,6 +7,7 @@ var output: NodeOutput
 
 
 func _ready() -> void:
+	curve = curve.duplicate()
 	while curve.point_count < 2:
 		curve.add_point(Vector2.ZERO)
 

@@ -192,7 +192,7 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 				
 	elif working_st.type == ScriptTree.Type.METHOD:
 		if working_st.get_parent().type == ScriptTree.Type.OBJECT:
-			callable_list.append(Callable(working_st.get_parent().get_output_node(), working_st.value))
+			callable_list.append(Callable(working_st.get_parent().value.get_output_node(), working_st.value))
 			
 	
 	print("Callable list: " + str(callable_list))

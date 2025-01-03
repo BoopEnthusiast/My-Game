@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" path="res://menus/ide/nodes/connector/connector.gd" id="1_a5t0u"]
 
-[sub_resource type="Curve2D" id="Curve2D_8dtnm"]
+[sub_resource type="Curve2D" id="Curve2D_wwqmt"]
 _data = {
 "points": PackedVector2Array(-88, 0, 88, 0, 145, 194, -95, -2, 95, 2, 334, 60)
 }
 point_count = 2
 
 [node name="Connector" type="Path2D"]
-curve = SubResource("Curve2D_8dtnm")
+curve = SubResource("Curve2D_wwqmt")
 script = ExtResource("1_a5t0u")

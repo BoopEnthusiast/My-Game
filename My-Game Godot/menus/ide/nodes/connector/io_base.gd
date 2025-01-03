@@ -13,12 +13,14 @@ var variable_name: String
 
 
 func _on_button_down() -> void:
-	if is_instance_valid(connector):
+	print(connector)
+	if is_instance_valid(connector) and not IDE.is_connecting:
 		connector.queue_free()
 		IDE.stop_connecting()
-	elif not is_instance_valid(IDE.connecting_from):
+	elif not is_instance_valid(IDE.connecting_from) and not IDE.is_connecting:
+		print("IO Start connection")
 		IDE.start_connecting(self)
-	elif parent_node != IDE.connecting_from.parent_node and _check_class():
+	elif parent_node != IDE.connecting_from.parent_node and _check_class() and not is_instance_valid(connector):
 		IDE.connect_nodes(self)
 
 
