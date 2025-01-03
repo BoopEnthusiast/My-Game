@@ -4,25 +4,28 @@
 [ext_resource type="Script" path="res://menus/ide/nodes/primitive.gd" id="2_p4wy3"]
 [ext_resource type="PackedScene" uid="uid://dqmww8kf5c2tm" path="res://menus/ide/nodes/connector/output.tscn" id="3_7o0h2"]
 
-[node name="Node" instance=ExtResource("1_01qv0")]
+[node name="Primitive" instance=ExtResource("1_01qv0")]
+anchor_right = 0.157118
+anchor_bottom = 0.194444
 script = ExtResource("2_p4wy3")
+title = "Primitive"
 
 [node name="Output" parent="Background/Outputs" index="0" instance=ExtResource("3_7o0h2")]
 layout_mode = 2
 
 [node name="OptionButton" type="OptionButton" parent="Background/Central" index="0"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -55.9998
-offset_top = -15.9999
-offset_right = 56.0002
-offset_bottom = 15.0001
+anchor_bottom = 1.0
+offset_left = -56.0
+offset_top = -44.0
+offset_right = 56.0
+offset_bottom = -13.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 selected = 0
 item_count = 1
 popup/item_0/text = "Ball"

@@ -33,7 +33,7 @@ anchor_bottom = 0.726852
 
 [node name="Node" parent="." instance=ExtResource("4_tstm0")]
 layout_mode = 1
-anchor_left = -0.101562
+anchor_left = 0.0364583
 anchor_top = 0.0601852
-anchor_right = 0.201389
-anchor_bottom = 0.279321
+anchor_right = 0.153646
+anchor_bottom = 0.259259

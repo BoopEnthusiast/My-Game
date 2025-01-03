@@ -6,14 +6,13 @@ extends Resource
 var start_node: StartNode
 var object_dict: Dictionary = {}
 var actions: Array[Callable] = []
-var action_args: Array = []
 
 var _working_objects: Array = []
 
 
 func cast() -> void:
 	for i in range(actions.size()):
-		actions[i].call(action_args[i])
+		actions[i].call()
 
 
 func spawn_ball(name: String) -> void:
