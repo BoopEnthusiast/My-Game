@@ -120,31 +120,38 @@ func compile_program_node(spell: Spell, text: String, inputs: Array, _outputs: A
 	return []
 
 
+# Go down the built up ScriptTree with recursion and form the array of callable
 func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable]:
 	var callable_list: Array[Callable] = []
 	
+	# Debugging
 	print(working_st.type,"  ",working_st.value,"    HAS ",working_st.children.size()," CHILDREN: ")
 	for child in working_st.children:
 		print(child.type,"  ",child.value)
 	print("END OF CHILDREN")
 	
+	# Go through each child and run this function on them, then get their array of callables and add it to the current one
 	for child in working_st.children:
 		print("STARTING WORK ON: ",child.type,"  ",child.value)
 		var new_tree_item = tree_item.create_child()
 		new_tree_item.set_text(0, str(working_st.type)+" | "+str(working_st.value))
 		callable_list.append_array(form_actions(child, new_tree_item))
 	
+	## See if the current object and its parent match to a known function/method, if so, add it to the callable list
+	# Spawn built-in function
 	if working_st.type == ScriptTree.Type.OBJECT:
 		if working_st.get_parent().type == ScriptTree.Type.FUNCTION:
 			if working_st.get_parent().value == "spawn":
 				callable_list.append(Callable(Functions, "spawn").bind(working_st.value))
 				
+	# Method on an object
 	elif working_st.type == ScriptTree.Type.METHOD:
 		if working_st.get_parent().type == ScriptTree.Type.OBJECT:
 			callable_list.append(Callable(working_st.get_parent().value.get_output_node(), working_st.value))
 			
 	
 	print("Callable list: " + str(callable_list))
+	# Pass the callable list back up the tree
 	return callable_list
 
 

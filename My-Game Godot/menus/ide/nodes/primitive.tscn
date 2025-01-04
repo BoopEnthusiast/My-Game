@@ -10,6 +10,9 @@ anchor_bottom = 0.194444
 script = ExtResource("2_p4wy3")
 title = "Primitive"
 
+[node name="Title" parent="Background" index="0"]
+text = "[center]Primitive"
+
 [node name="Output" parent="Background/Outputs" index="0" instance=ExtResource("3_7o0h2")]
 layout_mode = 2
 
