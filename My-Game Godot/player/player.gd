@@ -9,7 +9,7 @@ const _FIREBALL = preload("res://spells/fireball.tscn")
 
 # Get relevant nodes
 @onready var main_camera: Camera3D = $Camera
-@onready var camera_rotation_marker: Marker3D = $Camera/CameraRotation
+@onready var camera_rotation_node: Node3D = $Camera/CameraRotation
 
 # The camera's basis.z 
 var camera_rotation: Vector3

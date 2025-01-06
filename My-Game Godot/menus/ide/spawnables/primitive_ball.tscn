@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://d1emd1mlmqeky"]
+
+[ext_resource type="PackedScene" uid="uid://b4p7cfu4tkfc2" path="res://menus/ide/spawnables/primitive.tscn" id="1_tr2he"]
+[ext_resource type="Shader" uid="uid://dye1xybnc55nd" path="res://shaders/fire.tres" id="2_727ye"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ua7wy"]
+render_priority = 0
+shader = ExtResource("2_727ye")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ii4tp"]
+radius = 0.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_ahtfi"]
+radius = 0.2
+height = 0.4
+
+[node name="PrimitiveBall" node_paths=PackedStringArray("body", "mesh") instance=ExtResource("1_tr2he")]
+body = NodePath("Body")
+mesh = NodePath("Body/Mesh")
+mat = SubResource("ShaderMaterial_ua7wy")
+
+[node name="Body" type="StaticBody3D" parent="." index="0"]
+
+[node name="Collider" type="CollisionShape3D" parent="Body" index="0"]
+shape = SubResource("SphereShape3D_ii4tp")
+
+[node name="Mesh" type="MeshInstance3D" parent="Body" index="1"]
+mesh = SubResource("SphereMesh_ahtfi")
