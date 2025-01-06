@@ -1,3 +1,4 @@
+# lang.gd
 # Has no class_name as it is a singleton/global (which don't need class names in Godot)
 extends Node
 ## Forms a list of Callables (references to functions in Godot) for a Spell to run when it's cast
@@ -56,7 +57,7 @@ const WHITESPAC_CHARS: Array[String] = [
 
 const BALL = preload("res://menus/ide/spawnables/ball.tscn")
 
-var spells: Array[Spell] = []
+var _spells: Array[Spell] = []
 
 
 func compile_spell(start_node: StartNode) -> void:
@@ -65,12 +66,13 @@ func compile_spell(start_node: StartNode) -> void:
 	new_spell.start_node = start_node
 	
 	# Go to all connected nodes and compile each of them
-	# TODO: 
+	# TODO: Add more nodes that the start node can connect to
+	# Maybe add more types of connections?
 	var connected_node = start_node.outputs[0].get_connected_node()
 	if connected_node is ProgramNode:
 		var parsed_code = compile_program_node(new_spell, connected_node.code_edit.text, connected_node.inputs, connected_node.outputs)
 		new_spell.actions.append_array(parsed_code)
-	spells.append(new_spell)
+	_spells.append(new_spell)
 	IDE.current_spell = new_spell
 
 
