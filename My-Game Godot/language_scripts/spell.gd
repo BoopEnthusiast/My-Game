@@ -7,8 +7,6 @@ var start_node: StartNode
 var object_dict: Dictionary = {}
 var actions: Array[Callable] = []
 
-var _working_objects: Array = []
-
 
 func cast() -> void:
 	for action in actions:
