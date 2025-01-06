@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b4p7cfu4tkfc2"]
 
-[ext_resource type="Script" path="res://menus/ide/spawnables/primitive.gd" id="1_8j5f5"]
+[ext_resource type="Script" path="res://spawnables/primitive.gd" id="1_8j5f5"]
 
 [node name="Primitive" type="Node3D"]
 script = ExtResource("1_8j5f5")

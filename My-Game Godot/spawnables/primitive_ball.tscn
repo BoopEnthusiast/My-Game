@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://d1emd1mlmqeky"]
 
-[ext_resource type="PackedScene" uid="uid://b4p7cfu4tkfc2" path="res://menus/ide/spawnables/primitive.tscn" id="1_tr2he"]
+[ext_resource type="PackedScene" uid="uid://b4p7cfu4tkfc2" path="res://spawnables/primitive.tscn" id="1_tr2he"]
 [ext_resource type="Shader" uid="uid://dye1xybnc55nd" path="res://shaders/fire.tres" id="2_727ye"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ua7wy"]

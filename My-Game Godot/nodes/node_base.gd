@@ -1,8 +1,8 @@
 class_name NodeBase 
 extends Control
 
-const INPUT = preload("res://menus/ide/nodes/connector/input.tscn")
-const OUTPUT = preload("res://menus/ide/nodes/connector/output.tscn")
+const INPUT = preload("res://nodes/connector/input.tscn")
+const OUTPUT = preload("res://nodes/connector/output.tscn")
 
 @export var title: String = "TITLE YOUR NODE"
 @export var max_inputs: int = 0

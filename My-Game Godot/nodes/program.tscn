@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://x1ytor1da8i5"]
 
-[ext_resource type="PackedScene" uid="uid://dfqffeb2xu3ho" path="res://menus/ide/nodes/node_base.tscn" id="1_h4tdy"]
-[ext_resource type="Script" path="res://menus/ide/nodes/program.gd" id="2_uwork"]
+[ext_resource type="PackedScene" uid="uid://dfqffeb2xu3ho" path="res://nodes/node_base.tscn" id="1_h4tdy"]
+[ext_resource type="Script" path="res://nodes/program.gd" id="2_uwork"]
 
 [node name="Program" instance=ExtResource("1_h4tdy")]
 script = ExtResource("2_uwork")

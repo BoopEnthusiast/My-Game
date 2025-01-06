@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqmww8kf5c2tm"]
-
-[ext_resource type="Script" path="res://menus/ide/nodes/connector/output.gd" id="1_4outq"]
-[ext_resource type="PackedScene" uid="uid://qgfpf1gtl165" path="res://menus/ide/nodes/connector/io_base.tscn" id="1_rvqlk"]
-
-[node name="Output" instance=ExtResource("1_rvqlk")]
-script = ExtResource("1_4outq")

@@ -30,32 +30,30 @@ enum WaitingFor {
 
 # All possible unicode whitespace characters, there may be duplicates since it's hard to tell and better safe than sorry. This class does not need to be efficient.
 const WHITESPAC_CHARS: Array[String] = [
-		" ",
-		" ",
-		" ",
-		"	",
-		" ",
-		" ",
-		" ",
-		" ",
-		" ",
-		" ",
-		" ",
-		" ",
-		" ",
-		" ",
-		" ",
-		" ",
-		" ",
-		"　",
-		"\n",
-		"\t",
-		"\v",
-		"\f",
-		"\r",
-	]
-
-const BALL = preload("res://menus/ide/spawnables/ball.tscn")
+	" ",
+	" ",
+	" ",
+	"	",
+	" ",
+	" ",
+	" ",
+	" ",
+	" ",
+	" ",
+	" ",
+	" ",
+	" ",
+	" ",
+	" ",
+	" ",
+	" ",
+	"　",
+	"\n",
+	"\t",
+	"\v",
+	"\f",
+	"\r",
+]
 
 var _spells: Array[Spell] = []
 

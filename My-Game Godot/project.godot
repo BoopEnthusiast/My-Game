@@ -20,8 +20,8 @@ config/icon="res://resources/icon.svg"
 IDE="*res://menus/ide/ide.gd"
 MenuHandler="*res://menus/menu_handler.gd"
 Singleton="*res://world/singleton.gd"
-Lang="*res://menus/ide/language_scripts/lang.gd"
-Functions="*res://menus/ide/language_scripts/functions.gd"
+Lang="*res://language_scripts/lang.gd"
+Functions="*res://language_scripts/functions.gd"
 
 [display]
 

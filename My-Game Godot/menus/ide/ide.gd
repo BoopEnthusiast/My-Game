@@ -1,7 +1,7 @@
 extends Control
 
 
-const CONNECTOR = preload("res://menus/ide/nodes/connector/connector.tscn")
+const CONNECTOR = preload("res://nodes/connector/connector.tscn")
 
 var ide_holder: IDEHolder
 

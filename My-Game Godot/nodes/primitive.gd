@@ -6,7 +6,7 @@ enum Primitives {
 	BALL
 }
 const PRIMITIVES = [
-	preload("res://menus/ide/spawnables/primitive_ball.tscn")
+	preload("res://spawnables/primitive_ball.tscn")
 ]
 
 @export var fire_shader: ShaderMaterial 
@@ -30,11 +30,7 @@ func spawn() -> void:
 
 
 func set_on_fire() -> void:
-	print("setting on fire")
-	print(spawned_object.mesh.get_surface_override_material(0))
-	print(fire_shader)
 	spawned_object.mesh.set_surface_override_material(0, fire_shader)
-	print(spawned_object.mesh.get_surface_override_material(0))
 
 
 func push() -> void:
