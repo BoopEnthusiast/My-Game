@@ -1,17 +1,33 @@
+# Has no class_name as it is a singleton/global (which don't need class names in Godot)
 extends Node
-## Holds all of the callables that a spell can cast and parses each spell
+## Forms a list of Callables (references to functions in Godot) for a Spell to run when it's cast
+## 
+## Find this code at https://github.com/BoopEnthusiast/My-Game
+## This is in its infancy and will be extended as I work on the overall game and add more to it. But, it works and is a functional language
+## Currently there aren't many functions or methods to call, or nodes to add. 
+## 
+## This is the second version of it, the previous was much less extensible, but this should be the final version as I can now extend it in any way I need.
+## 
+## This class does not need to be fast, it's run very infrequently and is literally the compliation of a custom language.
+## For that reason, there are some inefficiencies in this code. 
+## For goodness sake I'm using *recursion* directly in a video game and not just the engine, that's almost unheard of. 
+##
+## In the future this class may be moved to a seperate thread. 
+## This will not be hard to do, especially in Godot, and it's not slow now, so I am not worried about it yet.
+##
+## @experiemental
 
 
+## Enums
+# Tokenization's expected next token
 enum WaitingFor {
 	SPAWN,
 	NAME,
 	APPLY_EFFECT,
 	MODIFIER,
 }
-enum Effects {
-	PUSH
-}
 
+# All possible unicode whitespace characters, there may be duplicates since it's hard to tell and better safe than sorry. This class does not need to be efficient.
 const WHITESPAC_CHARS: Array[String] = [
 		" ",
 		" ",
@@ -44,8 +60,12 @@ var spells: Array[Spell] = []
 
 
 func compile_spell(start_node: StartNode) -> void:
+	# Setup new spell
 	var new_spell = Spell.new()
 	new_spell.start_node = start_node
+	
+	# Go to all connected nodes and compile each of them
+	# TODO: 
 	var connected_node = start_node.outputs[0].get_connected_node()
 	if connected_node is ProgramNode:
 		var parsed_code = compile_program_node(new_spell, connected_node.code_edit.text, connected_node.inputs, connected_node.outputs)
