@@ -44,7 +44,6 @@ seamless_blend_skirt = 1.0
 noise = SubResource("FastNoiseLite_yif4w")
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_pf5od"]
-output_port_for_preview = 0
 texture = SubResource("NoiseTexture2D_3gr5v")
 
 [sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_g3pvu"]
@@ -225,7 +224,7 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-255.661, -181.726)
+graph_offset = Vector2(-409.591, -11.9264)
 nodes/vertex/0/position = Vector2(1640, 340)
 nodes/vertex/3/node = SubResource("VisualShaderNodeInput_x4vts")
 nodes/vertex/3/position = Vector2(-460, 80)
@@ -254,15 +253,15 @@ nodes/vertex/22/position = Vector2(80, 140)
 nodes/vertex/connections = PackedInt32Array(5, 0, 7, 0, 3, 0, 9, 0, 7, 0, 9, 1, 10, 0, 12, 0, 12, 0, 14, 0, 12, 2, 14, 2, 14, 0, 0, 0, 12, 1, 17, 0, 12, 1, 15, 1, 17, 0, 18, 0, 15, 0, 18, 1, 12, 1, 18, 2, 18, 0, 14, 1, 21, 0, 15, 0, 9, 0, 22, 0, 22, 0, 21, 0)
 nodes/fragment/0/position = Vector2(1240, 140)
 nodes/fragment/4/node = SubResource("VisualShaderNodeTexture_pf5od")
-nodes/fragment/4/position = Vector2(220, 220)
+nodes/fragment/4/position = Vector2(320, 220)
 nodes/fragment/7/node = SubResource("VisualShaderNodeInput_g3pvu")
-nodes/fragment/7/position = Vector2(-480, 480)
+nodes/fragment/7/position = Vector2(-240, 140)
 nodes/fragment/10/node = SubResource("VisualShaderNodeInput_5hb2d")
-nodes/fragment/10/position = Vector2(-780, 740)
+nodes/fragment/10/position = Vector2(-360, 380)
 nodes/fragment/12/node = SubResource("VisualShaderNodeFloatOp_6vohu")
-nodes/fragment/12/position = Vector2(-440, 700)
+nodes/fragment/12/position = Vector2(-80, 360)
 nodes/fragment/14/node = SubResource("VisualShaderNodeVectorOp_ymiam")
-nodes/fragment/14/position = Vector2(-120, 620)
+nodes/fragment/14/position = Vector2(120, 280)
 nodes/fragment/15/node = SubResource("VisualShaderNodeFloatOp_ick25")
 nodes/fragment/15/position = Vector2(500, 320)
 nodes/fragment/16/node = SubResource("VisualShaderNodeClamp_0yfva")

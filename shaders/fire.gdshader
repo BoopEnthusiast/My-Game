@@ -15,5 +15,5 @@ void vertex() {
 
 void fragment() {
 	ALBEDO = texture(color_gradient, UV.yx).xyz;
-	//EMISSION = vec3(0.3);
+	EMISSION = vec3(0.3);
 }

@@ -3,24 +3,23 @@
 extends Node
 ## Forms a list of Callables (references to functions in Godot) for a Spell to run when it's cast
 ## 
-## Find this code at https://github.com/BoopEnthusiast/My-Game
-## This is in its infancy and will be extended as I work on the overall game and add more to it. But, it works and is a functional language
-## Currently there aren't many functions or methods to call, or nodes to add. 
+## Find this code at https://github.com/BoopEnthusiast/My-Game[br]
+## This is in its infancy and will be extended as I work on the overall game and add more to it. But, it works and is a functional language.
+## Currently there aren't many functions or methods to call, or nodes to add.[br][br]
 ## 
-## This is the second version of it, the previous was much less extensible, but this should be the final version as I can now extend it in any way I need.
+## This is the second version of it, the previous was much less extensible, but this should be the final version as I can now extend it in any way I need.[br][br]
 ## 
 ## This class does not need to be fast, it's run very infrequently and is literally the compliation of a custom language.
 ## For that reason, there are some inefficiencies in this code. 
-## For goodness sake I'm using *recursion* directly in a video game and not just the engine, that's almost unheard of. 
+## For goodness sake I'm using *recursion* directly in a video game and not just the engine, that's almost unheard of.[br][br]
 ##
 ## In the future this class may be moved to a seperate thread. 
-## This will not be hard to do, especially in Godot, and it's not slow now, so I am not worried about it yet.
+## This will not be hard to do, especially in Godot, and it's not slow now, so I am not worried about it yet.[br][br]
 ##
-## @experiemental
+## @experimental
 
 
-## Enums
-# Tokenization's expected next token
+## Tokenization's expected next token
 enum WaitingFor {
 	SPAWN,
 	NAME,
@@ -28,7 +27,7 @@ enum WaitingFor {
 	MODIFIER,
 }
 
-# All possible unicode whitespace characters, there may be duplicates since it's hard to tell and better safe than sorry. This class does not need to be efficient.
+## All possible unicode whitespace characters, there may be duplicates since it's hard to tell and better safe than sorry. This class does not need to be efficient.
 const WHITESPAC_CHARS: Array[String] = [
 	" ",
 	" ",
@@ -58,6 +57,7 @@ const WHITESPAC_CHARS: Array[String] = [
 var _spells: Array[Spell] = []
 
 
+## Makes a new spell and takes a start node and goes through all the connected nodes until it's done
 func compile_spell(start_node: StartNode) -> void:
 	# Setup new spell
 	var new_spell = Spell.new()
@@ -68,33 +68,47 @@ func compile_spell(start_node: StartNode) -> void:
 	# Maybe add more types of connections?
 	var connected_node = start_node.outputs[0].get_connected_node()
 	if connected_node is ProgramNode:
-		var parsed_code = compile_program_node(new_spell, connected_node.code_edit.text, connected_node.inputs, connected_node.outputs)
+		var parsed_code = compile_program_node(new_spell, connected_node.code_edit.text, connected_node.inputs)
 		new_spell.actions.append_array(parsed_code)
 	_spells.append(new_spell)
 	IDE.current_spell = new_spell
 
 
+## TODO: Add add_error.[br]
+## Adds an error to an array of errors when one is found in the code during compilation or checking beforehand
 func add_error(_error_text: String = "Unspecified error...", _line: int = -1) -> void:
 	pass
 
 
-func compile_program_node(spell: Spell, text: String, inputs: Array, _outputs: Array) -> Array[Array]:
-	var tree_root = ScriptTreeRoot.new()
+## Takes a program node's text and inputs and forms a list of callables for a spell to run
+func compile_program_node(spell: Spell, text: String, inputs: Array) -> Array[Array]:
 	var tokenized_code: Array[Token] = tokenize_code(text)
-	var working_st: ScriptTree = tree_root
 	
+	var tree_root: ScriptTreeRoot = build_script_tree(tokenized_code, inputs)
+	
+	var tree_node_root: Tree = Tree.new()
+	var tree_item_root: TreeItem = tree_node_root.create_item()
+	add_child(tree_node_root)
+	spell.actions = form_actions(tree_root, tree_item_root)
+	return []
+
+
+## Loop through tokens and build out the Script Tree, returning the root node
+func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTreeRoot:
 	const FUNCTION_NAMES: Array[String] = [
 		"spawn"
 	]
 	
-	# Loop through tokens and build out the Script Tree
+	var tree_root = ScriptTreeRoot.new()
+	var working_st: ScriptTree = tree_root
+	
 	for token in tokenized_code:
 		if token.types.has(Token.Type.BREAK):
 			working_st = tree_root
 			print("SETTING TO TREE ROOT")
 		elif token.types.has(Token.Type.OBJECT_NAME):
 			# The inputs are the objects
-			var input = get_input(token.string, inputs)
+			var input = _get_input(token.string, inputs)
 			assert(is_instance_valid(input), "Can't find input with name: " + token.string)
 			
 			var new_child = ScriptTreeObject.new(working_st, input)
@@ -105,7 +119,7 @@ func compile_program_node(spell: Spell, text: String, inputs: Array, _outputs: A
 		elif token.types.has(Token.Type.FUNCTION_NAME):
 			# Has to either be a built-in function or a function from another node
 			var input
-			input = get_input(token.string, inputs)
+			input = _get_input(token.string, inputs)
 			input = FUNCTION_NAMES[FUNCTION_NAMES.find(token.string)]
 			assert(is_instance_valid(input) or typeof(input) == TYPE_STRING, "Can't find input with name: " + token.string)
 			
@@ -125,22 +139,19 @@ func compile_program_node(spell: Spell, text: String, inputs: Array, _outputs: A
 			assert(working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD, "Parent of Script Tree Parameter isn't a function or method, parent is: " + str(working_st.type) + " with value: " + str(working_st.value))
 			# Parameters are always objects
 			
-			var input = get_input(token.string, inputs)
+			var input = _get_input(token.string, inputs)
 			assert(is_instance_valid(input), "Can't find input with name: " + token.string)
 			
 			var new_child = ScriptTreeObject.new(working_st, input)
 			working_st.add_child(new_child)
 			
 			working_st = new_child
+			
 	
-	var tree_node_root: Tree = Tree.new()
-	var tree_item_root: TreeItem = tree_node_root.create_item()
-	add_child(tree_node_root)
-	spell.actions = form_actions(tree_root, tree_item_root)
-	return []
+	return tree_root
 
 
-# Go down the built up ScriptTree with recursion and form the array of callable
+## Go down the built up ScriptTree with recursion and form the array of callable
 func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable]:
 	var callable_list: Array[Callable] = []
 	
@@ -175,6 +186,7 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 	return callable_list
 
 
+## Goes through each character and turns them into an array of Token objects
 func tokenize_code(text: String) -> Array[Token]:
 	var tokenized_code: Array[Token] = []
 	var working_token: String = ""
@@ -217,7 +229,7 @@ func tokenize_code(text: String) -> Array[Token]:
 			working_token = ""
 			continue
 			
-		elif chr == " " and KEYWORDS.has(working_token):
+		elif WHITESPAC_CHARS.has(chr) and KEYWORDS.has(working_token):
 			tokenized_code.append(Token.new(working_token, [Token.Type.KEYWORD]))
 			match working_token:
 				KEYWORDS[0], KEYWORDS[1], KEYWORDS[3]:
@@ -275,10 +287,10 @@ func tokenize_code(text: String) -> Array[Token]:
 # spawn(fireball)
 # fireball.set_on_fire() 
 # fireball.push((4 + 3) * 2)
-# while fireball.is_alive():
+# while fireball:
 #     fireball.push(1) # moves fireball in direction player is facing, the cooldown so that the while loop isn't infinitely fast is the TTC (time to cast) for the push method on the ball
 
-func get_input(find_name: String, inputs: Array) -> NodeInput:
+func _get_input(find_name: String, inputs: Array) -> NodeInput:
 	for input in inputs:
 		if input.get_name_field().strip_edges() == find_name.strip_edges():
 			return input
