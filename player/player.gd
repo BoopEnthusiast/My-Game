@@ -5,8 +5,6 @@ extends CharacterBody3D
 const SPEED = 5.0
 const _JUMP_VELOCITY = 4.5
 
-const _FIREBALL = preload("res://spells/fireball.tscn")
-
 # Get relevant nodes
 @onready var main_camera: Camera3D = $Camera
 @onready var camera_rotation_node: Node3D = $Camera/CameraRotation
@@ -37,14 +35,7 @@ func _input(event) -> void:
 		# Get how much the mouse has moved and pass it onto the camera_look function
 		var relative_position = event.relative * _mouse_sensitivity
 		camera_look(relative_position)
-	
-	#if event.is_action_pressed("fire"):
-		#var new_fireball: Fireball = fireball.instantiate()
-		#get_object_parent().add_child(new_fireball)
-		#new_fireball.global_position = main_camera.global_position
-		#new_fireball.position.y -= 0.5
-		#new_fireball.rotation.x = -main_camera.rotation.x
-		#new_fireball.rotation.y = rotation.y - PI
+
 
 # Rotate the camera
 func camera_look(movement: Vector2) -> void:
