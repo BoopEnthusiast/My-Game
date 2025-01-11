@@ -1,18 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://cbykf6lvqyyj1"]
+[gd_scene load_steps=3 format=3 uid="uid://cbykf6lvqyyj1"]
 
 [ext_resource type="PackedScene" uid="uid://dfqffeb2xu3ho" path="res://nodes/node_base.tscn" id="1_01qv0"]
 [ext_resource type="Script" path="res://nodes/primitive.gd" id="2_p4wy3"]
-[ext_resource type="Shader" uid="uid://dye1xybnc55nd" path="res://shaders/fire.tres" id="3_c6lad"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_2koa6"]
-render_priority = 0
-shader = ExtResource("3_c6lad")
 
 [node name="Primitive" instance=ExtResource("1_01qv0")]
 anchor_right = 0.12934
 anchor_bottom = 0.114198
 script = ExtResource("2_p4wy3")
-fire_shader = SubResource("ShaderMaterial_2koa6")
 title = "Primitive"
 max_outputs = 1
 has_input_name = false

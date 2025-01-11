@@ -1,21 +1,17 @@
-[gd_scene load_steps=6 format=3 uid="uid://d1emd1mlmqeky"]
+[gd_scene load_steps=4 format=3 uid="uid://d1emd1mlmqeky"]
 
 [ext_resource type="PackedScene" uid="uid://b4p7cfu4tkfc2" path="res://spawnables/primitive.tscn" id="1_tr2he"]
-[ext_resource type="Material" uid="uid://b2iltu8vu4u81" path="res://shaders/fire_new.tres" id="2_osled"]
-[ext_resource type="Material" uid="uid://b7u7oim31818v" path="res://shaders/water.tres" id="3_wh05j"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ii4tp"]
 radius = 0.2
 
 [sub_resource type="SphereMesh" id="SphereMesh_ahtfi"]
-material = ExtResource("3_wh05j")
 radius = 0.2
 height = 0.4
 
 [node name="PrimitiveBall" node_paths=PackedStringArray("body", "mesh") instance=ExtResource("1_tr2he")]
 body = NodePath("Body")
 mesh = NodePath("Body/Mesh")
-fire_material = ExtResource("2_osled")
 
 [node name="Body" type="StaticBody3D" parent="." index="0"]
 

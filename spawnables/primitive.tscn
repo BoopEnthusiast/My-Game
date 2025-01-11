@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://b4p7cfu4tkfc2"]
+[gd_scene load_steps=4 format=3 uid="uid://b4p7cfu4tkfc2"]
 
 [ext_resource type="Script" path="res://spawnables/primitive.gd" id="1_8j5f5"]
+[ext_resource type="Material" uid="uid://b2iltu8vu4u81" path="res://shaders/fire_new.tres" id="2_bh4nq"]
+[ext_resource type="Material" uid="uid://b7u7oim31818v" path="res://shaders/water.tres" id="3_mqug3"]
 
 [node name="Primitive" type="Node3D"]
 script = ExtResource("1_8j5f5")
+fire_material = ExtResource("2_bh4nq")
+water_material = ExtResource("3_mqug3")

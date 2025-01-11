@@ -93,99 +93,6 @@ func compile_program_node(spell: Spell, text: String, inputs: Array) -> Array[Ar
 	return []
 
 
-## Loop through tokens and build out the Script Tree, returning the root node
-func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTreeRoot:
-	const FUNCTION_NAMES: Array[String] = [
-		"spawn"
-	]
-	
-	var tree_root = ScriptTreeRoot.new()
-	var working_st: ScriptTree = tree_root
-	
-	for token in tokenized_code:
-		if token.types.has(Token.Type.BREAK):
-			working_st = tree_root
-			print("SETTING TO TREE ROOT")
-		elif token.types.has(Token.Type.OBJECT_NAME):
-			# The inputs are the objects
-			var input = _get_input(token.string, inputs)
-			assert(is_instance_valid(input), "Can't find input with name: " + token.string)
-			
-			var new_child = ScriptTreeObject.new(working_st, input)
-			working_st.add_child(new_child)
-			
-			working_st = new_child
-			
-		elif token.types.has(Token.Type.FUNCTION_NAME):
-			# Has to either be a built-in function or a function from another node
-			var input
-			input = _get_input(token.string, inputs)
-			input = FUNCTION_NAMES[FUNCTION_NAMES.find(token.string)]
-			assert(is_instance_valid(input) or typeof(input) == TYPE_STRING, "Can't find input with name: " + token.string)
-			
-			var new_child = ScriptTreeFunction.new(working_st, input)
-			working_st.add_child(new_child)
-			
-			working_st = new_child
-			
-		elif token.types.has(Token.Type.METHOD_NAME):
-			assert(working_st.type == ScriptTree.Type.OBJECT, "Parent of Script Tree Method isn't an object, parent is: " + str(working_st.type))
-			var new_child = ScriptTreeMethod.new(working_st, token.string.strip_edges())
-			working_st.add_child(new_child)
-			
-			working_st = new_child
-			
-		elif token.types.has(Token.Type.PARAMETER):
-			assert(working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD, "Parent of Script Tree Parameter isn't a function or method, parent is: " + str(working_st.type) + " with value: " + str(working_st.value))
-			# Parameters are always objects
-			
-			var input = _get_input(token.string, inputs)
-			assert(is_instance_valid(input), "Can't find input with name: " + token.string)
-			
-			var new_child = ScriptTreeObject.new(working_st, input)
-			working_st.add_child(new_child)
-			
-			working_st = new_child
-			
-	
-	return tree_root
-
-
-## Go down the built up ScriptTree with recursion and form the array of callable
-func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable]:
-	var callable_list: Array[Callable] = []
-	
-	# Debugging
-	print(working_st.type,"  ",working_st.value,"    HAS ",working_st.children.size()," CHILDREN: ")
-	for child in working_st.children:
-		print(child.type,"  ",child.value)
-	print("END OF CHILDREN")
-	
-	# Go through each child and run this function on them, then get their array of callables and add it to the current one
-	for child in working_st.children:
-		print("STARTING WORK ON: ",child.type,"  ",child.value)
-		var new_tree_item = tree_item.create_child()
-		new_tree_item.set_text(0, str(working_st.type)+" | "+str(working_st.value))
-		callable_list.append_array(form_actions(child, new_tree_item))
-	
-	## See if the current object and its parent match to a known function/method, if so, add it to the callable list
-	# Spawn built-in function
-	if working_st.type == ScriptTree.Type.OBJECT:
-		if working_st.get_parent().type == ScriptTree.Type.FUNCTION:
-			if working_st.get_parent().value == "spawn":
-				callable_list.append(Callable(Functions, "spawn").bind(working_st.value))
-				
-	# Method on an object
-	elif working_st.type == ScriptTree.Type.METHOD:
-		if working_st.get_parent().type == ScriptTree.Type.OBJECT:
-			callable_list.append(Callable(working_st.get_parent().value.get_output_node(), working_st.value))
-			
-	
-	print("Callable list: " + str(callable_list))
-	# Pass the callable list back up the tree
-	return callable_list
-
-
 ## Goes through each character and turns them into an array of Token objects
 func tokenize_code(text: String) -> Array[Token]:
 	var tokenized_code: Array[Token] = []
@@ -275,6 +182,103 @@ func tokenize_code(text: String) -> Array[Token]:
 	for token in tokenized_code:
 		print(token.types,"   ",token.string)
 	return tokenized_code
+
+
+## Loop through tokens and build out the Script Tree, returning the root node
+func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTreeRoot:
+	const FUNCTION_NAMES: Array[String] = [
+		"spawn"
+	]
+	
+	var tree_root = ScriptTreeRoot.new()
+	var working_st: ScriptTree = tree_root
+	
+	for token in tokenized_code:
+		if token.types.has(Token.Type.BREAK):
+			working_st = tree_root
+			print("SETTING TO TREE ROOT")
+		elif token.types.has(Token.Type.OBJECT_NAME):
+			# The inputs are the objects
+			var input = _get_input(token.string, inputs)
+			assert(is_instance_valid(input), "Can't find input with name: " + token.string)
+			
+			var new_child = ScriptTreeObject.new(working_st, input)
+			working_st.add_child(new_child)
+			
+			working_st = new_child
+			
+		elif token.types.has(Token.Type.FUNCTION_NAME):
+			# Has to either be a built-in function or a function from another node
+			var input
+			input = _get_input(token.string, inputs)
+			input = FUNCTION_NAMES[FUNCTION_NAMES.find(token.string)]
+			assert(is_instance_valid(input) or typeof(input) == TYPE_STRING, "Can't find input with name: " + token.string)
+			
+			var new_child = ScriptTreeFunction.new(working_st, input)
+			working_st.add_child(new_child)
+			
+			working_st = new_child
+			
+		elif token.types.has(Token.Type.METHOD_NAME):
+			assert(working_st.type == ScriptTree.Type.OBJECT, "Parent of Script Tree Method isn't an object, parent is: " + str(working_st.type))
+			var new_child = ScriptTreeMethod.new(working_st, token.string.strip_edges())
+			working_st.add_child(new_child)
+			
+			working_st = new_child
+			
+		elif token.types.has(Token.Type.PARAMETER):
+			assert(working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD, "Parent of Script Tree Parameter isn't a function or method, parent is: " + str(working_st.type) + " with value: " + str(working_st.value))
+			# Parameters are always objects
+			
+			var input = _get_input(token.string, inputs)
+			assert(is_instance_valid(input), "Can't find input with name: " + token.string)
+			
+			var new_child = ScriptTreeObject.new(working_st, input)
+			working_st.add_child(new_child)
+			
+			working_st = new_child
+			
+	
+	return tree_root
+
+
+## Go down the built up ScriptTree with recursion and form the array of callable
+func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable]:
+	var callable_list: Array[Callable] = []
+	
+	# Debugging
+	print(working_st.type,"  ",working_st.value,"    HAS ",working_st.children.size()," CHILDREN: ")
+	for child in working_st.children:
+		print(child.type,"  ",child.value)
+	print("END OF CHILDREN")
+	
+	# Go through each child and run this function on them, then get their array of callables and add it to the current one
+	for child in working_st.children:
+		print("STARTING WORK ON: ",child.type,"  ",child.value)
+		var new_tree_item = tree_item.create_child()
+		new_tree_item.set_text(0, str(working_st.type)+" | "+str(working_st.value))
+		callable_list.append_array(form_actions(child, new_tree_item))
+	
+	## See if the current object and its parent match to a known function/method, if so, add it to the callable list
+	# Spawn built-in function
+	if working_st.type == ScriptTree.Type.OBJECT:
+		if working_st.get_parent().type == ScriptTree.Type.FUNCTION:
+			if working_st.get_parent().value == "spawn":
+				callable_list.append(Callable(Functions, "spawn").bind(working_st.value))
+				
+	# Method on an object
+	elif working_st.type == ScriptTree.Type.METHOD:
+		var has_parameters := false
+		for child in working_st.children:
+			if child.type == ScriptTree.Type.VARIABLE or child.type == ScriptTree.Type.OBJECT:
+				has_parameters = true
+		if working_st.get_parent().type == ScriptTree.Type.OBJECT and not has_parameters:
+			callable_list.append(Callable(working_st.get_parent().value.get_output_node(), working_st.value))
+	
+	print("Callable list: " + str(callable_list))
+	# Pass the callable list back up the tree
+	return callable_list
+
 # The piece of code that should work FOR NOW
 # Input 1: "fireball" - leads to ball node
 # Input 2: "start" - leads to start node
