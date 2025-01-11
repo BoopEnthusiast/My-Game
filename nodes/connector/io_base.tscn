@@ -19,12 +19,10 @@ script = ExtResource("1_qmsw5")
 layout_mode = 2
 icon = SubResource("GradientTexture2D_pjw1k")
 
-[node name="NameField" type="TextEdit" parent="."]
-custom_minimum_size = Vector2(83, 0)
+[node name="NameField" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(85, 0)
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 13
-placeholder_text = "placeholder"
+placeholder_text = "var_name"
 
 [connection signal="button_down" from="Button" to="." method="_on_button_down"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
