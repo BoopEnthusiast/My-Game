@@ -6,11 +6,16 @@
 [node name="Transmute" instance=ExtResource("1_i3olr")]
 anchor_right = 0.133681
 anchor_bottom = 0.117284
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("2_x2ytd")
 title = "Transmute"
 max_outputs = 1
 has_input_name = false
 has_output_name = false
+
+[node name="Title" parent="Background" index="0"]
+text = "[center]Transmute"
 
 [node name="SelectTransmutation" type="OptionButton" parent="Background/Central" index="0"]
 layout_mode = 1
