@@ -4,7 +4,6 @@ extends Resource
 
 enum Type {
 	ROOT,
-	VARIABLE,
 	OBJECT,
 	FUNCTION,
 	METHOD,

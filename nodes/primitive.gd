@@ -5,10 +5,6 @@ extends NodeBase
 enum Primitives {
 	BALL
 }
-enum Transmutations {
-	FIRE,
-	WATER
-}
 
 const PRIMITIVES = [
 	preload("res://spawnables/primitive_ball.tscn")
@@ -36,11 +32,14 @@ func set_on_fire() -> void:
 	spawned_object.mesh.set_surface_override_material(0, spawned_object.fire_material)
 
 
-func transmute(type: Transmutations) -> void:
+func transmute(transmute_node: NodeInput) -> void:
+	
+	var type = transmute_node.get_output_node().selected_transmutation
+	
 	match type:
-		Transmutations.FIRE:
+		TransmuteNode.Transmutations.FIRE:
 			spawned_object.mesh.set_surface_override_material(0, spawned_object.fire_material)
-		Transmutations.WATER:
+		TransmuteNode.Transmutations.WATER:
 			spawned_object.mesh.set_surface_override_material(0, spawned_object.water_material)
 
 

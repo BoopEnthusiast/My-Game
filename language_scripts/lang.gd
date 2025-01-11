@@ -56,6 +56,8 @@ const WHITESPAC_CHARS: Array[String] = [
 
 var _spells: Array[Spell] = []
 
+var tree_root_item: TreeItem
+
 
 ## Makes a new spell and takes a start node and goes through all the connected nodes until it's done
 func compile_spell(start_node: StartNode) -> void:
@@ -86,10 +88,9 @@ func compile_program_node(spell: Spell, text: String, inputs: Array) -> Array[Ar
 	
 	var tree_root: ScriptTreeRoot = build_script_tree(tokenized_code, inputs)
 	
-	var tree_node_root: Tree = Tree.new()
-	var tree_item_root: TreeItem = tree_node_root.create_item()
-	add_child(tree_node_root)
-	spell.actions = form_actions(tree_root, tree_item_root)
+	var tree_node: Tree = Tree.new()
+	tree_root_item = tree_node.create_item()
+	spell.actions = form_actions(tree_root, tree_root_item)
 	return []
 
 
@@ -168,6 +169,12 @@ func tokenize_code(text: String) -> Array[Token]:
 			working_token = ""
 			continue
 			
+		elif chr == ",":
+			tokenized_code.append(Token.new(working_token, [Token.Type.PARAMETER]))
+			next_type = [Token.Type.PARAMETER]
+			working_token = ""
+			continue
+		
 		elif chr == ")":
 			if not working_token.is_empty():
 				tokenized_code.append(Token.new(working_token, [Token.Type.PARAMETER]))
@@ -244,6 +251,8 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 
 ## Go down the built up ScriptTree with recursion and form the array of callable
 func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable]:
+	print(tree_item)
+	
 	var callable_list: Array[Callable] = []
 	
 	# Debugging
@@ -260,20 +269,28 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 		callable_list.append_array(form_actions(child, new_tree_item))
 	
 	## See if the current object and its parent match to a known function/method, if so, add it to the callable list
-	# Spawn built-in function
+	# built-in functions
 	if working_st.type == ScriptTree.Type.OBJECT:
 		if working_st.get_parent().type == ScriptTree.Type.FUNCTION:
+			# Spawn function
 			if working_st.get_parent().value == "spawn":
 				callable_list.append(Callable(Functions, "spawn").bind(working_st.value))
 				
 	# Method on an object
 	elif working_st.type == ScriptTree.Type.METHOD:
-		var has_parameters := false
-		for child in working_st.children:
-			if child.type == ScriptTree.Type.VARIABLE or child.type == ScriptTree.Type.OBJECT:
-				has_parameters = true
-		if working_st.get_parent().type == ScriptTree.Type.OBJECT and not has_parameters:
-			callable_list.append(Callable(working_st.get_parent().value.get_output_node(), working_st.value))
+		if working_st.get_parent().type == ScriptTree.Type.OBJECT:
+			var has_parameters := false
+			for child in working_st.children:
+				if child.type == ScriptTree.Type.OBJECT:
+					has_parameters = true
+			if not has_parameters:
+				callable_list.append(Callable(working_st.get_parent().value.get_output_node(), working_st.value))
+			else:
+				var new_callable := Callable(working_st.get_parent().value.get_output_node(), working_st.value)
+				for child in working_st.children:
+					new_callable = new_callable.bind(child.value)
+				callable_list.append(new_callable)
+				
 	
 	print("Callable list: " + str(callable_list))
 	# Pass the callable list back up the tree
