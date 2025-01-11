@@ -5,7 +5,7 @@ extends HBoxContainer
 @onready var button: Button = $Button
 @onready var parent_node: NodeBase = $"../../../"
 
-@onready var _name_field: TextEdit = $NameField
+@onready var name_field: TextEdit = $NameField
 
 var connector: Connector
 
@@ -24,14 +24,14 @@ func _on_button_down() -> void:
 		IDE.connect_nodes(self)
 
 
-func _on__name_field_text_changed() -> void:
-	var text = _name_field.text
+func _on_name_field_text_changed() -> void:
+	var text = name_field.text
 	if text.length() > 50:
 		text = variable_name
 	while text.find("\n") >= 0:
 		text[text.find("\n")] = ""
 	variable_name = text
-	_name_field.text = text
+	name_field.text = text
 
 
 func _check_class() -> bool:
@@ -52,7 +52,3 @@ func get_connected_node() -> NodeBase:
 		return connector.output.parent_node
 	else:
 		return connector.input.parent_node
-
-
-func get_name_field() -> String:
-	return _name_field.text

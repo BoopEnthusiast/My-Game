@@ -292,6 +292,6 @@ func tokenize_code(text: String) -> Array[Token]:
 
 func _get_input(find_name: String, inputs: Array) -> NodeInput:
 	for input in inputs:
-		if input.get_name_field().strip_edges() == find_name.strip_edges():
+		if input.name_field.text.strip_edges() == find_name.strip_edges():
 			return input
 	return null

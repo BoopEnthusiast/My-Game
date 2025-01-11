@@ -7,6 +7,8 @@ const OUTPUT = preload("res://nodes/connector/output.tscn")
 @export var title: String = "TITLE YOUR NODE"
 @export var max_inputs: int = 0
 @export var max_outputs: int = 0
+@export var has_input_name: bool = true
+@export var has_output_name: bool = true
 
 @onready var inputs_container: VBoxContainer = $Background/Inputs
 @onready var outputs_container: VBoxContainer = $Background/Outputs
@@ -20,12 +22,16 @@ var drag_offset: Vector2
 
 func _ready() -> void:
 	for i in range(max_inputs):
-		var new_input = INPUT.instantiate()
+		var new_input = INPUT.instantiate() as NodeInput
 		inputs_container.add_child(new_input)
+		if not has_input_name:
+			new_input.name_field.visible = false
 		inputs.append(new_input)
 	for i in range(max_outputs):
-		var new_output = OUTPUT.instantiate()
+		var new_output = OUTPUT.instantiate() as NodeOutput
 		outputs_container.add_child(new_output)
+		if not has_output_name:
+			new_output.name_field.visible = false
 		outputs.append(new_output)
 
 

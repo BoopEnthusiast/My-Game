@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cbykf6lvqyyj1"]
+[gd_scene load_steps=5 format=3 uid="uid://cbykf6lvqyyj1"]
 
 [ext_resource type="PackedScene" uid="uid://dfqffeb2xu3ho" path="res://nodes/node_base.tscn" id="1_01qv0"]
 [ext_resource type="Script" path="res://nodes/primitive.gd" id="2_p4wy3"]
-[ext_resource type="PackedScene" uid="uid://dqmww8kf5c2tm" path="res://nodes/connector/output.tscn" id="3_7o0h2"]
 [ext_resource type="Shader" uid="uid://dye1xybnc55nd" path="res://shaders/fire.tres" id="3_c6lad"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2koa6"]
@@ -10,17 +9,17 @@ render_priority = 0
 shader = ExtResource("3_c6lad")
 
 [node name="Primitive" instance=ExtResource("1_01qv0")]
-anchor_right = 0.157118
-anchor_bottom = 0.194444
+anchor_right = 0.12934
+anchor_bottom = 0.114198
 script = ExtResource("2_p4wy3")
 fire_shader = SubResource("ShaderMaterial_2koa6")
 title = "Primitive"
+max_outputs = 1
+has_input_name = false
+has_output_name = false
 
 [node name="Title" parent="Background" index="0"]
 text = "[center]Primitive"
-
-[node name="Output" parent="Background/Outputs" index="0" instance=ExtResource("3_7o0h2")]
-layout_mode = 2
 
 [node name="OptionButton" type="OptionButton" parent="Background/Central" index="0"]
 layout_mode = 1
@@ -29,9 +28,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -56.0
+offset_left = -66.5
 offset_top = -44.0
-offset_right = 56.0
+offset_right = 45.5
 offset_bottom = -13.0
 grow_horizontal = 2
 grow_vertical = 0

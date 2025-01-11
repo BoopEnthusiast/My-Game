@@ -4,12 +4,26 @@
 [ext_resource type="Script" path="res://nodes/start.gd" id="2_xj3xx"]
 
 [node name="Start" instance=ExtResource("1_h84a1")]
+anchor_left = 0.054
+anchor_top = 0.101
+anchor_right = 0.054
+anchor_bottom = 0.101
+offset_left = -62.208
+offset_top = -65.448
+offset_right = 62.792
+offset_bottom = 65.552
 script = ExtResource("2_xj3xx")
 title = "Start"
 max_outputs = 1
+has_input_name = false
+has_output_name = false
 
 [node name="Title" parent="Background" index="0"]
 text = "[center]Start"
+
+[node name="Central" parent="Background" index="3"]
+offset_left = 92.0
+offset_right = -92.0
 
 [node name="Start" type="Button" parent="Background/Central" index="0"]
 layout_mode = 1
@@ -27,10 +41,9 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -4.0
+offset_left = -54.0
 offset_top = 39.0
-offset_right = 0.000366211
-offset_bottom = 0.000213623
+offset_right = 51.0
 grow_horizontal = 2
 grow_vertical = 2
 
