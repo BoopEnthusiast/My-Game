@@ -3,10 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://b4p7cfu4tkfc2" path="res://spawnables/primitive.tscn" id="1_u6oxd"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6o67g"]
-size = Vector3(0.5, 0.5, 0.5)
+size = Vector3(0.3, 0.3, 0.3)
 
 [sub_resource type="BoxMesh" id="BoxMesh_6kjqt"]
-size = Vector3(0.5, 0.5, 0.5)
+size = Vector3(0.3, 0.3, 0.3)
 subdivide_width = 20
 subdivide_height = 20
 subdivide_depth = 20
