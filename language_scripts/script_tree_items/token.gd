@@ -8,6 +8,7 @@ enum Type {
 	PARAMETER,
 	PROPERTY,
 	FLOAT,
+	INT,
 	STRING,
 	KEYWORD,
 	NONE,
