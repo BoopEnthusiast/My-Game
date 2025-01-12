@@ -13,6 +13,7 @@ enum Type {
 	NONE,
 	BOOLEAN,
 	BREAK, # New line, new commad
+	OPERATOR,
 }
 
 var string: String

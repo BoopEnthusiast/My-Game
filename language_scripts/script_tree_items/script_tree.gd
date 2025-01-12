@@ -7,6 +7,7 @@ enum Type {
 	OBJECT,
 	FUNCTION,
 	METHOD,
+	OPERATOR,
 }
 
 @export var type: Type
