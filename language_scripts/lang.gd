@@ -194,7 +194,8 @@ func tokenize_code(text: String) -> Array[Token]:
 ## Loop through tokens and build out the Script Tree, returning the root node
 func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTreeRoot:
 	const FUNCTION_NAMES: Array[String] = [
-		"spawn"
+		"spawn",
+		"print"
 	]
 	
 	var tree_root = ScriptTreeRoot.new()
@@ -251,7 +252,6 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 
 ## Go down the built up ScriptTree with recursion and form the array of callable
 func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable]:
-	print(tree_item)
 	
 	var callable_list: Array[Callable] = []
 	
@@ -275,6 +275,8 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 			# Spawn function
 			if working_st.get_parent().value == "spawn":
 				callable_list.append(Callable(Functions, "spawn").bind(working_st.value))
+			elif working_st.get_parent().value == "print":
+				callable_list.append(Callable(Functions, "pprint").bind(working_st.value))
 				
 	# Method on an object
 	elif working_st.type == ScriptTree.Type.METHOD:
