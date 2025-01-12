@@ -8,8 +8,7 @@ extends Node3D
 @export var water_material: ShaderMaterial
 
 var velocity: Vector3
-var is_on_fire := false
 
 
 func _physics_process(delta: float) -> void:
-	position += velocity * delta
+	body.position += velocity * delta

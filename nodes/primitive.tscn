@@ -29,7 +29,9 @@ offset_bottom = -13.0
 grow_horizontal = 2
 grow_vertical = 0
 selected = 0
-item_count = 1
+item_count = 2
 popup/item_0/text = "Ball"
+popup/item_1/text = "Cube"
+popup/item_1/id = 1
 
 [connection signal="item_selected" from="Background/Central/OptionButton" to="." method="_on_option_button_item_selected"]

@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://dord0k2tbmfhv"]
+
+[ext_resource type="PackedScene" uid="uid://b4p7cfu4tkfc2" path="res://spawnables/primitive.tscn" id="1_u6oxd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6o67g"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6kjqt"]
+size = Vector3(0.5, 0.5, 0.5)
+subdivide_width = 20
+subdivide_height = 20
+subdivide_depth = 20
+
+[node name="PrimitiveCube" node_paths=PackedStringArray("body", "mesh") instance=ExtResource("1_u6oxd")]
+body = NodePath("Body")
+mesh = NodePath("Body/Mesh")
+
+[node name="Body" type="StaticBody3D" parent="." index="0"]
+
+[node name="Collider" type="CollisionShape3D" parent="Body" index="0"]
+shape = SubResource("BoxShape3D_6o67g")
+
+[node name="Mesh" type="MeshInstance3D" parent="Body" index="1"]
+mesh = SubResource("BoxMesh_6kjqt")

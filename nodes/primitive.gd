@@ -3,15 +3,16 @@ extends NodeBase
 
 
 enum Primitives {
-	BALL
+	BALL,
+	CUBE
 }
 
 const PRIMITIVES = [
-	preload("res://spawnables/primitive_ball.tscn")
+	preload("res://spawnables/primitive_ball.tscn"),
+	preload("res://spawnables/primitive_cube.tscn")
 ]
 
 var selected_primitive: Primitives = Primitives.BALL
-var is_on_fire: bool = false
 var spawned_object: PrimitiveSpawnable
 
 
@@ -20,12 +21,16 @@ func _on_option_button_item_selected(index: int) -> void:
 
 
 func spawn() -> void:
+	var new_primitive: PrimitiveSpawnable
 	match selected_primitive:
 		Primitives.BALL:
-			var new_ball = PRIMITIVES[0].instantiate()
-			Singleton.world_root.add_child(new_ball)
-			new_ball.global_position = Singleton.player.main_camera.global_position - Singleton.player.camera_rotation_node.global_basis.z * 2.0
-			spawned_object = new_ball
+			new_primitive = PRIMITIVES[0].instantiate()
+		Primitives.CUBE:
+			new_primitive = PRIMITIVES[1].instantiate()
+	
+	Singleton.world_root.add_child(new_primitive)
+	new_primitive.global_position = Singleton.player.main_camera.global_position - Singleton.player.camera_rotation_node.global_basis.z * 2.0
+	spawned_object = new_primitive
 
 
 func set_on_fire() -> void:
