@@ -26,4 +26,3 @@ placeholder_text = "var_name"
 
 [connection signal="button_down" from="Button" to="." method="_on_button_down"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
-[connection signal="text_changed" from="NameField" to="." method="_on_name_field_text_changed"]

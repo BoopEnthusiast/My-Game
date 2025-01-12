@@ -23,18 +23,6 @@ func _on_button_down() -> void:
 		IDE.connect_nodes(self)
 
 
-func _on_name_field_text_changed() -> void:
-	var caret_col = name_field.get_caret_column()
-	var text = name_field.text
-	if text.length() > 50:
-		text = variable_name
-	while text.find("\n") >= 0:
-		text[text.find("\n")] = ""
-	variable_name = text
-	name_field.text = text
-	name_field.set_caret_column(caret_col)
-
-
 func _check_class() -> bool:
 	if self is NodeInput:
 		if IDE.connecting_from is NodeOutput:
