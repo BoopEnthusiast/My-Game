@@ -15,7 +15,9 @@ enum Type {
 
 var _parent: ScriptTree
 
-var value: Variant
+var value: Variant:
+	get:
+		return get_value()
 
 
 func _init(node_type: Type, parent: ScriptTree, node_value: Variant = null) -> void:
@@ -35,3 +37,7 @@ func change_type(new_type: Type) -> void:
 
 func get_parent() -> ScriptTree:
 	return _parent
+
+
+func get_value() -> Variant:
+	return value

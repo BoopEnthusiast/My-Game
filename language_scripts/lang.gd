@@ -155,8 +155,22 @@ func tokenize_code(text: String) -> Array[Token]:
 				working_token = ""
 				continue
 				
-			elif OPERATORS.has(chr):
-				pass
+			elif OPERATORS.has(working_token):
+				tokenized_code.append(Token.new(working_token, [Token.Type.OPERATOR]))
+				next_type = [Token.Type.FLOAT, Token.Type.INT]
+				working_token = ""
+				continue
+				
+			elif working_token.is_valid_int():
+				tokenized_code.append(Token.new(working_token, [Token.Type.INT]))
+				next_type = []
+				working_token = ""
+				continue
+			elif working_token.is_valid_float():
+				tokenized_code.append(Token.new(working_token, [Token.Type.FLOAT]))
+				next_type = []
+				working_token = ""
+				continue
 			
 		elif chr == ".":
 			if not working_token.is_valid_int():
@@ -265,6 +279,9 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 			working_st.add_child(new_child)
 			
 			working_st = new_child
+			
+		elif token.types.has(Token.Type.OPERATOR):
+			assert(working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD, "Parent of operator is not a function or method, parent is: " + str(working_st.type))
 			
 	
 	return tree_root
