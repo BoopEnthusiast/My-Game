@@ -200,7 +200,7 @@ func tokenize_code(text: String) -> Array[Token]:
 			continue
 			
 		elif chr == ",":
-			tokenized_code.append(number_parameter(working_token))
+			tokenized_code.append(_number_parameter(working_token))
 			
 			next_type = [Token.Type.PARAMETER]
 			working_token = ""
@@ -208,7 +208,7 @@ func tokenize_code(text: String) -> Array[Token]:
 		
 		elif chr == ")":
 			if not working_token.is_empty():
-				tokenized_code.append(number_parameter(working_token))
+				tokenized_code.append(_number_parameter(working_token))
 			next_type = []
 			working_token = ""
 			continue
@@ -238,6 +238,7 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 		if token.types.has(Token.Type.BREAK):
 			working_st = tree_root
 			print("SETTING TO TREE ROOT")
+			
 		elif token.types.has(Token.Type.OBJECT_NAME):
 			# The inputs are the objects
 			var input = _get_input(token.string, inputs)
@@ -246,6 +247,13 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 			var new_child = ScriptTreeObject.new(working_st, input)
 			working_st.add_child(new_child)
 			
+			working_st = new_child
+			
+		elif token.types.has(Token.Type.INT) or token.types.has(Token.Type.FLOAT):
+			assert(working_st.type == ScriptTree.Type.OPERATOR or working_st.type == ScriptTree.Type.FUNCTION, "Parent of Script Tree Int or Float isn't an object, parent is: " + str(working_st.type))
+			
+			var new_child = ScriptTreeData.new(working_st, float(token.string))
+			working_st.add_child(new_child)
 			working_st = new_child
 			
 		elif token.types.has(Token.Type.FUNCTION_NAME):
@@ -280,8 +288,18 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 			working_st = new_child
 			
 		elif token.types.has(Token.Type.OPERATOR):
-			assert(working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD, "Parent of operator is not a function or method, parent is: " + str(working_st.type))
-			
+			if token.string == "=":
+				assert(working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA, "Parent of operator is not an object, parent is: " + str(working_st.type))
+				var new_child = _replace_working_st(working_st)
+				working_st = new_child
+				
+			#elif token.string == "*" or token.string == "/":
+				#assert(working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA, "Parent of operator is not an object, parent is: " + str(working_st.type))
+				#var new_child = _replace_working_st(working_st)
+				#working_st = new_child
+				#if working_st.get_parent().value == "+" or working_st.get_parent().value == "-" or working_st.get_parent().value == "%":
+					#
+	
 	
 	return tree_root
 
@@ -306,7 +324,7 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 	
 	## See if the current object and its parent match to a known function/method, if so, add it to the callable list
 	# built-in functions
-	if working_st.type == ScriptTree.Type.OBJECT:
+	if working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA:
 		if working_st.get_parent().type == ScriptTree.Type.FUNCTION:
 			# Spawn function
 			if working_st.get_parent().value == "spawn":
@@ -356,7 +374,7 @@ func _get_input(find_name: String, inputs: Array) -> NodeInput:
 	return null
 
 
-func number_parameter(working_token: String) -> Token:
+func _number_parameter(working_token: String) -> Token:
 	if working_token.is_valid_int():
 		return Token.new(working_token, [Token.Type.PARAMETER, Token.Type.INT])
 		
@@ -365,3 +383,12 @@ func number_parameter(working_token: String) -> Token:
 		
 	else:
 		return Token.new(working_token, [Token.Type.PARAMETER])
+
+
+func _replace_working_st(working_st: ScriptTree) -> ScriptTree:
+	var working_st_parent = working_st.get_parent()
+	working_st_parent.children.erase(working_st)
+	var new_child = ScriptTreeOperator.new(working_st_parent, "=")
+	working_st_parent.add_child(new_child)
+	new_child.add_child(working_st)
+	return new_child

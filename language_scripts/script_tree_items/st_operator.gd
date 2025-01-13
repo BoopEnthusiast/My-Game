@@ -8,5 +8,5 @@ func _init(parent: ScriptTree, operator: String) -> void:
 	value = operator
 
 
-func get_value() -> Variant:
+func get_value(value) -> Variant:
 	return "Testing hello hello!"
