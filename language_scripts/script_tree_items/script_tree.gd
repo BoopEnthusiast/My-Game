@@ -17,7 +17,7 @@ var _parent: ScriptTree
 
 var value: Variant:
 	get:
-		return get_value()
+		return get_value(value)
 
 
 func _init(node_type: Type, parent: ScriptTree, node_value: Variant = null) -> void:
@@ -39,5 +39,5 @@ func get_parent() -> ScriptTree:
 	return _parent
 
 
-func get_value() -> Variant:
-	return value
+func get_value(val) -> Variant:
+	return val

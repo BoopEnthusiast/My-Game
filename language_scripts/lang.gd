@@ -113,7 +113,8 @@ func tokenize_code(text: String) -> Array[Token]:
 		"/",
 		"+",
 		"-",
-		"%"
+		"%",
+		"=",
 	]
 	
 	# Loop through characters and turn them into tokens with types that can then be compiled into a Script Tree
@@ -152,25 +153,28 @@ func tokenize_code(text: String) -> Array[Token]:
 						next_type = [Token.Type.BOOLEAN]
 					KEYWORDS[4]:
 						pass
-				working_token = ""
-				continue
 				
 			elif OPERATORS.has(working_token):
 				tokenized_code.append(Token.new(working_token, [Token.Type.OPERATOR]))
 				next_type = [Token.Type.FLOAT, Token.Type.INT]
-				working_token = ""
-				continue
 				
 			elif working_token.is_valid_int():
-				tokenized_code.append(Token.new(working_token, [Token.Type.INT]))
-				next_type = []
-				working_token = ""
-				continue
+				if next_type.has(Token.Type.PARAMETER):
+					tokenized_code.append(Token.new(working_token, [Token.Type.INT, Token.Type.PARAMETER]))
+				else:
+					tokenized_code.append(Token.new(working_token, [Token.Type.INT]))
+				next_type = [Token.Type.INT, Token.Type.FLOAT]
+				
 			elif working_token.is_valid_float():
-				tokenized_code.append(Token.new(working_token, [Token.Type.FLOAT]))
-				next_type = []
-				working_token = ""
-				continue
+				if next_type.has(Token.Type.PARAMETER):
+					tokenized_code.append(Token.new(working_token, [Token.Type.FLOAT, Token.Type.PARAMETER]))
+				else:
+					tokenized_code.append(Token.new(working_token, [Token.Type.FLOAT]))
+				next_type = [Token.Type.INT, Token.Type.FLOAT]
+				
+			
+			working_token = ""
+			continue
 			
 		elif chr == ".":
 			if not working_token.is_valid_int():
@@ -196,28 +200,23 @@ func tokenize_code(text: String) -> Array[Token]:
 			continue
 			
 		elif chr == ",":
-			if working_token.is_valid_int():
-				tokenized_code.append(Token.new(working_token, [Token.Type.PARAMETER, Token.Type.INT]))
-				
-			elif working_token.is_valid_float():
-				tokenized_code.append(Token.new(working_token, [Token.Type.PARAMETER, Token.Type.FLOAT]))
-				
-			else:
-				tokenized_code.append(Token.new(working_token, [Token.Type.PARAMETER]))
-				
+			tokenized_code.append(number_parameter(working_token))
+			
 			next_type = [Token.Type.PARAMETER]
 			working_token = ""
 			continue
 		
 		elif chr == ")":
 			if not working_token.is_empty():
-				tokenized_code.append(Token.new(working_token, [Token.Type.PARAMETER]))
+				tokenized_code.append(number_parameter(working_token))
 			next_type = []
 			working_token = ""
 			continue
 			
 		working_token += chr
 		print(working_token,"   ",tokenized_code,"   ",next_type,"    ",is_comment)
+	
+	tokenized_code.append(Token.new(working_token, [Token.Type.BREAK]))
 	
 	print(tokenized_code)
 	for token in tokenized_code:
@@ -355,3 +354,14 @@ func _get_input(find_name: String, inputs: Array) -> NodeInput:
 		if input.name_field.text.strip_edges() == find_name.strip_edges():
 			return input
 	return null
+
+
+func number_parameter(working_token: String) -> Token:
+	if working_token.is_valid_int():
+		return Token.new(working_token, [Token.Type.PARAMETER, Token.Type.INT])
+		
+	elif working_token.is_valid_float():
+		return Token.new(working_token, [Token.Type.PARAMETER, Token.Type.FLOAT])
+		
+	else:
+		return Token.new(working_token, [Token.Type.PARAMETER])
