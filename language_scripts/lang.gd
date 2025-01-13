@@ -275,6 +275,19 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 			
 			working_st = new_child
 			
+		elif token.types.has(Token.Type.OPERATOR):
+			#if token.string == "=":
+				assert(working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA, "Parent of operator is not an object, parent is: " + str(working_st.type))
+				var new_child = _replace_working_st(working_st)
+				working_st = new_child
+				
+			#elif token.string == "*" or token.string == "/":
+				#assert(working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA, "Parent of operator is not an object, parent is: " + str(working_st.type))
+				#var new_child = _replace_working_st(working_st)
+				#working_st = new_child
+				#if working_st.get_parent().value == "+" or working_st.get_parent().value == "-" or working_st.get_parent().value == "%":
+					#
+				
 		elif token.types.has(Token.Type.PARAMETER):
 			assert(working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD, "Parent of Script Tree Parameter isn't a function or method, parent is: " + str(working_st.type) + " with value: " + str(working_st.value))
 			# Parameters are always objects
@@ -287,18 +300,6 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 			
 			working_st = new_child
 			
-		elif token.types.has(Token.Type.OPERATOR):
-			if token.string == "=":
-				assert(working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA, "Parent of operator is not an object, parent is: " + str(working_st.type))
-				var new_child = _replace_working_st(working_st)
-				working_st = new_child
-				
-			#elif token.string == "*" or token.string == "/":
-				#assert(working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA, "Parent of operator is not an object, parent is: " + str(working_st.type))
-				#var new_child = _replace_working_st(working_st)
-				#working_st = new_child
-				#if working_st.get_parent().value == "+" or working_st.get_parent().value == "-" or working_st.get_parent().value == "%":
-					#
 	
 	
 	return tree_root
@@ -324,7 +325,7 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 	
 	## See if the current object and its parent match to a known function/method, if so, add it to the callable list
 	# built-in functions
-	if working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA:
+	if working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA or working_st.type == ScriptTree.Type.OPERATOR:
 		if working_st.get_parent().type == ScriptTree.Type.FUNCTION:
 			# Spawn function
 			if working_st.get_parent().value == "spawn":
