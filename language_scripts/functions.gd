@@ -13,5 +13,5 @@ func pprint(to_print: Variant) -> void:
 	print(str(to_print))
 
 
-func wait(time_to_wait: float) -> float:
-	return time_to_wait * 1000
+func wait(time_to_wait: float) -> void:
+	await get_tree().create_timer(time_to_wait).timeout
