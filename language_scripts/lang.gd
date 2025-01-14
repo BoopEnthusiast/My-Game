@@ -88,8 +88,7 @@ func compile_program_node(spell: Spell, text: String, inputs: Array) -> Array[Ar
 	
 	var tree_root: ScriptTreeRoot = build_script_tree(tokenized_code, inputs)
 	
-	var tree_node: Tree = Tree.new()
-	tree_root_item = tree_node.create_item()
+	tree_root_item = IDE.start_node_tree.create_item()
 	spell.actions = form_actions(tree_root, tree_root_item)
 	return []
 
@@ -278,14 +277,14 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 		elif token.types.has(Token.Type.OPERATOR):
 			#if token.string == "=":
 				assert(working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA, "Parent of operator is not an object, parent is: " + str(working_st.type))
-				var new_child = _replace_working_st(working_st)
+				var new_child = _replace_working_st(working_st, token.string)
 				working_st = new_child
 				
 			#elif token.string == "*" or token.string == "/":
 				#assert(working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA, "Parent of operator is not an object, parent is: " + str(working_st.type))
 				#var new_child = _replace_working_st(working_st)
 				#working_st = new_child
-				#if working_st.get_parent().value == "+" or working_st.get_parent().value == "-" or working_st.get_parent().value == "%":
+				#if working_st.parent.value == "+" or working_st.parent.value == "-" or working_st.parent.value == "%":
 					#
 				
 		elif token.types.has(Token.Type.PARAMETER):
@@ -318,32 +317,33 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 	
 	# Go through each child and run this function on them, then get their array of callables and add it to the current one
 	for child in working_st.children:
-		print("STARTING WORK ON: ",child.type,"  ",child.value)
+		print("STARTING WORK ON: ",child.type,"  ",child.value,"    PARENTS TYPE IS: ",working_st.type)
 		var new_tree_item = tree_item.create_child()
 		new_tree_item.set_text(0, str(working_st.type)+" | "+str(working_st.value))
 		callable_list.append_array(form_actions(child, new_tree_item))
 	
 	## See if the current object and its parent match to a known function/method, if so, add it to the callable list
-	# built-in functions
+	# Built-in functions
 	if working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA or working_st.type == ScriptTree.Type.OPERATOR:
-		if working_st.get_parent().type == ScriptTree.Type.FUNCTION:
-			# Spawn function
-			if working_st.get_parent().value == "spawn":
-				callable_list.append(Callable(Functions, "spawn").bind(working_st.value))
-			elif working_st.get_parent().value == "print":
-				callable_list.append(Callable(Functions, "pprint").bind(working_st.value))
+		if working_st.parent.type == ScriptTree.Type.FUNCTION:
+			# Functions
+			match working_st.parent.value:
+				"spawn":
+					callable_list.append(Callable(Functions, "spawn").bind(working_st.value))
+				"print":
+					callable_list.append(Callable(Functions, "pprint").bind(working_st.value))
 				
 	# Method on an object
 	elif working_st.type == ScriptTree.Type.METHOD:
-		if working_st.get_parent().type == ScriptTree.Type.OBJECT:
+		if working_st.parent.type == ScriptTree.Type.OBJECT:
 			var has_parameters := false
 			for child in working_st.children:
 				if child.type == ScriptTree.Type.OBJECT:
 					has_parameters = true
 			if not has_parameters:
-				callable_list.append(Callable(working_st.get_parent().value.get_output_node(), working_st.value))
+				callable_list.append(Callable(working_st.parent.value.get_output_node(), working_st.value))
 			else:
-				var new_callable := Callable(working_st.get_parent().value.get_output_node(), working_st.value)
+				var new_callable := Callable(working_st.parent.value.get_output_node(), working_st.value)
 				for child in working_st.children:
 					new_callable = new_callable.bind(child.value)
 				callable_list.append(new_callable)
@@ -386,10 +386,10 @@ func _number_parameter(working_token: String) -> Token:
 		return Token.new(working_token, [Token.Type.PARAMETER])
 
 
-func _replace_working_st(working_st: ScriptTree) -> ScriptTree:
-	var working_st_parent = working_st.get_parent()
-	working_st_parent.children.erase(working_st)
-	var new_child = ScriptTreeOperator.new(working_st_parent, "=")
-	working_st_parent.add_child(new_child)
+func _replace_working_st(working_st: ScriptTree, token_string: String) -> ScriptTree:
+	working_st.parent.children.erase(working_st)
+	var new_child = ScriptTreeOperator.new(working_st.parent, token_string)
+	working_st.parent.add_child(new_child)
 	new_child.add_child(working_st)
+	working_st.parent = new_child
 	return new_child

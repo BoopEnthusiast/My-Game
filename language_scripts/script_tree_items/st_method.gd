@@ -2,7 +2,7 @@ class_name ScriptTreeMethod
 extends ScriptTree
 
 
-func _init(parent: ScriptTree, method_name: String) -> void:
+func _init(new_parent: ScriptTree, method_name: String) -> void:
 	type = Type.METHOD
-	_parent = parent
+	parent = new_parent
 	value = method_name

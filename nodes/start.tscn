@@ -46,5 +46,6 @@ offset_top = 39.0
 offset_right = 51.0
 grow_horizontal = 2
 grow_vertical = 2
+hide_root = true
 
 [connection signal="pressed" from="Background/Central/Start" to="." method="_on_start_pressed"]

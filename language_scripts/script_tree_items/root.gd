@@ -4,5 +4,5 @@ extends ScriptTree
 
 func _init() -> void:
 	type = Type.ROOT
-	_parent = null
+	parent = null
 	value = null

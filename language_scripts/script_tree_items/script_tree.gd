@@ -14,17 +14,17 @@ enum Type {
 @export var type: Type
 @export var children: Array[ScriptTree] 
 
-var _parent: ScriptTree
+var parent: ScriptTree
 
 var value: Variant:
 	get:
 		return get_value(value)
 
 
-func _init(node_type: Type, parent: ScriptTree, node_value: Variant = null) -> void:
+func _init(node_type: Type, new_parent: ScriptTree, node_value: Variant = null) -> void:
 	type = node_type
 	value = node_value
-	_parent = parent
+	parent = new_parent
 
 
 func add_child(child: ScriptTree) -> void:
@@ -34,10 +34,6 @@ func add_child(child: ScriptTree) -> void:
 func change_type(new_type: Type) -> void:
 	assert(is_class("ScriptTree"), "This is a statically typed ScriptTree item, it is not a ScriptTree, it is of class" + get_class())
 	type = new_type
-
-
-func get_parent() -> ScriptTree:
-	return _parent
 
 
 func get_value(val) -> Variant:

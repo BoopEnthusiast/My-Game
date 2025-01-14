@@ -2,11 +2,24 @@ class_name  ScriptTreeOperator
 extends ScriptTree
 
 
-func _init(parent: ScriptTree, operator: String) -> void:
+func _init(new_parent: ScriptTree, operator: String) -> void:
 	type = Type.OPERATOR
-	_parent = parent
+	parent = new_parent
 	value = operator
 
 
 func get_value(value) -> Variant:
-	return "Testing hello hello!"
+	match value:
+		"+":
+			return children[0].value + children[1].value
+		"-":
+			return children[0].value - children[1].value
+		"*":
+			return children[0].value * children[1].value
+		"/":
+			return children[0].value / children[1].value
+		"%":
+			return children[0].value % children[1].value
+	
+	assert(false, "Operator is not a valid operator, operator is: " + value)
+	return null

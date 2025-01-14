@@ -4,6 +4,7 @@ extends Control
 const CONNECTOR = preload("res://nodes/connector/connector.tscn")
 
 var ide_holder: IDEHolder
+var start_node_tree: Tree
 
 var connecting_from: NodeIOPort
 var connector: Connector

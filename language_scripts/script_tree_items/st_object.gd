@@ -2,7 +2,7 @@ class_name ScriptTreeObject
 extends ScriptTree
 
 
-func _init(parent: ScriptTree, input: NodeInput) -> void:
+func _init(new_parent: ScriptTree, input: NodeInput) -> void:
 	type = Type.OBJECT
-	_parent = parent
+	parent = new_parent
 	value = input
