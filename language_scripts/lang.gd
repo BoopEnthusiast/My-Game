@@ -219,23 +219,19 @@ func tokenize_code(text: String) -> Array[Token]:
 			
 		elif chr == ")":
 			if not working_token.is_empty():
-				tokenized_code.append(_number_parameter(working_token))
+				var new_param_token = _number_parameter(working_token)
+				if not new_param_token.types == [Token.Type.PARAMETER]:
+					tokenized_code.append(new_param_token)
+				else:
+					tokenized_code.append(Token.new(working_token, [Token.Type.PARAMETER, Token.Type.OBJECT_NAME]))
 			next_type = []
 			working_token = ""
 			continue
 			
 		elif OPERATORS.has(chr):
-			if working_token.is_valid_int():
-				if next_type.has(Token.Type.PARAMETER):
-					tokenized_code.append(Token.new(working_token, [Token.Type.INT, Token.Type.PARAMETER]))
-				else:
-					tokenized_code.append(Token.new(working_token, [Token.Type.INT]))
-				
-			elif working_token.is_valid_float():
-				if next_type.has(Token.Type.PARAMETER):
-					tokenized_code.append(Token.new(working_token, [Token.Type.FLOAT, Token.Type.PARAMETER]))
-				else:
-					tokenized_code.append(Token.new(working_token, [Token.Type.FLOAT]))
+			var new_param_token = _number_parameter(working_token)
+			if not new_param_token.types == [Token.Type.PARAMETER]:
+				tokenized_code.append(new_param_token)
 			
 			tokenized_code.append(Token.new(chr, [Token.Type.OPERATOR]))
 			
@@ -317,6 +313,7 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 			# Parameters are always objects
 			
 			var value
+			print("PARAMETER TOKEN TYPE: ", token.types)
 			if token.types.has(Token.Type.OBJECT_NAME):
 				value = _get_input(token.string, inputs)
 				assert(is_instance_valid(value), "Can't find input with name: " + token.string)
@@ -324,8 +321,6 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 				value = float(token.string)
 			elif token.types.has(Token.Type.STRING):
 				value = token.string
-			
-			assert(value, "Could not recognize type of parameter, types are: " + str(token.types))
 			
 			var new_child = ScriptTreeObject.new(working_st, value)
 			working_st.add_child(new_child)
