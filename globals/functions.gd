@@ -6,6 +6,9 @@ func spawn(input: NodeInput) -> void:
 	var node = input.get_output_node()
 	if node is PrimitiveNode:
 		node.spawn()
+		Singleton.book_hands.book_display.spell_name_label.text = "Spawn"
+		Singleton.book_hands.spell_animations.play("spawn")
+		await Singleton.book_hands.spell_animations.animation_finished
 
 
 ## Prints to the console in the Godot editor

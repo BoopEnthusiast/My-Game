@@ -17,11 +17,11 @@ config/icon="res://resources/icon.svg"
 
 [autoload]
 
-IDE="*res://menus/ide/ide.gd"
-MenuHandler="*res://menus/menu_handler.gd"
-Singleton="*res://world/singleton.gd"
-Lang="*res://language_scripts/lang.gd"
-Functions="*res://language_scripts/functions.gd"
+IDE="*res://globals/ide.gd"
+MenuHandler="*res://globals/menu_handler.gd"
+Singleton="*res://globals/singleton.gd"
+Lang="*res://globals/lang.gd"
+Functions="*res://globals/functions.gd"
 
 [display]
 

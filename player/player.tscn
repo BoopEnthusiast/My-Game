@@ -60,6 +60,7 @@ world_3d = SubResource("World3D_obwgb")
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1152, 648)
+render_target_update_mode = 4
 
 [node name="BookHands" parent="HandsLayer/Hands/SubViewportContainer/SubViewport" instance=ExtResource("4_88bi6")]
 

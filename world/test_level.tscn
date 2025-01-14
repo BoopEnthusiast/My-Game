@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://c46nxdw6veud6"]
+[gd_scene load_steps=9 format=3 uid="uid://c46nxdw6veud6"]
 
 [ext_resource type="PackedScene" uid="uid://xe4qc2fp45xq" path="res://player/player.tscn" id="1_pwcel"]
 [ext_resource type="PackedScene" uid="uid://b4oljw63skir3" path="res://world/directional_light.tscn" id="2_j8slq"]
+[ext_resource type="PackedScene" uid="uid://b2rxajr2oif7h" path="res://world/world_environment.tscn" id="3_l0gxy"]
 
 [sub_resource type="GDScript" id="GDScript_ah36y"]
 script/source = "extends Node3D
@@ -15,16 +16,6 @@ func _enter_tree() -> void:
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_y5ake"]
 size = Vector3(15.8408, 0.001, 15.8513)
-
-[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_kux26"]
-
-[sub_resource type="Sky" id="Sky_0x4ff"]
-sky_material = SubResource("PhysicalSkyMaterial_kux26")
-
-[sub_resource type="Environment" id="Environment_2ob7f"]
-background_mode = 2
-sky = SubResource("Sky_0x4ff")
-volumetric_fog_density = 0.01
 
 [sub_resource type="BoxMesh" id="BoxMesh_jd2dg"]
 
@@ -49,8 +40,7 @@ collision_layer = 2
 
 [node name="DirectionalLight" parent="." instance=ExtResource("2_j8slq")]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_2ob7f")
+[node name="WorldEnvironment" parent="." instance=ExtResource("3_l0gxy")]
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1.60434, 0, 0, 0, 1.60434, 0, 0, 0, 1.60434, -0.195532, 2.7528, -7.73943)
