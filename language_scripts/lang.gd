@@ -255,7 +255,8 @@ func tokenize_code(text: String) -> Array[Token]:
 func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTreeRoot:
 	const FUNCTION_NAMES: Array[String] = [
 		"spawn",
-		"print"
+		"print",
+		"wait",
 	]
 	
 	var tree_root = ScriptTreeRoot.new()
@@ -359,6 +360,8 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 					callable_list.append(Callable(Functions, "spawn").bind(working_st.value))
 				"print":
 					callable_list.append(Callable(Functions, "pprint").bind(working_st.value))
+				"wait":
+					callable_list.append(Callable(Functions, "wait").bind(working_st.value))
 				
 	# Method on an object
 	elif working_st.type == ScriptTree.Type.METHOD:
