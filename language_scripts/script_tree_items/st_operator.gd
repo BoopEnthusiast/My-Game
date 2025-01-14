@@ -19,7 +19,7 @@ func get_value(value) -> Variant:
 		"/":
 			return children[0].value / children[1].value
 		"%":
-			return children[0].value % children[1].value
+			return roundi(children[0].value) % roundi(children[1].value)
 	
 	assert(false, "Operator is not a valid operator, operator is: " + value)
 	return null
