@@ -1,12 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://xe4qc2fp45xq"]
+[gd_scene load_steps=8 format=3 uid="uid://xe4qc2fp45xq"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_775wy"]
 [ext_resource type="PackedScene" uid="uid://1ebvp7qxcka5" path="res://menus/pause_menu/pause_menu.tscn" id="2_rvqv4"]
 [ext_resource type="PackedScene" uid="uid://cellv0ubckd05" path="res://menus/ide/ide.tscn" id="3_pjdec"]
+[ext_resource type="PackedScene" uid="uid://bd2ekytwy3d7c" path="res://player/book_hands.tscn" id="4_88bi6"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_46fnu"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cca7b"]
+
+[sub_resource type="World3D" id="World3D_obwgb"]
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_775wy")
@@ -23,8 +26,41 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.663102, 0)
 
 [node name="CameraRotation" type="Node3D" parent="Camera"]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="MenuLayer" type="CanvasLayer" parent="."]
+layer = 2
 
-[node name="PauseMenuHolder" parent="CanvasLayer" instance=ExtResource("2_rvqv4")]
+[node name="PauseMenuHolder" parent="MenuLayer" instance=ExtResource("2_rvqv4")]
 
-[node name="IDE" parent="CanvasLayer" instance=ExtResource("3_pjdec")]
+[node name="IDE" parent="MenuLayer" instance=ExtResource("3_pjdec")]
+
+[node name="HandsLayer" type="CanvasLayer" parent="."]
+
+[node name="Hands" type="Control" parent="HandsLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HandsLayer/Hands"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="HandsLayer/Hands/SubViewportContainer"]
+own_world_3d = true
+world_3d = SubResource("World3D_obwgb")
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+
+[node name="BookHands" parent="HandsLayer/Hands/SubViewportContainer/SubViewport" instance=ExtResource("4_88bi6")]
+
+[connection signal="resized" from="HandsLayer/Hands" to="HandsLayer/Hands/SubViewportContainer/SubViewport" method="_on_hands_resized"]

@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3 uid="uid://bd2ekytwy3d7c"]
+
+[ext_resource type="PackedScene" uid="uid://dthej8xdragb3" path="res://player/BookHands.blend" id="1_4p6rx"]
+[ext_resource type="PackedScene" uid="uid://b4oljw63skir3" path="res://world/directional_light.tscn" id="2_h71n1"]
+[ext_resource type="Script" path="res://player/book_hands.gd" id="2_masdp"]
+
+[node name="BookHands" instance=ExtResource("1_4p6rx")]
+script = ExtResource("2_masdp")
+
+[node name="DirectionalLight" parent="." index="3" instance=ExtResource("2_h71n1")]

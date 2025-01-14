@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://c46nxdw6veud6"]
+[gd_scene load_steps=11 format=3 uid="uid://c46nxdw6veud6"]
 
 [ext_resource type="PackedScene" uid="uid://xe4qc2fp45xq" path="res://player/player.tscn" id="1_pwcel"]
+[ext_resource type="PackedScene" uid="uid://b4oljw63skir3" path="res://world/directional_light.tscn" id="2_j8slq"]
 
 [sub_resource type="GDScript" id="GDScript_ah36y"]
 script/source = "extends Node3D
@@ -46,8 +47,7 @@ shape = SubResource("BoxShape3D_y5ake")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.82611, 0)
 collision_layer = 2
 
-[node name="DirectionalLight" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.916504, -0.334017, 0.220122, -0.18841, 0.124976, 0.974106, -0.352878, -0.934245, 0.0516088, 1.06239, 7.4306, -1.5401)
+[node name="DirectionalLight" parent="." instance=ExtResource("2_j8slq")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_2ob7f")

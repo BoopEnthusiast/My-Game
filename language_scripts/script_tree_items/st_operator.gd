@@ -8,8 +8,8 @@ func _init(new_parent: ScriptTree, operator: String) -> void:
 	value = operator
 
 
-func get_value(value) -> Variant:
-	match value:
+func get_value(operator) -> Variant:
+	match operator:
 		"+":
 			return children[0].value + children[1].value
 		"-":
@@ -21,5 +21,5 @@ func get_value(value) -> Variant:
 		"%":
 			return roundi(children[0].value) % roundi(children[1].value)
 	
-	assert(false, "Operator is not a valid operator, operator is: " + value)
+	assert(false, "Operator is not a valid operator, operator is: " + operator)
 	return null
