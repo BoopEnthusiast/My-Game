@@ -131,10 +131,22 @@ func tokenize_code(text: String) -> Array[Token]:
 				pass # TODO: Implement something like newlines and tabs and whatnot
 				
 			elif chr == "\"":
+				if next_type.has(Token.Type.PARAMETER):
+					tokenized_code.append(Token.new(working_token, [Token.Type.STRING, Token.Type.PARAMETER]))
+				else:
+					tokenized_code.append(Token.new(working_token, [Token.Type.STRING]))
 				next_type.clear()
-				tokenized_code.append(Token.new(working_token, [Token.Type.STRING]))
+				working_token = ""
 				continue
 				
+		elif chr == "\"":
+			if next_type.has(Token.Type.PARAMETER):
+				next_type = [Token.Type.STRING, Token.Type.PARAMETER]
+			else:
+				next_type = [Token.Type.STRING]
+			working_token = ""
+			continue
+		
 		elif chr == "#":
 			is_comment = true
 			continue
@@ -230,6 +242,7 @@ func tokenize_code(text: String) -> Array[Token]:
 			next_type = [Token.Type.INT, Token.Type.FLOAT]
 			working_token = ""
 			continue
+			
 		
 		working_token += chr
 		print(working_token,"   ",tokenized_code,"   ",next_type,"    ",is_comment)
@@ -303,10 +316,18 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 			assert(working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD, "Parent of Script Tree Parameter isn't a function or method, parent is: " + str(working_st.type) + " with value: " + str(working_st.value))
 			# Parameters are always objects
 			
-			var input = _get_input(token.string, inputs)
-			assert(is_instance_valid(input), "Can't find input with name: " + token.string)
+			var value
+			if token.types.has(Token.Type.OBJECT_NAME):
+				value = _get_input(token.string, inputs)
+				assert(is_instance_valid(value), "Can't find input with name: " + token.string)
+			elif token.types.has(Token.Type.INT) or token.types.has(Token.Type.FLOAT):
+				value = float(token.string)
+			elif token.types.has(Token.Type.STRING):
+				value = token.string
 			
-			var new_child = ScriptTreeObject.new(working_st, input)
+			assert(value, "Could not recognize type of parameter, types are: " + str(token.types))
+			
+			var new_child = ScriptTreeObject.new(working_st, value)
 			working_st.add_child(new_child)
 			
 			working_st = new_child
