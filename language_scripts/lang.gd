@@ -294,18 +294,11 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 			working_st = new_child
 			
 		elif token.types.has(Token.Type.OPERATOR):
-			#if token.string == "=":
-				assert(working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA, "Parent of operator is not an object, parent is: " + str(working_st.type))
-				var new_child = _replace_working_st(working_st, token.string)
-				working_st = new_child
-				
-			#elif token.string == "*" or token.string == "/":
-				#assert(working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA, "Parent of operator is not an object, parent is: " + str(working_st.type))
-				#var new_child = _replace_working_st(working_st)
-				#working_st = new_child
-				#if working_st.parent.value == "+" or working_st.parent.value == "-" or working_st.parent.value == "%":
-					#
-				
+			# TODO: implement BEDMAS
+			assert(working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA, "Parent of operator is not an object, parent is: " + str(working_st.type))
+			var new_child = _replace_working_st(working_st, token.string)
+			working_st = new_child
+			
 		elif token.types.has(Token.Type.PARAMETER):
 			assert(working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD, "Parent of Script Tree Parameter isn't a function or method, parent is: " + str(working_st.type) + " with value: " + str(working_st.value))
 			# Parameters are always objects
