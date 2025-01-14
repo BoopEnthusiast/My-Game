@@ -10,4 +10,4 @@ func spawn(input: NodeInput) -> void:
 
 ## Prints to the console in the Godot editor
 func pprint(to_print: Variant) -> void:
-	print(to_print)
+	print(str(to_print))

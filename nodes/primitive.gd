@@ -33,10 +33,6 @@ func spawn() -> void:
 	spawned_object = new_primitive
 
 
-func set_on_fire() -> void:
-	spawned_object.mesh.set_surface_override_material(0, spawned_object.fire_material)
-
-
 func transmute(transmute_node: NodeInput) -> void:
 	
 	var type = transmute_node.get_output_node().selected_transmutation
