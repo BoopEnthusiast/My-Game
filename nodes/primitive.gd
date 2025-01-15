@@ -21,19 +21,17 @@ func _on_option_button_item_selected(index: int) -> void:
 
 
 func spawn() -> void:
-	var new_primitive: PrimitiveSpawnable
-	match selected_primitive:
-		Primitives.BALL:
-			new_primitive = PRIMITIVES[0].instantiate()
-		Primitives.CUBE:
-			new_primitive = PRIMITIVES[1].instantiate()
-	
+	var new_primitive: PrimitiveSpawnable = PRIMITIVES[int(selected_primitive)].instantiate()
 	Singleton.world_root.add_child(new_primitive)
 	new_primitive.global_position = Singleton.player.main_camera.global_position - Singleton.player.camera_rotation_node.global_basis.z * 2.0
 	spawned_object = new_primitive
 
 
 func transmute(transmute_node: NodeInput) -> void:
+	Singleton.book_hands.book_display.spell_name_label.text = "Transmute"
+	Singleton.book_hands.spell_animations.play("transmute")
+	await Singleton.book_hands.spell_animations.animation_finished
+	
 	match transmute_node.get_output_node().selected_transmutation:
 		TransmuteNode.Transmutations.FIRE:
 			spawned_object.mesh.set_surface_override_material(0, spawned_object.fire_material)
@@ -42,4 +40,8 @@ func transmute(transmute_node: NodeInput) -> void:
 
 
 func push() -> void:
+	Singleton.book_hands.book_display.spell_name_label.text = "Push"
+	Singleton.book_hands.spell_animations.play("print")
+	await Singleton.book_hands.spell_animations.animation_finished
+	
 	spawned_object.velocity += -spawned_object.global_position.direction_to(Singleton.player.main_camera.global_position)

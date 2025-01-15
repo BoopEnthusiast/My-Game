@@ -6,8 +6,12 @@ extends Resource
 var start_node: StartNode
 var object_dict: Dictionary = {}
 var actions: Array[Callable] = []
+var is_casting := false
 
 
 func cast() -> void:
-	for action in actions:
-		await action.call()
+	if not is_casting:
+		is_casting = true
+		for action in actions:
+			await action.call()
+		is_casting = false
