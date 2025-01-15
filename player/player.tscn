@@ -1,27 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://xe4qc2fp45xq"]
+[gd_scene load_steps=10 format=3 uid="uid://xe4qc2fp45xq"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_775wy"]
 [ext_resource type="PackedScene" uid="uid://1ebvp7qxcka5" path="res://menus/pause_menu/pause_menu.tscn" id="2_rvqv4"]
 [ext_resource type="PackedScene" uid="uid://cellv0ubckd05" path="res://menus/ide/ide.tscn" id="3_pjdec"]
 [ext_resource type="PackedScene" uid="uid://bd2ekytwy3d7c" path="res://player/book_hands.tscn" id="4_88bi6"]
+[ext_resource type="PackedScene" uid="uid://dswicelu013bl" path="res://ide.tscn" id="4_l1jq0"]
+[ext_resource type="Script" path="res://player/ide_viewport_holder.gd" id="4_l6321"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_46fnu"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cca7b"]
-
-[sub_resource type="GDScript" id="GDScript_hn8wl"]
-script/source = "extends Control
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-"
 
 [sub_resource type="World3D" id="World3D_obwgb"]
 
@@ -46,17 +34,18 @@ layer = 2
 [node name="PauseMenuHolder" parent="MenuLayer" instance=ExtResource("2_rvqv4")]
 
 [node name="IDE" parent="MenuLayer" instance=ExtResource("3_pjdec")]
+visible = false
 
-[node name="IDEHolder" type="Control" parent="MenuLayer"]
+[node name="IDEViewportHolder" type="Control" parent="MenuLayer"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = SubResource("GDScript_hn8wl")
+script = ExtResource("4_l6321")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="MenuLayer/IDEHolder"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="MenuLayer/IDEViewportHolder"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -65,10 +54,14 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="MenuLayer/IDEHolder/SubViewportContainer"]
+[node name="IDEViewport" type="SubViewport" parent="MenuLayer/IDEViewportHolder/SubViewportContainer"]
 disable_3d = true
 transparent_bg = true
+handle_input_locally = false
 size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="IDE" parent="MenuLayer/IDEViewportHolder/SubViewportContainer/IDEViewport" instance=ExtResource("4_l1jq0")]
 
 [node name="HandsLayer" type="CanvasLayer" parent="."]
 

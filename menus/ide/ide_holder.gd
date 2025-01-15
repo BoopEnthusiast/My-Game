@@ -8,7 +8,8 @@ var drag_offset: Vector2
 
 
 func _enter_tree() -> void:
-	IDE.ide_holder = self
+	#IDE.ide_holder = self
+	pass
 
 
 func _input(event: InputEvent) -> void:
@@ -21,6 +22,7 @@ func _input(event: InputEvent) -> void:
 		#elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and scale.x > 0.3:
 			#pivot_offset = event.position
 			#scale *= 0.9
+	
 
 
 func _gui_input(event: InputEvent) -> void:

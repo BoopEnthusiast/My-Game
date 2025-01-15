@@ -3,7 +3,8 @@ extends Control
 
 const CONNECTOR = preload("res://nodes/connector/connector.tscn")
 
-var ide_holder: IDEHolder
+var ide_holder: IDEViewportHolder
+var ide: IDENode
 var start_node_tree: Tree
 
 var connecting_from: NodeIOPort
@@ -21,7 +22,7 @@ func start_connecting(connect_from: NodeIOPort) -> void:
 		new_connector.input = connect_from
 	else:
 		new_connector.output = connect_from
-	ide_holder.add_child(new_connector, true)
+	ide.add_child(new_connector, true)
 	connect_from.connector = new_connector
 	connector = new_connector
 
