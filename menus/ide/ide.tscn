@@ -1,58 +1,52 @@
-[gd_scene load_steps=6 format=3 uid="uid://cellv0ubckd05"]
+[gd_scene load_steps=6 format=3 uid="uid://dswicelu013bl"]
 
-[ext_resource type="Script" path="res://menus/ide/ide_holder.gd" id="1_baq4u"]
-[ext_resource type="PackedScene" uid="uid://spfxkimhnsd2" path="res://nodes/start.tscn" id="3_llwkk"]
-[ext_resource type="PackedScene" uid="uid://x1ytor1da8i5" path="res://nodes/program.tscn" id="3_v4uew"]
+[ext_resource type="Script" path="res://menus/ide/ide.gd" id="1_e83m3"]
+[ext_resource type="PackedScene" uid="uid://x1ytor1da8i5" path="res://nodes/program.tscn" id="2_ngi12"]
+[ext_resource type="PackedScene" uid="uid://spfxkimhnsd2" path="res://nodes/start.tscn" id="3_6faks"]
 [ext_resource type="PackedScene" uid="uid://cbykf6lvqyyj1" path="res://nodes/primitive.tscn" id="4_tstm0"]
 [ext_resource type="PackedScene" uid="uid://c86h8qgtktluq" path="res://nodes/transmute.tscn" id="5_hwh73"]
 
-[node name="IDEHolder" type="Control"]
+[node name="IDE" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-script = ExtResource("1_baq4u")
+mouse_filter = 1
+script = ExtResource("1_e83m3")
 
-[node name="Start" parent="." instance=ExtResource("3_llwkk")]
+[node name="Program" parent="." instance=ExtResource("2_ngi12")]
 layout_mode = 1
-anchor_left = 0.100785
-anchor_top = 0.715629
-anchor_right = 0.100785
-anchor_bottom = 0.715629
-offset_left = -143.104
-offset_top = -138.728
-offset_right = 143.896
-offset_bottom = 139.272
+anchor_left = 0.386285
+anchor_top = 0.0864198
+anchor_right = 0.969618
+anchor_bottom = 0.699074
 
-[node name="Program" parent="." instance=ExtResource("3_v4uew")]
+[node name="Start" parent="." instance=ExtResource("3_6faks")]
 layout_mode = 1
-anchor_left = 0.251736
-anchor_top = 0.114198
-anchor_right = 0.835069
-anchor_bottom = 0.726852
+anchor_left = 0.0173611
+anchor_top = 0.600309
+anchor_right = 0.125868
+anchor_bottom = 0.802469
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Node" parent="." instance=ExtResource("4_tstm0")]
+[node name="Primitive" parent="." instance=ExtResource("4_tstm0")]
 layout_mode = 1
-anchor_left = 0.095
-anchor_top = 0.16
-anchor_right = 0.095
-anchor_bottom = 0.16
-offset_left = -67.44
-offset_top = -64.68
-offset_right = 67.5602
-offset_bottom = 64.3198
+anchor_left = 0.0303819
+anchor_top = 0.0632716
+anchor_right = 0.159722
+anchor_bottom = 0.17747
+offset_top = -1.52588e-05
 
 [node name="Transmute" parent="." instance=ExtResource("5_hwh73")]
 layout_mode = 1
-anchor_left = 0.094
-anchor_top = 0.395
-anchor_right = 0.094
-anchor_bottom = 0.395
-offset_left = -77.288
-offset_top = -37.96
-offset_right = 76.7125
-offset_bottom = 38.04
+anchor_left = 0.0338542
+anchor_top = 0.388889
+anchor_right = 0.167535
+anchor_bottom = 0.506173
