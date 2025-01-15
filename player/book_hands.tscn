@@ -119,7 +119,7 @@ script = ExtResource("2_masdp")
 [node name="WorldEnvironment" parent="." index="4" instance=ExtResource("4_a3e2y")]
 
 [node name="UIDisplay" type="Sprite3D" parent="." index="5"]
-transform = Transform3D(-0.0454084, -0.00793444, 0.146871, 0.0026818, 0.15364, 0.0091293, -0.14706, 0.00525174, -0.0451833, 0.0831378, 0, 1.087)
+transform = Transform3D(-0.0454357, -0.00777588, 0.146871, 0.00321808, 0.15363, 0.00912932, -0.147041, 0.00576504, -0.0451834, 0.0831378, 0, 1.087)
 texture = SubResource("ViewportTexture_16u14")
 
 [node name="SubViewport" type="SubViewport" parent="." index="6"]
