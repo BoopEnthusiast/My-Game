@@ -22,7 +22,7 @@ func start_connecting(connect_from: NodeIOPort) -> void:
 		new_connector.input = connect_from
 	else:
 		new_connector.output = connect_from
-	ide.add_child(new_connector, true)
+	ide.add_child(new_connector)
 	connect_from.connector = new_connector
 	connector = new_connector
 
