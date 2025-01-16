@@ -8,9 +8,14 @@
 
 [node name="IDE" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
@@ -18,35 +23,46 @@ script = ExtResource("1_e83m3")
 
 [node name="Program" parent="." instance=ExtResource("2_ngi12")]
 layout_mode = 1
-anchor_left = 0.386285
-anchor_top = 0.0864198
-anchor_right = 0.969618
-anchor_bottom = 0.699074
+anchor_left = 0.692
+anchor_top = 0.489
+anchor_right = 0.692
+anchor_bottom = 0.489
+offset_left = -352.184
+offset_top = -260.872
+offset_right = 351.816
+offset_bottom = 261.128
 
 [node name="Start" parent="." instance=ExtResource("3_6faks")]
 layout_mode = 1
-anchor_left = 0.0173611
-anchor_top = 0.600309
-anchor_right = 0.125868
-anchor_bottom = 0.802469
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
+anchor_left = 0.072
+anchor_top = 0.701
+anchor_right = 0.072
+anchor_bottom = 0.701
+offset_left = -62.944
+offset_top = -65.2478
+offset_right = 62.0559
+offset_bottom = 65.7519
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Primitive" parent="." instance=ExtResource("4_tstm0")]
 layout_mode = 1
-anchor_left = 0.0303819
-anchor_top = 0.0632716
-anchor_right = 0.159722
-anchor_bottom = 0.17747
-offset_top = -1.52588e-05
+anchor_left = 0.095
+anchor_top = 0.12
+anchor_right = 0.095
+anchor_bottom = 0.12
+offset_left = -74.4401
+offset_top = -36.76
+offset_right = 74.5597
+offset_bottom = 37.2406
 
 [node name="Transmute" parent="." instance=ExtResource("5_hwh73")]
 layout_mode = 1
-anchor_left = 0.0338542
-anchor_top = 0.388889
-anchor_right = 0.167535
-anchor_bottom = 0.506173
+anchor_left = 0.101
+anchor_top = 0.448
+anchor_right = 0.101
+anchor_bottom = 0.448
+offset_left = -77.352
+offset_top = -38.3039
+offset_right = 76.6483
+offset_bottom = 37.6961
