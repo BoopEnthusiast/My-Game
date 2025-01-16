@@ -1,7 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://x1ytor1da8i5"]
+[gd_scene load_steps=5 format=3 uid="uid://x1ytor1da8i5"]
 
 [ext_resource type="PackedScene" uid="uid://dfqffeb2xu3ho" path="res://nodes/node_base.tscn" id="1_h4tdy"]
 [ext_resource type="Script" path="res://nodes/program.gd" id="2_uwork"]
+[ext_resource type="Script" path="res://nodes/program_code_edit.gd" id="3_vwm8o"]
+
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_xh1im"]
+number_color = Color(0.501094, 0.886994, 0.462531, 1)
+symbol_color = Color(0.262786, 0.406477, 0.319459, 1)
+function_color = Color(0.731379, 0.762917, 0.975033, 1)
+member_variable_color = Color(0.970171, 0.721496, 0.485488, 1)
 
 [node name="Program" instance=ExtResource("1_h4tdy")]
 script = ExtResource("2_uwork")
@@ -19,6 +26,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+indent_wrapped_lines = true
+syntax_highlighter = SubResource("CodeHighlighter_xh1im")
 symbol_lookup_on_click = true
 line_folding = true
+gutters_draw_line_numbers = true
 code_completion_enabled = true
+auto_brace_completion_enabled = true
+script = ExtResource("3_vwm8o")
+function_name_color = Color(0.817174, 0.727464, 0.97566, 1)
+comment_color = Color(0.384831, 0.329407, 0.528558, 1)

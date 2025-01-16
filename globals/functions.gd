@@ -1,6 +1,13 @@
 extends Node
 ## Library of functions for spells to call, these are not methods
-
+const FUNCTION_NAMES: Array[String] = [
+	"spawn",
+	"print",
+	"wait",
+]
+const FUNCTION_INFO: Dictionary = {
+	"spawn": "spawn(input_name) takes the name of an input "
+}
 
 ## Spawn a primitive object
 func spawn(input: NodeInput) -> void:

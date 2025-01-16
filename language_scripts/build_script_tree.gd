@@ -5,12 +5,6 @@ extends Node
 
 ## Loop through tokens and build out the Script Tree, returning the root node
 func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTreeRoot:
-	const FUNCTION_NAMES: Array[String] = [
-		"spawn",
-		"print",
-		"wait",
-	]
-	
 	var tree_root = ScriptTreeRoot.new()
 	var working_st: ScriptTree = tree_root
 	
@@ -40,7 +34,7 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 			# Has to either be a built-in function or a function from another node
 			var input
 			input = _get_input(token.string, inputs)
-			input = FUNCTION_NAMES[FUNCTION_NAMES.find(token.string)]
+			input = Functions.FUNCTION_NAMES[Functions.FUNCTION_NAMES.find(token.string)]
 			assert(is_instance_valid(input) or typeof(input) == TYPE_STRING, "Can't find input with name: " + token.string)
 			
 			var new_child = ScriptTreeFunction.new(working_st, input)
