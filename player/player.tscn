@@ -59,6 +59,7 @@ size = Vector2i(1152, 648)
 render_target_update_mode = 4
 
 [node name="IDE" parent="MenuLayer/IDEViewportHolder/SubViewportContainer/IDEViewport" instance=ExtResource("4_l1jq0")]
+anchors_preset = 8
 
 [node name="PrintLabel" type="Label" parent="MenuLayer"]
 offset_right = 459.0

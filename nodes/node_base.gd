@@ -45,9 +45,10 @@ func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			is_dragging = true
-			drag_offset = event.global_position - global_position
+			drag_offset = get_global_mouse_position() - global_position
+			print(drag_offset)
 
 
 func _process(_delta: float) -> void:
 	if is_dragging:
-		position = get_global_mouse_position() - drag_offset
+		global_position = get_global_mouse_position() - drag_offset
