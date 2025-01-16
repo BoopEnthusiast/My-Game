@@ -1,4 +1,5 @@
 extends Node
+## Library of functions for spells to call, these are not methods
 
 
 ## Spawn a primitive object
@@ -17,6 +18,7 @@ func pprint(to_print: Variant) -> void:
 	Singleton.book_hands.spell_animations.play("print")
 	await Singleton.book_hands.spell_animations.animation_finished
 	print(str(to_print))
+	Singleton.print_label.text = to_print
 
 
 func wait(time_to_wait: float) -> void:
