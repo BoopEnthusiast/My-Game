@@ -21,5 +21,5 @@ func set_wait_time(time_to_wait: float) -> void:
 	spell_animations.speed_scale = 1.0 / time_to_wait
 
 
-func _on_spell_animations_animation_finished(anim_name: StringName) -> void:
+func _on_spell_animations_animation_finished(_anim_name: StringName) -> void:
 	spell_animations.speed_scale = 1.0

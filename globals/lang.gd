@@ -42,7 +42,7 @@ func compile_spell(start_node: StartNode) -> void:
 	# Maybe add more types of connections?
 	var connected_node = start_node.outputs[0].get_connected_node()
 	if connected_node is ProgramNode:
-		var parsed_code = compile_program_node(new_spell, connected_node.code_edit.text, connected_node.inputs)
+		var parsed_code = compile_program_node(connected_node.code_edit.text, connected_node.inputs)
 		new_spell.actions.append_array(parsed_code)
 	_spells.append(new_spell)
 	IDE.current_spell = new_spell
@@ -50,19 +50,21 @@ func compile_spell(start_node: StartNode) -> void:
 
 ## TODO: Add add_error.[br]
 ## Adds an error to an array of errors when one is found in the code during compilation or checking beforehand
-func add_error(_error_text: String = "Unspecified error...", _line: int = -1) -> void:
+func _add_error(_error_text: String = "Unspecified error...", _line: int = -1) -> void:
 	pass
 
 
+
+
+
 ## Takes a program node's text and inputs and forms a list of callables for a spell to run
-func compile_program_node(spell: Spell, text: String, inputs: Array) -> Array[Array]:
+func compile_program_node(text: String, inputs: Array) -> Array[Callable]:
 	var tokenized_code: Array[Token] = tokenize_code_node.tokenize_code(text)
 	
 	var tree_root: ScriptTreeRoot = build_script_tree_node.build_script_tree(tokenized_code, inputs)
 	
 	tree_root_item = IDE.start_node_tree.create_item()
-	spell.actions = form_actions_node.form_actions(tree_root, tree_root_item)
-	return []
+	return form_actions_node.form_actions(tree_root, tree_root_item)
 
 
 
