@@ -4,7 +4,6 @@ extends Control
 
 var is_dragging := false
 var camera_offset := Vector2.ZERO
-var last_mouse_position := Vector2.ZERO
 var zoom_level := 1.0
 
 @onready var sub_viewport_container: SubViewportContainer = $SubViewportContainer
