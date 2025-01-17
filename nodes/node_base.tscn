@@ -70,3 +70,20 @@ offset_right = -100.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+
+[node name="Resize" type="Button" parent="Background"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -19.9996
+offset_top = -19.9998
+offset_right = 0.000366211
+offset_bottom = 0.000213623
+grow_horizontal = 0
+grow_vertical = 0
+
+[connection signal="button_down" from="Background/Resize" to="." method="_on_resize_button_down"]
+[connection signal="button_up" from="Background/Resize" to="." method="_on_resize_button_up"]

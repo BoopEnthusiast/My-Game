@@ -18,6 +18,8 @@ const OUTPUT = preload("res://nodes/connector/output.tscn")
 
 var is_dragging := false
 var drag_offset: Vector2
+var is_resizing := false
+var resize_offset: Vector2
 
 
 func _ready() -> void:
@@ -52,3 +54,15 @@ func _gui_input(event: InputEvent) -> void:
 func _process(_delta: float) -> void:
 	if is_dragging:
 		global_position = get_global_mouse_position() - drag_offset
+	elif is_resizing:
+		size = get_global_mouse_position() - global_position
+		size.x = max(get_global_mouse_position().x - global_position.x, 150.0)
+		size.y = max(get_global_mouse_position().y - global_position.y, 70.0)
+
+
+func _on_resize_button_down() -> void:
+	is_resizing = true
+
+
+func _on_resize_button_up() -> void:
+	is_resizing = false
