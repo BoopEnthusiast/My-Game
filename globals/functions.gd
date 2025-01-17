@@ -17,6 +17,11 @@ func spawn(input: NodeInput) -> void:
 		Singleton.book_hands.play_spell("Spawn", "spawn")
 		await Singleton.book_hands.spell_animations.animation_finished
 		node.spawn()
+	elif node is ProgramNode:
+		var returned_value = Lang.compile_program_node(node.code_edit.text, node.inputs)
+		Singleton.book_hands.play_spell("Spawn", "spawn")
+		await Singleton.book_hands.spell_animations.animation_finished
+		returned_value.spawn()
 
 
 ## Prints to the console in the Godot editor

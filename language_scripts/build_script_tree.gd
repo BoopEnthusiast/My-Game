@@ -13,6 +13,13 @@ func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTre
 			working_st = tree_root
 			print("SETTING TO TREE ROOT")
 			
+		elif token.types.has(Token.Type.KEYWORD):
+			match token.string:
+				Lang.KEYWORDS[Lang.Keywords.RETURN]:
+					var new_child = ScriptTreeFunction.new(working_st, "return")
+					working_st.add_child(new_child)
+					working_st = new_child
+			
 		elif token.types.has(Token.Type.OBJECT_NAME):
 			# The inputs are the objects
 			var input = _get_input(token.string, inputs)

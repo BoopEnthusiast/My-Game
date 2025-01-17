@@ -2,7 +2,7 @@ class_name LangFormActions
 extends Node
 ## External code for the Lang Singleton
 
-## Go down the built up ScriptTree with recursion and form the array of callable
+## Go down the built up ScriptTree with recursion and form the array of callables
 func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable]:
 	
 	var callable_list: Array[Callable] = []
@@ -20,10 +20,16 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 		new_tree_item.set_text(0, str(working_st.type)+" | "+str(working_st.value))
 		callable_list.append_array(form_actions(child, new_tree_item))
 	
+	
 	## See if the current object and its parent match to a known function/method, if so, add it to the callable list
 	# Built-in functions
 	if working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA or working_st.type == ScriptTree.Type.OPERATOR:
-		if working_st.parent.type == ScriptTree.Type.FUNCTION:
+		if working_st.parent.type == ScriptTree.Type.KEYWORD:
+			match working_st.parent.value:
+				Lang.KEYWORDS[Lang.Keywords.RETURN]:
+					return working_st.value
+		
+		elif working_st.parent.type == ScriptTree.Type.FUNCTION:
 			# Functions
 			match working_st.parent.value:
 				"spawn":

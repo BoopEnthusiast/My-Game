@@ -17,6 +17,23 @@ extends Node
 ## This will not be hard to do, especially in Godot, and it's not slow now, so I am not worried about it yet.[br][br]
 
 
+enum Keywords {
+	IF,
+	ELIF,
+	ELSE,
+	WHILE,
+	FOR,
+	RETURN
+}
+const KEYWORDS: Array[String] = [
+	"if",
+	"elif",
+	"else",
+	"while",
+	"for",
+	"return",
+]
+
 var tree_root_item: TreeItem
 var form_actions_node: LangFormActions
 var tokenize_code_node: LangTokenizeCode
@@ -54,17 +71,16 @@ func _add_error(_error_text: String = "Unspecified error...", _line: int = -1) -
 	pass
 
 
-
-
-
 ## Takes a program node's text and inputs and forms a list of callables for a spell to run
-func compile_program_node(text: String, inputs: Array) -> Array[Callable]:
+func compile_program_node(text: String, inputs: Array) -> Array:
 	var tokenized_code: Array[Token] = tokenize_code_node.tokenize_code(text)
 	
 	var tree_root: ScriptTreeRoot = build_script_tree_node.build_script_tree(tokenized_code, inputs)
 	
 	tree_root_item = IDE.start_node_tree.create_item()
-	return form_actions_node.form_actions(tree_root, tree_root_item)
+	var returned = form_actions_node.form_actions(tree_root, tree_root_item)
+	print("PROGRAM NODE RETURNED: " + str(returned))
+	return returned
 
 
 

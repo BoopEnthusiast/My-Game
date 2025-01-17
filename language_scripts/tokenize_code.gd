@@ -37,13 +37,6 @@ func tokenize_code(text: String) -> Array[Token]:
 	var next_type: Array[Token.Type]
 	var is_comment := false
 	
-	const KEYWORDS: Array[String] = [
-		"if",
-		"elif",
-		"else",
-		"while",
-		"for",
-	]
 	const OPERATORS: Array[String] = [
 		"*",
 		"/",
@@ -94,13 +87,15 @@ func tokenize_code(text: String) -> Array[Token]:
 			continue
 			
 		elif WHITESPAC_CHARS.has(chr):
-			if KEYWORDS.has(working_token):
+			if Lang.KEYWORDS.has(working_token):
 				tokenized_code.append(Token.new(working_token, [Token.Type.KEYWORD]))
 				match working_token:
-					KEYWORDS[0], KEYWORDS[1], KEYWORDS[3]:
+					Lang.KEYWORDS[Lang.Keywords.IF], Lang.KEYWORDS[Lang.Keywords.ELIF], Lang.KEYWORDS[Lang.Keywords.WHILE]:
 						next_type = [Token.Type.BOOLEAN]
-					KEYWORDS[4]:
+					Lang.KEYWORDS[Lang.Keywords.FOR]:
 						pass
+					Lang.KEYWORDS[Lang.Keywords.RETURN]:
+						next_type = [Token.Type.OBJECT_NAME, Token.Type.INT, Token.Type.FLOAT, Token.Type.STRING, Token.Type.BOOLEAN, Token.Type.NONE]
 				
 			elif OPERATORS.has(working_token):
 				tokenized_code.append(Token.new(working_token, [Token.Type.OPERATOR]))
