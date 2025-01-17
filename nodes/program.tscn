@@ -14,10 +14,6 @@ keyword_colors = {
 "spawn": Color(0.813056, 0.729196, 0.976274, 1),
 "wait": Color(0.813056, 0.729196, 0.976274, 1)
 }
-color_regions = {
-"\" \"": Color(0.976944, 0.682097, 0.769168, 1),
-"#": Color(0.384831, 0.329407, 0.528558, 1)
-}
 
 [node name="Program" instance=ExtResource("1_h4tdy")]
 script = ExtResource("2_uwork")

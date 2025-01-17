@@ -1,4 +1,3 @@
-@tool
 extends CodeEdit
 
 @export var function_names: Color
