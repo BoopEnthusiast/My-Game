@@ -21,7 +21,7 @@ func _input(event: InputEvent) -> void:
 		last_mouse_position = event.position
 		_update_view()
 	elif event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_MIDDLE and not event.pressed:
+		if (event.button_index == MOUSE_BUTTON_MIDDLE or event.button_index == MOUSE_BUTTON_LEFT) and not event.pressed:
 			is_dragging = false
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			var old_zoom = zoom_level
@@ -36,7 +36,7 @@ func _input(event: InputEvent) -> void:
 
 
 func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_MIDDLE and event.pressed:
+	if event is InputEventMouseButton and (event.button_index == MOUSE_BUTTON_MIDDLE or event.button_index == MOUSE_BUTTON_LEFT) and event.pressed:
 		is_dragging = true
 		last_mouse_position = event.position
 		IDE.stop_connecting()
