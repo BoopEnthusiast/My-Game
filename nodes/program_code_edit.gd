@@ -11,8 +11,6 @@ func _ready() -> void:
 	
 	if not syntax_highlighter.color_regions.has("#"): 
 		syntax_highlighter.add_color_region("#", "", comments, true)
-	
-	if not syntax_highlighter.color_regions.has('"'): 
 		syntax_highlighter.add_color_region('"', '"', strings)
 	
 	syntax_highlighter.keyword_colors.clear()
