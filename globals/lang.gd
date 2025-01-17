@@ -17,18 +17,18 @@ extends Node
 ## This will not be hard to do, especially in Godot, and it's not slow now, so I am not worried about it yet.[br][br]
 
 
-var _spells: Array[Spell] = []
-
 var tree_root_item: TreeItem
 var form_actions_node: LangFormActions
 var tokenize_code_node: LangTokenizeCode
 var build_script_tree_node: LangBuildScriptTree
 
+var _spells: Array[Spell] = []
+
 
 func _enter_tree() -> void:
-	form_actions_node = LangFormActions.new()
 	tokenize_code_node = LangTokenizeCode.new()
 	build_script_tree_node = LangBuildScriptTree.new()
+	form_actions_node = LangFormActions.new()
 
 
 ## Makes a new spell and takes a start node and goes through all the connected nodes until it's done

@@ -9,6 +9,14 @@ number_color = Color(0.501094, 0.886994, 0.462531, 1)
 symbol_color = Color(0.262786, 0.406477, 0.319459, 1)
 function_color = Color(0.731379, 0.762917, 0.975033, 1)
 member_variable_color = Color(0.970171, 0.721496, 0.485488, 1)
+keyword_colors = {
+"print": Color(0.817174, 0.727464, 0.97566, 1),
+"spawn": Color(0.817174, 0.727464, 0.97566, 1),
+"wait": Color(0.817174, 0.727464, 0.97566, 1)
+}
+color_regions = {
+"#": Color(0.384831, 0.329407, 0.528558, 1)
+}
 
 [node name="Program" instance=ExtResource("1_h4tdy")]
 script = ExtResource("2_uwork")
@@ -34,5 +42,6 @@ gutters_draw_line_numbers = true
 code_completion_enabled = true
 auto_brace_completion_enabled = true
 script = ExtResource("3_vwm8o")
-function_name_color = Color(0.817174, 0.727464, 0.97566, 1)
-comment_color = Color(0.384831, 0.329407, 0.528558, 1)
+function_names = Color(0.813056, 0.729196, 0.976274, 1)
+comments = Color(0.396578, 0.325329, 0.522344, 1)
+strings = Color(0.976944, 0.682097, 0.769168, 1)
