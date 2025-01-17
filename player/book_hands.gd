@@ -17,6 +17,11 @@ func _process(_delta: float) -> void:
 	directional_light.global_rotation = directional_light_rotation
 
 
+func play_spell(spell_name: String, animation_name: StringName) -> void:
+	book_display.spell_name_label.text = spell_name
+	spell_animations.play(animation_name)
+
+
 func set_wait_time(time_to_wait: float) -> void:
 	spell_animations.speed_scale = 1.0 / time_to_wait
 

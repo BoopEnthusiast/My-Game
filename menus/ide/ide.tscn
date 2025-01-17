@@ -18,10 +18,10 @@ script = ExtResource("1_e83m3")
 
 [node name="Program" parent="." instance=ExtResource("2_ngi12")]
 layout_mode = 1
-anchor_left = 0.692
-anchor_top = 0.489
-anchor_right = 0.692
-anchor_bottom = 0.489
+anchor_left = 0.659882
+anchor_top = 0.941161
+anchor_right = 0.659882
+anchor_bottom = 0.941161
 offset_left = -352.184
 offset_top = -260.872
 offset_right = 351.816
@@ -61,3 +61,14 @@ offset_left = -77.352
 offset_top = -38.3039
 offset_right = 76.6483
 offset_bottom = 37.6961
+
+[node name="Program2" parent="." instance=ExtResource("2_ngi12")]
+layout_mode = 1
+anchor_left = 0.654
+anchor_top = 0.118
+anchor_right = 0.654
+anchor_bottom = 0.118
+offset_left = -336.408
+offset_top = -198.464
+offset_right = 335.592
+offset_bottom = 198.536
