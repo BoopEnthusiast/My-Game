@@ -2,7 +2,7 @@ class_name StartNode
 extends NodeBase
 
 
-@onready var tree: Tree = $Background/Central/Tree
+@onready var tree: Tree = $Background/Central/Main/Tree
 
 
 func _ready() -> void:
