@@ -18,13 +18,13 @@ keyword_colors = {
 [node name="Program" instance=ExtResource("1_h4tdy")]
 script = ExtResource("2_uwork")
 title = "Program"
-max_inputs = 10
-max_outputs = 10
+max_inputs = 5
+max_outputs = 1
 
 [node name="Title" parent="Background" index="0"]
 text = "[center]Program"
 
-[node name="CodeEdit" type="CodeEdit" parent="Background/Central" index="0"]
+[node name="CodeEdit" type="CodeEdit" parent="Background/Central/Main" index="0"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

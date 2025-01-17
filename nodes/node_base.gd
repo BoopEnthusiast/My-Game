@@ -16,6 +16,9 @@ const OUTPUT = preload("res://nodes/connector/output.tscn")
 @onready var inputs: Array = []
 @onready var outputs: Array = []
 
+@onready var main: Control = $Background/Central/Main
+@onready var documentation: Control = $Background/Central/Documentation
+
 var is_dragging := false
 var drag_offset: Vector2
 var is_resizing := false
@@ -66,3 +69,8 @@ func _on_resize_button_down() -> void:
 
 func _on_resize_button_up() -> void:
 	is_resizing = false
+
+
+func _on_documentation_pressed() -> void:
+	main.visible = not main.visible
+	documentation.visible = not main.visible
