@@ -23,7 +23,8 @@ enum Keywords {
 	ELSE,
 	WHILE,
 	FOR,
-	RETURN
+	IN,
+	RETURN,
 }
 const KEYWORDS: Array[String] = [
 	"if",
@@ -31,6 +32,7 @@ const KEYWORDS: Array[String] = [
 	"else",
 	"while",
 	"for",
+	"in",
 	"return",
 ]
 
@@ -59,7 +61,7 @@ func compile_spell(start_node: StartNode) -> void:
 	# Maybe add more types of connections?
 	var connected_node = start_node.outputs[0].get_connected_node()
 	if connected_node is ProgramNode:
-		var parsed_code = compile_program_node(connected_node.code_edit.text, connected_node.inputs)
+		var parsed_code = compile_program_node(connected_node)
 		new_spell.actions.append_array(parsed_code)
 	_spells.append(new_spell)
 	IDE.current_spell = new_spell
@@ -67,20 +69,19 @@ func compile_spell(start_node: StartNode) -> void:
 
 ## TODO: Add add_error.[br]
 ## Adds an error to an array of errors when one is found in the code during compilation or checking beforehand
-func _add_error(_error_text: String = "Unspecified error...", _line: int = -1) -> void:
-	pass
+func add_error(condition: bool, _error_text: String = "Unspecified error...", _line: int = -1) -> void:
+	if condition:
+		pass
 
 
 ## Takes a program node's text and inputs and forms a list of callables for a spell to run
-func compile_program_node(text: String, inputs: Array) -> Array:
-	var tokenized_code: Array[Token] = tokenize_code_node.tokenize_code(text)
+func compile_program_node(program_node: ProgramNode) -> Array:
+	var tokenized_code: Array[Token] = tokenize_code_node.tokenize_code(program_node.code_edit.text)
 	
-	var tree_root: ScriptTreeRoot = build_script_tree_node.build_script_tree(tokenized_code, inputs)
+	var tree_root: ScriptTreeRoot = build_script_tree_node.build_script_tree(tokenized_code, program_node)
 	
 	tree_root_item = IDE.start_node_tree.create_item()
-	var returned = form_actions_node.form_actions(tree_root, tree_root_item)
-	print("PROGRAM NODE RETURNED: " + str(returned))
-	return returned
+	return form_actions_node.form_actions(tree_root, tree_root_item)
 
 
 

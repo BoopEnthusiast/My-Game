@@ -19,8 +19,10 @@ enum Type {
 
 var string: String
 var types: Array[Type]
+var line: int
 
 
-func _init(token_string: String, token_types: Array[Type]) -> void:
+func _init(token_string: String, line_number: int, token_types: Array[Type]) -> void:
 	string = token_string
+	line = line_number
 	types = token_types

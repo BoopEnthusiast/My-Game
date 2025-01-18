@@ -4,7 +4,8 @@ extends Node
 
 
 ## Loop through tokens and build out the Script Tree, returning the root node
-func build_script_tree(tokenized_code: Array[Token], inputs: Array) -> ScriptTreeRoot:
+func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) -> ScriptTreeRoot:
+	var inputs = program_node.inputs
 	var tree_root = ScriptTreeRoot.new()
 	var working_st: ScriptTree = tree_root
 	
