@@ -16,3 +16,5 @@ func _ready() -> void:
 	syntax_highlighter.keyword_colors.clear()
 	for func_name: String in Functions.FUNCTION_NAMES:
 		syntax_highlighter.add_keyword_color(func_name, function_names)
+	
+	

@@ -24,7 +24,7 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 		elif token.types.has(Token.Type.OBJECT_NAME):
 			# The inputs are the objects
 			var input = _get_input(token.string, inputs)
-			assert(is_instance_valid(input), "Can't find input with name: " + token.string)
+			Lang.add_error(is_instance_valid(input), "Can't find input with name: " + token.string, program_node, token.line)
 			
 			var new_child = ScriptTreeObject.new(working_st, input)
 			working_st.add_child(new_child)
@@ -32,7 +32,7 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 			working_st = new_child
 			
 		elif token.types.has(Token.Type.INT) or token.types.has(Token.Type.FLOAT):
-			assert(working_st.type == ScriptTree.Type.OPERATOR or working_st.type == ScriptTree.Type.FUNCTION, "Parent of Script Tree Int or Float isn't an object, parent is: " + str(working_st.type))
+			Lang.add_error(working_st.type == ScriptTree.Type.OPERATOR or working_st.type == ScriptTree.Type.FUNCTION, "Parent of Script Tree Int or Float isn't an object, parent is: " + str(working_st.type), program_node, token.line)
 			
 			var new_child = ScriptTreeData.new(working_st, float(token.string))
 			working_st.add_child(new_child)
@@ -43,7 +43,7 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 			var input
 			input = _get_input(token.string, inputs)
 			input = Functions.FUNCTION_NAMES[Functions.FUNCTION_NAMES.find(token.string)]
-			assert(is_instance_valid(input) or typeof(input) == TYPE_STRING, "Can't find input with name: " + token.string)
+			Lang.add_error(is_instance_valid(input) or typeof(input) == TYPE_STRING, "Can't find input with name: " + token.string, program_node, token.line)
 			
 			var new_child = ScriptTreeFunction.new(working_st, input)
 			working_st.add_child(new_child)
@@ -51,7 +51,7 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 			working_st = new_child
 			
 		elif token.types.has(Token.Type.METHOD_NAME):
-			assert(working_st.type == ScriptTree.Type.OBJECT, "Parent of Script Tree Method isn't an object, parent is: " + str(working_st.type))
+			Lang.add_error(working_st.type == ScriptTree.Type.OBJECT, "Parent of Script Tree Method isn't an object, parent is: " + str(working_st.type), program_node, token.line)
 			var new_child = ScriptTreeMethod.new(working_st, token.string.strip_edges())
 			working_st.add_child(new_child)
 			
@@ -59,19 +59,17 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 			
 		elif token.types.has(Token.Type.OPERATOR):
 			# TODO: Implement BEDMAS
-			assert(working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA, "Parent of operator is not an object, parent is: " + str(working_st.type))
+			Lang.add_error(working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA, "Parent of operator is not an object, parent is: " + str(working_st.type), program_node, token.line)
 			var new_child = _replace_working_st(working_st, token.string)
 			working_st = new_child
 			
 		elif token.types.has(Token.Type.PARAMETER):
-			assert(working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD, "Parent of Script Tree Parameter isn't a function or method, parent is: " + str(working_st.type) + " with value: " + str(working_st.value))
-			# Parameters are always objects
+			Lang.add_error(working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD, "Parent of Script Tree Parameter isn't a function or method, parent is: " + str(working_st.type) + " with value: " + str(working_st.value), program_node, token.line)
 			
 			var value
-			print("PARAMETER TOKEN TYPE: ", token.types)
 			if token.types.has(Token.Type.OBJECT_NAME):
 				value = _get_input(token.string, inputs)
-				assert(is_instance_valid(value), "Can't find input with name: " + token.string)
+				Lang.add_error(is_instance_valid(value), "Can't find input with name: " + token.string, program_node, token.line)
 			elif token.types.has(Token.Type.INT) or token.types.has(Token.Type.FLOAT):
 				value = float(token.string)
 			elif token.types.has(Token.Type.STRING):

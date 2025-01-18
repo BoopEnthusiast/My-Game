@@ -69,7 +69,7 @@ func compile_spell(start_node: StartNode) -> void:
 
 ## TODO: Add add_error.[br]
 ## Adds an error to an array of errors when one is found in the code during compilation or checking beforehand
-func add_error(condition: bool, _error_text: String = "Unspecified error...", _line: int = -1) -> void:
+func add_error(condition: bool, error_text: String = "Unspecified error...", program_node: ProgramNode = null,  line: int = -1) -> void:
 	if condition:
 		pass
 

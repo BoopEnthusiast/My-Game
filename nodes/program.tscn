@@ -31,6 +31,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+placeholder_text = "Enter your code here"
 indent_wrapped_lines = true
 syntax_highlighter = SubResource("CodeHighlighter_xh1im")
 symbol_lookup_on_click = true
@@ -42,3 +43,8 @@ script = ExtResource("3_vwm8o")
 function_names = Color(0.813056, 0.729196, 0.976274, 1)
 comments = Color(0.396578, 0.325329, 0.522344, 1)
 strings = Color(0.976944, 0.682097, 0.769168, 1)
+
+[node name="ErrorMessage" type="Label" parent="Background/Central/Main" index="1"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
