@@ -42,9 +42,9 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 			# Has to either be a built-in function or a function from another node
 			var input = _get_input(token.string, inputs)
 			var function_names_index = Functions.FUNCTION_NAMES.find(token.string)
-			Lang.add_error(function_names_index >= 0, "Could not find function: " + token.string, program_node, token.line)
+			Lang.add_error(function_names_index < 0, "Could not find function: " + token.string, program_node, token.line)
 			if function_names_index < 0:
-				return
+				continue
 			input = Functions.FUNCTION_NAMES[function_names_index]
 			Lang.add_error(is_instance_valid(input) or typeof(input) == TYPE_STRING, "Can't find input with name: " + token.string, program_node, token.line)
 			

@@ -42,6 +42,7 @@ var tokenize_code_node: LangTokenizeCode
 var build_script_tree_node: LangBuildScriptTree
 
 var _spells: Array[Spell] = []
+var _compile_errors: Array = [] # Array of tuples that goes [error_text: String, program_node: ProgramNode, line: line]
 
 
 func _enter_tree() -> void:
@@ -68,10 +69,27 @@ func compile_spell(start_node: StartNode) -> void:
 
 
 ## TODO: Add add_error.[br]
-## Adds an error to an array of errors when one is found in the code during compilation or checking beforehand
+## Adds an error to an array of errors when one is found in the code during compilation or checking beforehand. Checks if the condition is true, similar to `assert`
 func add_error(condition: bool, error_text: String = "Unspecified error...", program_node: ProgramNode = null,  line: int = -1) -> void:
-	if condition:
-		pass
+	print("FOUND ERROR:")
+	print(condition,"  ",error_text,"  ",program_node,"  ",line)
+	if not condition:
+		return
+	
+	if is_instance_valid(program_node) and line >= 0:
+		_compile_errors.append([error_text, program_node, line])
+	else:
+		pass # TODO: Add errors during runtime and not compile time
+
+
+func show_compiling_errors() -> void:
+	if _compile_errors.size() <= 0:
+		return
+	
+	_compile_errors[0][1].error_message.text = _compile_errors[0][0]
+	
+	for error in _compile_errors:
+		error[1].code_edit.set_line_background_color(error[2], Color.from_ok_hsl(0.05, 0.8, 0.4, 0.3))
 
 
 ## Takes a program node's text and inputs and forms a list of callables for a spell to run
@@ -81,7 +99,9 @@ func compile_program_node(program_node: ProgramNode) -> Array:
 	var tree_root: ScriptTreeRoot = build_script_tree_node.build_script_tree(tokenized_code, program_node)
 	
 	tree_root_item = IDE.start_node_tree.create_item()
-	return form_actions_node.form_actions(tree_root, tree_root_item)
+	var actions = form_actions_node.form_actions(tree_root, tree_root_item)
+	show_compiling_errors()
+	return actions
 
 
 

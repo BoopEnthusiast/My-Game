@@ -31,6 +31,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/executing_line_color = Color(0.687967, 0.17786, 0.281373, 1)
 placeholder_text = "Enter your code here"
 indent_wrapped_lines = true
 syntax_highlighter = SubResource("CodeHighlighter_xh1im")
@@ -45,6 +46,11 @@ comments = Color(0.396578, 0.325329, 0.522344, 1)
 strings = Color(0.976944, 0.682097, 0.769168, 1)
 
 [node name="ErrorMessage" type="Label" parent="Background/Central/Main" index="1"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
