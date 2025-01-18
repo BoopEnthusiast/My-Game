@@ -40,9 +40,12 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 			
 		elif token.types.has(Token.Type.FUNCTION_NAME):
 			# Has to either be a built-in function or a function from another node
-			var input
-			input = _get_input(token.string, inputs)
-			input = Functions.FUNCTION_NAMES[Functions.FUNCTION_NAMES.find(token.string)]
+			var input = _get_input(token.string, inputs)
+			var function_names_index = Functions.FUNCTION_NAMES.find(token.string)
+			Lang.add_error(function_names_index >= 0, "Could not find function: " + token.string, program_node, token.line)
+			if function_names_index < 0:
+				return
+			input = Functions.FUNCTION_NAMES[function_names_index]
 			Lang.add_error(is_instance_valid(input) or typeof(input) == TYPE_STRING, "Can't find input with name: " + token.string, program_node, token.line)
 			
 			var new_child = ScriptTreeFunction.new(working_st, input)
@@ -81,6 +84,7 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 			working_st = new_child
 			
 	
+	tree_root.parent = null
 	return tree_root
 
 

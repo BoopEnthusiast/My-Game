@@ -4,6 +4,8 @@ extends Node
 
 ## Go down the built up ScriptTree with recursion and form the array of callables
 func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable]:
+	if not is_instance_valid(working_st):
+		return []
 	
 	var callable_list: Array[Callable] = []
 	
@@ -31,6 +33,7 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 		
 		elif working_st.parent.type == ScriptTree.Type.FUNCTION:
 			# Functions
+			print("WORKING ST VALUE",working_st.value,"PAREN'TS VALUE",working_st.parent.value)
 			match working_st.parent.value:
 				"spawn":
 					callable_list.append(Callable(Functions, "spawn").bind(working_st.value))
