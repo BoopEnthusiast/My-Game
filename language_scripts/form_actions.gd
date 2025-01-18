@@ -39,7 +39,7 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 				"wait":
 					callable_list.append(Callable(Functions, "wait").bind(working_st.value))
 				"call":
-					callable_list.append_array(Lang.compile_program_node(working_st.value.get_connected_node().code_edit.text, working_st.value.get_connected_node().inputs))
+					callable_list.append_array(Lang.compile_program_node(working_st.value.get_connected_node()))
 				
 	# Method on an object
 	elif working_st.type == ScriptTree.Type.METHOD:
