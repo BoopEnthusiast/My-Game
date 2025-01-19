@@ -24,29 +24,26 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 		elif token.types.has(Token.Type.OBJECT_NAME):
 			# The inputs are the objects
 			var input = _get_input(token.string, inputs)
-			Lang.add_error(is_instance_valid(input), "Can't find input with name: " + token.string, program_node, token.line)
+			if not is_instance_valid(input):
+				Lang.add_error("Can't find input with name: " + token.string, program_node, token.line)
+				continue
 			
 			var new_child = ScriptTreeObject.new(working_st, input)
 			working_st.add_child(new_child)
 			
 			working_st = new_child
 			
-		elif token.types.has(Token.Type.EXPRESSION):
-			Lang.add_error(working_st.type == ScriptTree.Type.OPERATOR or working_st.type == ScriptTree.Type.FUNCTION, "Parent of Script Tree Int or Float isn't an object, parent is: " + str(working_st.type), program_node, token.line)
-			
-			var new_child = ScriptTreeData.new(working_st, float(token.string))
-			working_st.add_child(new_child)
-			working_st = new_child
-			
 		elif token.types.has(Token.Type.FUNCTION_NAME):
 			# Has to either be a built-in function or a function from another node
 			var input = _get_input(token.string, inputs)
 			var function_names_index = Functions.FUNCTION_NAMES.find(token.string)
-			Lang.add_error(function_names_index < 0, "Could not find function: " + token.string, program_node, token.line)
 			if function_names_index < 0:
+				Lang.add_error("Could not find function: " + token.string, program_node, token.line)
 				continue
 			input = Functions.FUNCTION_NAMES[function_names_index]
-			Lang.add_error(is_instance_valid(input) or typeof(input) == TYPE_STRING, "Can't find input with name: " + token.string, program_node, token.line)
+			if not is_instance_valid(input) and not typeof(input) == TYPE_STRING:
+				Lang.add_error("Can't find input with name: " + token.string, program_node, token.line)
+				continue
 			
 			var new_child = ScriptTreeFunction.new(working_st, input)
 			working_st.add_child(new_child)
@@ -54,21 +51,32 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 			working_st = new_child
 			
 		elif token.types.has(Token.Type.METHOD_NAME):
-			Lang.add_error(working_st.type == ScriptTree.Type.OBJECT, "Parent of Script Tree Method isn't an object, parent is: " + str(working_st.type), program_node, token.line)
+			if not working_st.type == ScriptTree.Type.OBJECT:
+				Lang.add_error("Parent of Script Tree Method isn't an object, parent is: " + str(working_st.type), program_node, token.line)
+				continue
 			var new_child = ScriptTreeMethod.new(working_st, token.string.strip_edges())
 			working_st.add_child(new_child)
 			
 			working_st = new_child
 			
 		elif token.types.has(Token.Type.PARAMETER):
-			Lang.add_error(working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD, "Parent of Script Tree Parameter isn't a function or method, parent is: " + str(working_st.type) + " with value: " + str(working_st.value), program_node, token.line)
+			if not working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD:
+				Lang.add_error("Parent of Script Tree Parameter isn't a function or method, parent is: " + str(working_st.type) + " with value: " + str(working_st.value), program_node, token.line)
+				continue
 			
 			var value
 			if token.types.has(Token.Type.OBJECT_NAME):
 				value = _get_input(token.string, inputs)
-				Lang.add_error(is_instance_valid(value), "Can't find input with name: " + token.string, program_node, token.line)
+				if not is_instance_valid(value):
+					Lang.add_error("Can't find input with name: " + token.string, program_node, token.line)
+					continue
 			elif token.types.has(Token.Type.EXPRESSION):
-				value = float(token.string)
+				var expression = Expression.new()
+				var error = expression.parse(token.string)
+				if error != OK:
+					Lang.add_error(expression.get_error_text(), program_node, token.line)
+					continue
+				value = expression.execute()
 			elif token.types.has(Token.Type.STRING):
 				value = token.string
 			
@@ -87,12 +95,3 @@ func _get_input(find_name: String, inputs: Array) -> NodeInput:
 		if input.name_field.text.strip_edges() == find_name.strip_edges():
 			return input
 	return null
-
-
-func _replace_working_st(working_st: ScriptTree, token_string: String) -> ScriptTree:
-	working_st.parent.children.erase(working_st)
-	var new_child = ScriptTreeOperator.new(working_st.parent, token_string)
-	working_st.parent.add_child(new_child)
-	new_child.add_child(working_st)
-	working_st.parent = new_child
-	return new_child

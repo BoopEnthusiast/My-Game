@@ -7,7 +7,6 @@ enum Type {
 	OBJECT,
 	FUNCTION,
 	METHOD,
-	OPERATOR,
 	DATA,
 	KEYWORD
 }

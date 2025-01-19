@@ -68,14 +68,11 @@ func tokenize_code(text: String) -> Array[Token]:
 		elif next_type.has(Token.Type.STRING):
 			if chr == "\\":
 				pass # TODO: Implement something like newlines and tabs and whatnot
-				
 			elif chr == "\"":
 				if next_type.has(Token.Type.PARAMETER):
 					tokenized_code.append(Token.new(working_token, line_number, [Token.Type.STRING, Token.Type.PARAMETER]))
-					
 				else:
 					tokenized_code.append(Token.new(working_token, line_number, [Token.Type.STRING]))
-					
 				next_type.clear()
 				working_token = ""
 				continue
@@ -84,24 +81,16 @@ func tokenize_code(text: String) -> Array[Token]:
 			if chr == ')':
 				if next_type.has(Token.Type.INNER_EXPRESSION):
 					next_type = [Token.Type.EXPRESSION]
-					
 				else:
 					tokenized_code.append(Token.new(working_token, line_number, [Token.Type.PARAMETER, Token.Type.EXPRESSION]))
 					next_type = []
 					working_token = ""
 					continue
-					
 			elif chr == '(':
 				next_type = [Token.Type.INNER_EXPRESSION, Token.Type.EXPRESSION]
-				
 			
 			if not EXPRESSION_SYMBOLS.has(chr) and not chr.is_valid_float():
 				next_type.clear()
-				
-			else:
-				next_type.clear()
-				working_token = ""
-				continue
 				
 		elif chr == "\"":
 			if next_type.has(Token.Type.PARAMETER):
@@ -126,10 +115,8 @@ func tokenize_code(text: String) -> Array[Token]:
 				match working_token:
 					Lang.KEYWORDS[Lang.Keywords.IF], Lang.KEYWORDS[Lang.Keywords.ELIF], Lang.KEYWORDS[Lang.Keywords.WHILE]:
 						next_type = [Token.Type.BOOLEAN]
-						
 					Lang.KEYWORDS[Lang.Keywords.FOR]:
 						pass
-						
 					Lang.KEYWORDS[Lang.Keywords.RETURN]:
 						next_type = [Token.Type.OBJECT_NAME, Token.Type.EXPRESSION, Token.Type.STRING, Token.Type.BOOLEAN, Token.Type.NONE]
 						
@@ -140,10 +127,8 @@ func tokenize_code(text: String) -> Array[Token]:
 			if not working_token.is_valid_int():
 				if not tokenized_code.is_empty() and tokenized_code.back().types.has(Token.Type.OBJECT_NAME):
 					tokenized_code.append(Token.new(working_token, line_number, [Token.Type.OBJECT_NAME, Token.Type.PARAMETER]))
-					
 				else:
 					tokenized_code.append(Token.new(working_token, line_number, [Token.Type.OBJECT_NAME]))
-					
 				next_type = [Token.Type.PROPERTY, Token.Type.METHOD_NAME]
 				working_token = ""
 				continue
@@ -151,10 +136,8 @@ func tokenize_code(text: String) -> Array[Token]:
 		elif chr == "(":
 			if next_type.has(Token.Type.METHOD_NAME):
 				tokenized_code.append(Token.new(working_token, line_number, [Token.Type.METHOD_NAME]))
-				
 			else:
 				tokenized_code.append(Token.new(working_token, line_number, [Token.Type.FUNCTION_NAME]))
-				
 			next_type = [Token.Type.PARAMETER, Token.Type.EXPRESSION]
 			working_token = ""
 			continue
@@ -169,7 +152,6 @@ func tokenize_code(text: String) -> Array[Token]:
 		elif chr == ")":
 			if not working_token.is_empty():
 				tokenized_code.append(Token.new(working_token, line_number, [Token.Type.PARAMETER, Token.Type.OBJECT_NAME]))
-				
 			next_type = []
 			working_token = ""
 			continue

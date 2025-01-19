@@ -23,7 +23,7 @@ func spawn(input: NodeInput) -> void:
 		await Singleton.book_hands.spell_animations.animation_finished
 		returned_value.spawn()
 	else:
-		Lang.add_error(true, "Could not find Program node or Primitive when spawning")
+		Lang.add_error("Could not find Program node or Primitive when spawning")
 
 
 ## Prints to the console in the Godot editor

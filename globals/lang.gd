@@ -70,11 +70,9 @@ func compile_spell(start_node: StartNode) -> void:
 
 ## TODO: Add add_error.[br]
 ## Adds an error to an array of errors when one is found in the code during compilation or checking beforehand. Checks if the condition is true, similar to `assert`
-func add_error(condition: bool, error_text: String = "Unspecified error...", program_node: ProgramNode = null,  line: int = -1) -> void:
+func add_error(error_text: String = "Unspecified error...", program_node: ProgramNode = null,  line: int = -1) -> void:
 	print("FOUND ERROR:")
-	print(condition,"  ",error_text,"  ",program_node,"  ",line)
-	if not condition:
-		return
+	print(error_text,"  ",program_node,"  ",line)
 	
 	if is_instance_valid(program_node) and line >= 0:
 		_compile_errors.append([error_text, program_node, line])
