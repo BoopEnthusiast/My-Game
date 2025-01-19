@@ -7,14 +7,13 @@ enum Type {
 	METHOD_NAME,
 	PARAMETER,
 	PROPERTY,
-	FLOAT,
-	INT,
+	EXPRESSION,
+	INNER_EXPRESSION,
 	STRING,
 	KEYWORD,
 	NONE,
 	BOOLEAN,
 	BREAK, # New line, new commad
-	OPERATOR,
 }
 
 var string: String
