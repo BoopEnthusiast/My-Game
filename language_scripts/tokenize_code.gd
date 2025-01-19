@@ -82,7 +82,8 @@ func tokenize_code(text: String) -> Array[Token]:
 				if next_type.has(Token.Type.INNER_EXPRESSION):
 					next_type = [Token.Type.EXPRESSION]
 				else:
-					tokenized_code.append(Token.new(working_token, line_number, [Token.Type.PARAMETER, Token.Type.EXPRESSION]))
+					if not working_token.is_empty():
+						tokenized_code.append(Token.new(working_token, line_number, [Token.Type.PARAMETER, Token.Type.EXPRESSION]))
 					next_type = []
 					working_token = ""
 					continue
