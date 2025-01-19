@@ -1,6 +1,7 @@
 class_name Token
 extends Resource
 
+
 enum Type {
 	OBJECT_NAME,
 	FUNCTION_NAME,
@@ -13,7 +14,7 @@ enum Type {
 	KEYWORD,
 	NONE,
 	BOOLEAN,
-	BREAK, # New line, new commad
+	BREAK, # New line, new command
 }
 
 var string: String

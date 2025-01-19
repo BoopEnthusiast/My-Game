@@ -26,7 +26,7 @@ func spawn(input: NodeInput) -> void:
 		Lang.add_error("Could not find Program node or Primitive when spawning")
 
 
-## Prints to the console in the Godot editor
+## Prints to the console in the Godot editor # has to be called pprint behind the scenes because print already exists in gdscript
 func pprint(to_print: Variant) -> void:
 	Singleton.book_hands.play_spell("Print", "print")
 	await Singleton.book_hands.spell_animations.animation_finished
@@ -34,6 +34,7 @@ func pprint(to_print: Variant) -> void:
 	Singleton.print_label.text = str(to_print)
 
 
+## Waits for the given times, like sleep(number) in other languages # might rename to sleep... 
 func wait(time_to_wait: float) -> void:
 	Singleton.book_hands.play_spell("Wait", "wait")
 	Singleton.book_hands.set_wait_time(time_to_wait)

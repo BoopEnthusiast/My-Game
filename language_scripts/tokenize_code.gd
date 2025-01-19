@@ -22,33 +22,33 @@ const WHITESPAC_CHARS: Array[String] = [
 	" ",
 	" ",
 	"　",
-	"\n",
 	"\t",
 	"\v",
 	"\f",
 	"\r",
+]
+const EXPRESSION_SYMBOLS: Array[String] = [
+	"*",
+	"/",
+	"+",
+	"-",
+	"%",
+	"=",
+	"(",
+	")",
+	".",
 ]
 
 
 ## Goes through each character and turns them into an array of Token objects
 func tokenize_code(text: String) -> Array[Token]:
 	var tokenized_code: Array[Token] = []
-	var working_token: String = ""
-	var next_type: Array[Token.Type]
+	
+	var working_token: String = "" # Built up over each iteration of the main loop until a special condition is met
+	var next_type: Array[Token.Type] # The next expected token types for the next working_token
+	
 	var is_comment := false
 	var line_number: int = 0
-	
-	const EXPRESSION_SYMBOLS: Array[String] = [
-		"*",
-		"/",
-		"+",
-		"-",
-		"%",
-		"=",
-		"(",
-		")",
-		".",
-	]
 	
 	# Loop through characters and turn them into tokens with types that can then be compiled into a Script Tree
 	for chr in text:
@@ -57,6 +57,7 @@ func tokenize_code(text: String) -> Array[Token]:
 			line_number += 1
 		
 		# Main checks
+		## Comments 1
 		if is_comment and chr == "\n":
 			is_comment = false
 			working_token = ""
@@ -65,6 +66,7 @@ func tokenize_code(text: String) -> Array[Token]:
 		elif is_comment:
 			continue
 			
+		## Strings
 		elif next_type.has(Token.Type.STRING):
 			if chr == "\\":
 				pass # TODO: Implement something like newlines and tabs and whatnot
@@ -77,6 +79,15 @@ func tokenize_code(text: String) -> Array[Token]:
 				working_token = ""
 				continue
 				
+		elif chr == "\"":
+			if next_type.has(Token.Type.PARAMETER):
+				next_type = [Token.Type.STRING, Token.Type.PARAMETER]
+			else:
+				next_type = [Token.Type.STRING]
+			working_token = ""
+			continue
+			
+		## Expressions
 		elif next_type.has(Token.Type.EXPRESSION):
 			if chr == ')':
 				if next_type.has(Token.Type.INNER_EXPRESSION):
@@ -93,23 +104,18 @@ func tokenize_code(text: String) -> Array[Token]:
 			if not EXPRESSION_SYMBOLS.has(chr) and not chr.is_valid_float():
 				next_type.clear()
 				
-		elif chr == "\"":
-			if next_type.has(Token.Type.PARAMETER):
-				next_type = [Token.Type.STRING, Token.Type.PARAMETER]
-			else:
-				next_type = [Token.Type.STRING]
-			working_token = ""
-			continue
-		
+		## Comments 2
 		elif chr == "#":
 			is_comment = true
 			continue
 			
+		## New line / Break
 		elif chr == "\n":
 			tokenized_code.append(Token.new("", line_number, [Token.Type.BREAK]))
 			working_token = ""
 			continue
 			
+		## Keywords
 		elif WHITESPAC_CHARS.has(chr):
 			if Lang.KEYWORDS.has(working_token):
 				tokenized_code.append(Token.new(working_token, line_number, [Token.Type.KEYWORD]))
@@ -124,6 +130,7 @@ func tokenize_code(text: String) -> Array[Token]:
 				working_token = ""
 				continue
 				
+		## Property
 		elif chr == ".":
 			if not working_token.is_valid_int():
 				if not tokenized_code.is_empty() and tokenized_code.back().types.has(Token.Type.OBJECT_NAME):
@@ -134,6 +141,7 @@ func tokenize_code(text: String) -> Array[Token]:
 				working_token = ""
 				continue
 				
+		## Function/Method parameters
 		elif chr == "(":
 			if next_type.has(Token.Type.METHOD_NAME):
 				tokenized_code.append(Token.new(working_token, line_number, [Token.Type.METHOD_NAME]))
@@ -159,10 +167,11 @@ func tokenize_code(text: String) -> Array[Token]:
 			
 		
 		working_token += chr
-		print(working_token,"   ",tokenized_code,"   ",next_type,"    ",is_comment)
+		print(working_token,"   ",next_type,"    ",is_comment) # Debugging
 	
-	tokenized_code.append(Token.new(working_token, line_number, [Token.Type.BREAK]))
+	tokenized_code.append(Token.new(working_token, line_number, [Token.Type.BREAK])) # Add a break at the end just in case
 	
+	# Debugging
 	print(tokenized_code)
 	for token in tokenized_code:
 		print(token.types,"   ",token.string)

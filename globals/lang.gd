@@ -36,12 +36,15 @@ const KEYWORDS: Array[String] = [
 	"return",
 ]
 
+
 var tree_root_item: TreeItem
 var form_actions_node: LangFormActions
 var tokenize_code_node: LangTokenizeCode
 var build_script_tree_node: LangBuildScriptTree
 
-var _spells: Array[Spell] = []
+var error_color = Color.from_ok_hsl(0.05, 0.8, 0.4, 0.3)
+
+var _spells: Array[Spell] = [] # TODO: Show the list of compiled spells that don't have errors 
 var _compile_errors: Array = [] # Array of tuples that goes [error_text: String, program_node: ProgramNode, line: line]
 
 
@@ -68,26 +71,28 @@ func compile_spell(start_node: StartNode) -> void:
 	IDE.current_spell = new_spell
 
 
-## TODO: Add add_error.[br]
-## Adds an error to an array of errors when one is found in the code during compilation or checking beforehand. Checks if the condition is true, similar to `assert`
+## Adds an error to an array of errors when one is found in the code during compilation or checking beforehand. Give program_node and line when possible (during compile time).
 func add_error(error_text: String = "Unspecified error...", program_node: ProgramNode = null,  line: int = -1) -> void:
+	# Debug
 	print("FOUND ERROR:")
 	print(error_text,"  ",program_node,"  ",line)
 	
-	if is_instance_valid(program_node) and line >= 0:
+	# Main body
+	if is_instance_valid(program_node) and line >= 0: # Run when called during compile time
 		_compile_errors.append([error_text, program_node, line])
 	else:
 		pass # TODO: Add errors during runtime and not compile time
 
 
-func show_compiling_errors() -> void:
+## At the end of compile time it goes through all of the found errors and shows them.
+func _show_compiling_errors() -> void:
 	if _compile_errors.size() <= 0:
 		return
 	
 	_compile_errors[0][1].error_message.text = _compile_errors[0][0]
 	
 	for error in _compile_errors:
-		error[1].code_edit.set_line_background_color(error[2], Color.from_ok_hsl(0.05, 0.8, 0.4, 0.3))
+		error[1].code_edit.set_line_background_color(error[2], error_color)
 
 
 ## Takes a program node's text and inputs and forms a list of callables for a spell to run
@@ -98,7 +103,7 @@ func compile_program_node(program_node: ProgramNode) -> Array:
 	
 	tree_root_item = IDE.start_node_tree.create_item()
 	var actions = form_actions_node.form_actions(tree_root, tree_root_item)
-	show_compiling_errors()
+	_show_compiling_errors()
 	return actions
 
 

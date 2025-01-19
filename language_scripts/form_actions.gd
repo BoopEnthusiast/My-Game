@@ -17,14 +17,14 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 	
 	# Go through each child and run this function on them, then get their array of callables and add it to the current one
 	for child in working_st.children:
-		print("STARTING WORK ON: ",child.type,"  ",child.value,"    PARENTS TYPE IS: ",working_st.type)
+		print("STARTING WORK ON: ",child.type,"  ",child.value,"    PARENTS TYPE IS: ",working_st.type) # Debug
 		var new_tree_item = tree_item.create_child()
 		new_tree_item.set_text(0, str(working_st.type)+" | "+str(working_st.value))
 		callable_list.append_array(form_actions(child, new_tree_item))
 	
 	
 	## See if the current object and its parent match to a known function/method, if so, add it to the callable list
-	# Built-in functions
+	# Built-in functions and keywords
 	if working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA:
 		if working_st.parent.type == ScriptTree.Type.KEYWORD:
 			match working_st.parent.value:
@@ -33,7 +33,6 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 		
 		elif working_st.parent.type == ScriptTree.Type.FUNCTION:
 			# Functions
-			print("WORKING ST VALUE",working_st.value,"PAREN'TS VALUE",working_st.parent.value)
 			match working_st.parent.value:
 				"spawn":
 					callable_list.append(Callable(Functions, "spawn").bind(working_st.value))
@@ -60,6 +59,6 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 				callable_list.append(new_callable)
 				
 	
-	print("Callable list: " + str(callable_list))
+	print("Callable list: " + str(callable_list)) # Debug
 	# Pass the callable list back up the tree
 	return callable_list
