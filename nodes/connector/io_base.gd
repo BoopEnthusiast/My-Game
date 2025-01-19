@@ -37,6 +37,9 @@ func _check_class() -> bool:
 
 
 func get_connected_node() -> NodeBase:
+	if not is_instance_valid(connector):
+		return null
+	
 	if self is NodeInput:
 		return connector.output.parent_node
 	else:

@@ -111,9 +111,10 @@ func compile_program_node(program_node: ProgramNode) -> Array:
 # The piece of code that should work FOR NOW
 # Input 1: "fireball" - leads to ball node
 # Input 2: "start" - leads to start node
+# Input 3: "transmutation" - leads to transmute node
 # Code for now:
 # spawn(fireball)
-# fireball.set_on_fire() # should setting something on fire be a global function instead of a method?
+# fireball.transmute(transmutation)
 # fireball.push(5 * 3 + 2)
 #
 # Code for later:

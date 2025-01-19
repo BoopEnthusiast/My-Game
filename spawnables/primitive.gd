@@ -12,3 +12,7 @@ var velocity: Vector3
 
 func _physics_process(delta: float) -> void:
 	body.move_and_collide(velocity * delta)
+
+
+func _on_lifetime_timeout() -> void:
+	queue_free()
