@@ -72,8 +72,10 @@ func tokenize_code(text: String) -> Array[Token]:
 			elif chr == "\"":
 				if next_type.has(Token.Type.PARAMETER):
 					tokenized_code.append(Token.new(working_token, line_number, [Token.Type.STRING, Token.Type.PARAMETER]))
+					
 				else:
 					tokenized_code.append(Token.new(working_token, line_number, [Token.Type.STRING]))
+					
 				next_type.clear()
 				working_token = ""
 				continue
@@ -92,6 +94,7 @@ func tokenize_code(text: String) -> Array[Token]:
 			elif chr == '(':
 				next_type = [Token.Type.INNER_EXPRESSION, Token.Type.EXPRESSION]
 				
+			
 			if not EXPRESSION_SYMBOLS.has(chr) and not chr.is_valid_float():
 				next_type.clear()
 				
@@ -100,7 +103,6 @@ func tokenize_code(text: String) -> Array[Token]:
 				working_token = ""
 				continue
 				
-			
 		elif chr == "\"":
 			if next_type.has(Token.Type.PARAMETER):
 				next_type = [Token.Type.STRING, Token.Type.PARAMETER]
@@ -167,6 +169,7 @@ func tokenize_code(text: String) -> Array[Token]:
 		elif chr == ")":
 			if not working_token.is_empty():
 				tokenized_code.append(Token.new(working_token, line_number, [Token.Type.PARAMETER, Token.Type.OBJECT_NAME]))
+				
 			next_type = []
 			working_token = ""
 			continue
