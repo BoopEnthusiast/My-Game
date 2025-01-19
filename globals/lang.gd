@@ -42,7 +42,7 @@ var form_actions_node: LangFormActions
 var tokenize_code_node: LangTokenizeCode
 var build_script_tree_node: LangBuildScriptTree
 
-var error_color = Color.from_ok_hsl(0.05, 0.8, 0.4, 0.3)
+var error_color = Color.from_ok_hsl(0.05, 0.8, 0.4, 0.3) # Can't be a constant (you try it)
 
 var _spells: Array[Spell] = [] # TODO: Show the list of compiled spells that don't have errors 
 var _compile_errors: Array = [] # Array of tuples that goes [error_text: String, program_node: ProgramNode, line: line]

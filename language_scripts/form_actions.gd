@@ -26,13 +26,14 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 	## See if the current object and its parent match to a known function/method, if so, add it to the callable list
 	# Built-in functions and keywords
 	if working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA:
+		# Keywords
 		if working_st.parent.type == ScriptTree.Type.KEYWORD:
-			match working_st.parent.value:
+			match working_st.parent.value: # TODO: Implement more keywords
 				Lang.KEYWORDS[Lang.Keywords.RETURN]:
 					return working_st.value
 		
+		# Functions
 		elif working_st.parent.type == ScriptTree.Type.FUNCTION:
-			# Functions
 			match working_st.parent.value:
 				"spawn":
 					callable_list.append(Callable(Functions, "spawn").bind(working_st.value))
