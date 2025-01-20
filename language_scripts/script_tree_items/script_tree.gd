@@ -36,5 +36,5 @@ func change_type(new_type: Type) -> void:
 	type = new_type
 
 
-func get_value(val) -> Variant:
+func get_value(val: Variant) -> Variant:
 	return val

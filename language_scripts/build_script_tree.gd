@@ -72,8 +72,8 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 			
 		elif token.types.has(Token.Type.PARAMETER):
 			# Initial check
-			if not working_st.type == ScriptTree.Type.FUNCTION or working_st.type == ScriptTree.Type.METHOD:
-				Lang.add_error("Parent of Script Tree Parameter isn't a function or method, parent is: " + str(working_st.type) + " with value: " + str(working_st.value), program_node, token.line)
+			if not working_st.type == ScriptTree.Type.FUNCTION and not working_st.type == ScriptTree.Type.METHOD and not token.types.has(Token.Type.PROPERTY):
+				Lang.add_error("Parent of Script Tree Parameter isn't a function or method, nor is it a property, parent is: " + str(working_st.type) + " with value: " + str(working_st.value), program_node, token.line)
 				continue
 			
 			var value
@@ -92,7 +92,7 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 					continue
 				value = expression.execute()
 				
-			elif token.types.has(Token.Type.STRING):
+			elif token.types.has(Token.Type.STRING) or token.types.has(Token.Type.PROPERTY):
 				value = token.string
 			
 			var new_child = ScriptTreeObject.new(working_st, value)
