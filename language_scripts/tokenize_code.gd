@@ -27,6 +27,7 @@ const WHITESPAC_CHARS: Array[String] = [
 	"\f",
 	"\r",
 ]
+## All symbols that can be used in expressions
 const EXPRESSION_SYMBOLS: Array[String] = [
 	"*",
 	"/",
@@ -37,6 +38,15 @@ const EXPRESSION_SYMBOLS: Array[String] = [
 	"(",
 	")",
 	".",
+]
+## All symbols that can be used for boolean operations
+const BOOLEAN_OPERATORS: Array[String] = [
+	"==",
+	"!=",
+	"<",
+	"<=",
+	">",
+	">=",
 ]
 
 
