@@ -47,3 +47,7 @@ func push() -> void:
 	
 	if is_instance_valid(spawned_object):
 		spawned_object.velocity += -spawned_object.global_position.direction_to(Singleton.player.main_camera.global_position)
+
+
+func get_property(property_name: String) -> void:
+	pass

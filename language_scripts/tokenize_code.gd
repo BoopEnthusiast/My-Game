@@ -170,7 +170,10 @@ func tokenize_code(text: String) -> Array[Token]:
 			
 		elif chr == ")":
 			if not working_token.is_empty():
-				tokenized_code.append(Token.new(working_token, line_number, [Token.Type.PARAMETER, Token.Type.OBJECT_NAME]))
+				if next_type.has(Token.Type.PROPERTY):
+					tokenized_code.append(Token.new(working_token, line_number, [Token.Type.PARAMETER, Token.Type.PROPERTY]))
+				else:
+					tokenized_code.append(Token.new(working_token, line_number, [Token.Type.PARAMETER, Token.Type.OBJECT_NAME]))
 			next_type = []
 			working_token = ""
 			continue
@@ -179,7 +182,7 @@ func tokenize_code(text: String) -> Array[Token]:
 		working_token += chr
 		print(working_token,"   ",next_type,"    ",is_comment) # Debugging
 	
-	tokenized_code.append(Token.new(working_token, line_number, [Token.Type.BREAK])) # Add a break at the end just in case
+	tokenized_code.append(Token.new("", line_number, [Token.Type.BREAK])) # Add a break at the end just in case
 	
 	# Debugging
 	print(tokenized_code)
