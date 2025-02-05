@@ -48,6 +48,13 @@ const BOOLEAN_OPERATORS: Array[String] = [
 	">",
 	">=",
 ]
+## Boolean operator beginning tokens, to end properties 
+const BOOLEAN_BEGIN_OPERATOR_CHARS: Array[String] = [
+	"=",
+	"!",
+	"<",
+	">"
+]
 
 
 ## Goes through each character and turns them into an array of Token objects
@@ -140,6 +147,13 @@ func tokenize_code(text: String) -> Array[Token]:
 				working_token = ""
 				continue
 				
+			elif next_type.has(Token.Type.PROPERTY):
+				tokenized_code.append(Token.new(working_token, line_number, [Token.Type.PROPERTY]))
+				working_token = ""
+				continue
+				
+		elif BOOLEAN_BEGIN_OPERATOR_CHARS.has(chr) and next_type.has(Token.Type.PROPERTY):
+			pass # TODO: End property token when running into a boolean operation
 		## Property
 		elif chr == ".":
 			if not working_token.is_valid_int():
