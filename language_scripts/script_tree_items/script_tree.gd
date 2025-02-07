@@ -8,7 +8,8 @@ enum Type {
 	FUNCTION,
 	METHOD,
 	DATA,
-	KEYWORD
+	KEYWORD,
+	BOOL
 }
 
 @export var type: Type

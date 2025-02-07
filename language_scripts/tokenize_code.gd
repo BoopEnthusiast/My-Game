@@ -121,6 +121,12 @@ func tokenize_code(text: String) -> Array[Token]:
 			if not EXPRESSION_SYMBOLS.has(chr) and not chr.is_valid_float():
 				next_type.clear()
 				
+		## Boolean 1
+		elif next_type.has(Token.Type.BOOLEAN):
+			tokenized_code.append(Token.new(working_token, line_number, [Token.Type.BOOLEAN]))
+			next_type = [Token.Type.PROPERTY]
+			working_token = ""
+			continue
 		## Comments 2
 		elif chr == "#":
 			is_comment = true
@@ -132,8 +138,8 @@ func tokenize_code(text: String) -> Array[Token]:
 			working_token = ""
 			continue
 			
-		## Keywords
 		elif WHITESPAC_CHARS.has(chr):
+			## Keywords
 			if Lang.KEYWORDS.has(working_token):
 				tokenized_code.append(Token.new(working_token, line_number, [Token.Type.KEYWORD]))
 				match working_token:
@@ -147,13 +153,9 @@ func tokenize_code(text: String) -> Array[Token]:
 				working_token = ""
 				continue
 				
-			elif next_type.has(Token.Type.PROPERTY):
-				tokenized_code.append(Token.new(working_token, line_number, [Token.Type.PROPERTY]))
-				working_token = ""
-				continue
-				
+		## Boolean 2
 		elif BOOLEAN_BEGIN_OPERATOR_CHARS.has(chr) and next_type.has(Token.Type.PROPERTY):
-			pass # TODO: End property token when running into a boolean operation
+			next_type = [Token.Type.BOOLEAN]
 		## Property
 		elif chr == ".":
 			if not working_token.is_valid_int():

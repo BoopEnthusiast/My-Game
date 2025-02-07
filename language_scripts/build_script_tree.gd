@@ -100,6 +100,11 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 			
 			working_st = new_child
 			
+		elif token.types.has(Token.Type.BOOLEAN):
+			var new_child = ScriptTreeMethod.new(working_st, token.string.strip_edges())
+			working_st.add_child(new_child)
+			
+			working_st = new_child
 	
 	tree_root.parent = null
 	return tree_root
