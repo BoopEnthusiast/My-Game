@@ -123,10 +123,10 @@ func tokenize_code(text: String) -> Array[Token]:
 				
 		## Boolean 1
 		elif next_type.has(Token.Type.BOOLEAN):
-			tokenized_code.append(Token.new(working_token, line_number, [Token.Type.BOOLEAN]))
-			next_type = [Token.Type.PROPERTY]
-			working_token = ""
-			continue
+			if BOOLEAN_OPERATORS.has(working_token) and chr != "=":
+				tokenized_code.append(Token.new(working_token, line_number, [Token.Type.BOOLEAN]))
+				next_type = [Token.Type.PARAMETER]
+				working_token = ""
 		## Comments 2
 		elif chr == "#":
 			is_comment = true
@@ -155,6 +155,11 @@ func tokenize_code(text: String) -> Array[Token]:
 				
 		## Boolean 2
 		elif BOOLEAN_BEGIN_OPERATOR_CHARS.has(chr) and next_type.has(Token.Type.PROPERTY):
+			if next_type.has(Token.Type.PROPERTY):
+				tokenized_code.append(Token.new(working_token, line_number, [Token.Type.PROPERTY, Token.Type.PARAMETER]))
+			else:
+				tokenized_code.append(Token.new(working_token, line_number, [Token.Type.PARAMETER]))
+			working_token = ""
 			next_type = [Token.Type.BOOLEAN]
 		## Property
 		elif chr == ".":
