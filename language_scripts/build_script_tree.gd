@@ -72,8 +72,8 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 			
 		elif token.types.has(Token.Type.PARAMETER):
 			# Initial check
-			if not working_st.type == ScriptTree.Type.FUNCTION and not working_st.type == ScriptTree.Type.METHOD and not token.types.has(Token.Type.PROPERTY):
-				Lang.add_error("Parent of Script Tree Parameter isn't a function or method, nor is it a property, parent is: " + str(working_st.type) + " with value: " + str(working_st.value), program_node, token.line)
+			if not working_st.type == ScriptTree.Type.FUNCTION and not working_st.type == ScriptTree.Type.METHOD and not working_st.type == ScriptTree.Type.BOOL and not token.types.has(Token.Type.PROPERTY):
+				Lang.add_error("Parent of Script Tree Parameter isn't a function or method or bool, nor is it a property, parent is: " + str(working_st.type) + " with value: " + str(working_st.value), program_node, token.line)
 				continue
 			
 			var value
@@ -101,8 +101,28 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 			working_st = new_child
 			
 		elif token.types.has(Token.Type.BOOLEAN):
-			var new_child = ScriptTreeMethod.new(working_st, token.string.strip_edges())
-			working_st.add_child(new_child)
+			var new_child = ScriptTreeBoolean.new(working_st, token.string.strip_edges())
+			
+			if working_st.parent.type == ScriptTree.Type.OBJECT:
+				working_st.parent.parent.add_child(new_child)
+				working_st = working_st.parent
+			else:
+				working_st.parent.add_child(new_child)
+			new_child.parent.children.erase(working_st)
+			new_child.add_child(working_st)
+			
+			
+			#while working_st.type != ScriptTree.Type.FUNCTION and working_st.type != ScriptTree.Type.METHOD:
+				#working_st.parent.add_child(new_child)
+				#var find_working_st_in_parent = working_st.parent.children.find(working_st)
+				#if find_working_st_in_parent:
+					#working_st.parent.children.remove_at(find_working_st_in_parent)
+				#new_child.add_child(working_st)
+				#if is_instance_valid(new_child.parent.parent):
+					#working_st = new_child.parent
+				#else: 
+					#break
+			
 			
 			working_st = new_child
 	

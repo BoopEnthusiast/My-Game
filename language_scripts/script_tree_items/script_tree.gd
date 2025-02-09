@@ -30,6 +30,7 @@ func _init(node_type: Type, new_parent: ScriptTree, node_value: Variant = null) 
 
 func add_child(child: ScriptTree) -> void:
 	children.append(child)
+	child.parent = self
 
 
 func change_type(new_type: Type) -> void:

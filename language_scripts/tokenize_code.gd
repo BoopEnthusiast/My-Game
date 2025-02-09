@@ -125,7 +125,7 @@ func tokenize_code(text: String) -> Array[Token]:
 		elif next_type.has(Token.Type.BOOLEAN):
 			if BOOLEAN_OPERATORS.has(working_token) and chr != "=":
 				tokenized_code.append(Token.new(working_token, line_number, [Token.Type.BOOLEAN]))
-				next_type = [Token.Type.PARAMETER]
+				next_type = [Token.Type.PARAMETER, Token.Type.EXPRESSION]
 				working_token = ""
 		## Comments 2
 		elif chr == "#":
