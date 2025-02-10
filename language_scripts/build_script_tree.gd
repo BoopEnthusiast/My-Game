@@ -111,19 +111,6 @@ func build_script_tree(tokenized_code: Array[Token], program_node: ProgramNode) 
 			new_child.parent.children.erase(working_st)
 			new_child.add_child(working_st)
 			
-			
-			#while working_st.type != ScriptTree.Type.FUNCTION and working_st.type != ScriptTree.Type.METHOD:
-				#working_st.parent.add_child(new_child)
-				#var find_working_st_in_parent = working_st.parent.children.find(working_st)
-				#if find_working_st_in_parent:
-					#working_st.parent.children.remove_at(find_working_st_in_parent)
-				#new_child.add_child(working_st)
-				#if is_instance_valid(new_child.parent.parent):
-					#working_st = new_child.parent
-				#else: 
-					#break
-			
-			
 			working_st = new_child
 	
 	tree_root.parent = null

@@ -15,6 +15,10 @@ const PRIMITIVES = [
 var selected_primitive: Primitives = Primitives.BALL
 var spawned_object: PrimitiveSpawnable
 
+var properties: Dictionary = {
+	"distance": 0.0
+}
+
 
 func _on_option_button_item_selected(index: int) -> void:
 	selected_primitive = index as Primitives
@@ -49,5 +53,6 @@ func push() -> void:
 		spawned_object.velocity += -spawned_object.global_position.direction_to(Singleton.player.main_camera.global_position)
 
 
-func get_property(property_name: String) -> void:
-	pass
+func update_properties() -> void:
+	if is_instance_valid(spawned_object):
+		properties["distance"] = Singleton.player.global_position.distance_to(spawned_object.global_position)

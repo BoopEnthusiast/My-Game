@@ -23,9 +23,14 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 		callable_list.append_array(form_actions(child, new_tree_item))
 	
 	
+	## Set current value for parents
+	if working_st.type == ScriptTree.Type.OBJECT and working_st.children.size() > 0:
+		if working_st.children[0].type == ScriptTree.Type.OBJECT and working_st.children[0].value is String:
+			working_st.value = Functions.get_property(working_st.value, working_st.children[0].value)
+	
 	## See if the current object and its parent match to a known function/method, if so, add it to the callable list
 	# Built-in functions and keywords
-	if working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA:
+	if working_st.type == ScriptTree.Type.OBJECT or working_st.type == ScriptTree.Type.DATA or working_st.type == ScriptTree.Type.BOOL:
 		# Keywords
 		if working_st.parent.type == ScriptTree.Type.KEYWORD:
 			match working_st.parent.value: # TODO: Implement more keywords
