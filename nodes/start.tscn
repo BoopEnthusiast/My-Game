@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://spfxkimhnsd2"]
 
 [ext_resource type="PackedScene" uid="uid://dfqffeb2xu3ho" path="res://nodes/node_base.tscn" id="1_h84a1"]
-[ext_resource type="Script" path="res://nodes/start.gd" id="2_xj3xx"]
+[ext_resource type="Script" uid="uid://du5f3q3c6k10i" path="res://nodes/start.gd" id="2_xj3xx"]
 
 [node name="Start" instance=ExtResource("1_h84a1")]
 anchor_left = 0.054

@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://xe4qc2fp45xq"]
 
-[ext_resource type="Script" path="res://player/player.gd" id="1_775wy"]
+[ext_resource type="Script" uid="uid://v43amimlbhxm" path="res://player/player.gd" id="1_775wy"]
 [ext_resource type="PackedScene" uid="uid://1ebvp7qxcka5" path="res://menus/pause_menu/pause_menu.tscn" id="2_rvqv4"]
 [ext_resource type="PackedScene" uid="uid://bd2ekytwy3d7c" path="res://player/book_hands.tscn" id="4_88bi6"]
 [ext_resource type="PackedScene" uid="uid://dswicelu013bl" path="res://menus/ide/ide.tscn" id="4_l1jq0"]
-[ext_resource type="Script" path="res://player/ide_viewport_holder.gd" id="4_l6321"]
-[ext_resource type="Script" path="res://player/print_label.gd" id="5_o41wb"]
+[ext_resource type="Script" uid="uid://hf8ydhdqp4ov" path="res://player/ide_viewport_holder.gd" id="4_l6321"]
+[ext_resource type="Script" uid="uid://pgb64qbdg7jh" path="res://player/print_label.gd" id="5_o41wb"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_46fnu"]
 

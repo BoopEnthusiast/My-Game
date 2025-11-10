@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c86h8qgtktluq"]
 
 [ext_resource type="PackedScene" uid="uid://dfqffeb2xu3ho" path="res://nodes/node_base.tscn" id="1_i3olr"]
-[ext_resource type="Script" path="res://nodes/transmute.gd" id="2_x2ytd"]
+[ext_resource type="Script" uid="uid://cnwv2p5b23tec" path="res://nodes/transmute.gd" id="2_x2ytd"]
 
 [node name="Transmute" instance=ExtResource("1_i3olr")]
 anchor_right = 0.133681

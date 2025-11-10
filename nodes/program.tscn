@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://x1ytor1da8i5"]
 
 [ext_resource type="PackedScene" uid="uid://dfqffeb2xu3ho" path="res://nodes/node_base.tscn" id="1_h4tdy"]
-[ext_resource type="Script" path="res://nodes/program.gd" id="2_uwork"]
-[ext_resource type="Script" path="res://nodes/program_code_edit.gd" id="3_vwm8o"]
+[ext_resource type="Script" uid="uid://b0l5ujd5husg8" path="res://nodes/program.gd" id="2_uwork"]
+[ext_resource type="Script" uid="uid://bqqw6fux4ldma" path="res://nodes/program_code_edit.gd" id="3_vwm8o"]
 
 [sub_resource type="CodeHighlighter" id="CodeHighlighter_xh1im"]
 number_color = Color(0.501094, 0.886994, 0.462531, 1)

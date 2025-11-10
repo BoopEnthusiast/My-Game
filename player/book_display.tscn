@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cyucxn14rydij"]
 
-[ext_resource type="Script" path="res://player/book_display.gd" id="1_5kdfl"]
+[ext_resource type="Script" uid="uid://kc072oe5lj8i" path="res://player/book_display.gd" id="1_5kdfl"]
 
 [node name="BookDisplay" type="Control"]
 layout_mode = 3

@@ -22,7 +22,6 @@ func form_actions(working_st: ScriptTree, tree_item: TreeItem) -> Array[Callable
 		new_tree_item.set_text(0, str(working_st.type)+" | "+str(working_st.value))
 		callable_list.append_array(form_actions(child, new_tree_item))
 	
-	
 	## Set current value for parents
 	if working_st.type == ScriptTree.Type.OBJECT and working_st.children.size() > 0:
 		if working_st.children[0].type == ScriptTree.Type.OBJECT and working_st.children[0].value is String:

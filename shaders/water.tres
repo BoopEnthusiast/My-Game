@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://b7u7oim31818v"]
 
-[ext_resource type="Shader" path="res://shaders/water.gdshader" id="1_434hm"]
+[ext_resource type="Shader" uid="uid://bcbvixjowhqvc" path="res://shaders/water.gdshader" id="1_434hm"]
 [ext_resource type="FastNoiseLite" uid="uid://cqdnidcxgsnw8" path="res://shaders/water_noise.tres" id="2_s7sat"]
 
 [sub_resource type="Gradient" id="Gradient_paell"]
@@ -27,7 +27,7 @@ noise = ExtResource("2_s7sat")
 [resource]
 render_priority = 0
 shader = ExtResource("1_434hm")
-shader_parameter/amplitude = 2.0
 shader_parameter/noise = SubResource("NoiseTexture2D_yxlgw")
+shader_parameter/amplitude = 2.0
 shader_parameter/curve = SubResource("CurveTexture_vbt47")
 shader_parameter/albedo = SubResource("NoiseTexture2D_xjd11")

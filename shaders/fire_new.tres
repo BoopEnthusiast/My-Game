@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://b2iltu8vu4u81"]
 
-[ext_resource type="Shader" path="res://shaders/fire.gdshader" id="1_4wb8j"]
+[ext_resource type="Shader" uid="uid://vpnyam622v0d" path="res://shaders/fire.gdshader" id="1_4wb8j"]
 
 [sub_resource type="Gradient" id="Gradient_50gnf"]
 offsets = PackedFloat32Array(0, 0.253846, 0.484615, 0.753846, 1)
@@ -18,6 +18,6 @@ noise = SubResource("FastNoiseLite_rm61e")
 [resource]
 render_priority = 0
 shader = ExtResource("1_4wb8j")
-shader_parameter/amplitude = 2.5
 shader_parameter/noise = SubResource("NoiseTexture2D_7o3mj")
+shader_parameter/amplitude = 2.5
 shader_parameter/color_gradient = SubResource("GradientTexture1D_yfx4l")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cbykf6lvqyyj1"]
 
 [ext_resource type="PackedScene" uid="uid://dfqffeb2xu3ho" path="res://nodes/node_base.tscn" id="1_01qv0"]
-[ext_resource type="Script" path="res://nodes/primitive.gd" id="2_p4wy3"]
+[ext_resource type="Script" uid="uid://ncyt8ck3xv81" path="res://nodes/primitive.gd" id="2_p4wy3"]
 
 [node name="Primitive" instance=ExtResource("1_01qv0")]
 anchor_right = 0.12934

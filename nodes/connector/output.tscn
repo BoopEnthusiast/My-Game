@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dqmww8kf5c2tm"]
 
-[ext_resource type="Script" path="res://nodes/connector/output.gd" id="1_4outq"]
+[ext_resource type="Script" uid="uid://colh2n0f501vs" path="res://nodes/connector/output.gd" id="1_4outq"]
 [ext_resource type="PackedScene" uid="uid://qgfpf1gtl165" path="res://nodes/connector/io_base.tscn" id="1_rvqlk"]
 
 [node name="Output" instance=ExtResource("1_rvqlk")]

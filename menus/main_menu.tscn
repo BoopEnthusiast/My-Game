@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://ck50tolotlex3"]
 
-[ext_resource type="Script" path="res://menus/main_menu.gd" id="1_5vjd3"]
+[ext_resource type="Script" uid="uid://beosr2ln4l6q5" path="res://menus/main_menu.gd" id="1_5vjd3"]
 
 [sub_resource type="Gradient" id="Gradient_0o8iu"]
 interpolation_color_space = 2
