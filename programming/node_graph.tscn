@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://dbq8vxs01m82j"]
+
+[node name="NodeGraph" type="GraphEdit"]
+process_mode = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+grid_pattern = 1
+minimap_enabled = false
+
+[node name="GraphNode" type="GraphNode" parent="."]
+layout_mode = 0
+offset_left = 396.0
+offset_top = 229.0
+offset_right = 615.0
+offset_bottom = 427.0
+position_offset = Vector2(396, 229)
+resizable = true
+title = "Hello"
+slot/0/left_enabled = false
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+
+[node name="Control" type="Control" parent="GraphNode"]
+layout_mode = 2
+size_flags_vertical = 3

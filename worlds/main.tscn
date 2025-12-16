@@ -1,8 +1,42 @@
-[gd_scene load_steps=2 format=3 uid="uid://but783mhkxl8n"]
+[gd_scene load_steps=9 format=3 uid="uid://but783mhkxl8n"]
 
-[ext_resource type="PackedScene" uid="uid://b23j7vlurfmpy" path="res://player/player.tscn" id="1_felrd"]
+[ext_resource type="Script" uid="uid://ktt4ukmi83le" path="res://worlds/main.gd" id="1_m313i"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m313i"]
+
+[sub_resource type="Sky" id="Sky_46j3l"]
+sky_material = SubResource("ProceduralSkyMaterial_m313i")
+
+[sub_resource type="Environment" id="Environment_bnm7t"]
+background_mode = 2
+sky = SubResource("Sky_46j3l")
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_q4nr1"]
+
+[sub_resource type="Compositor" id="Compositor_s6w6s"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_m313i"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_46j3l"]
+size = Vector3(10, 1, 10)
 
 [node name="Main" type="Node3D"]
+script = ExtResource("1_m313i")
 
-[node name="Player" parent="." instance=ExtResource("1_felrd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.94772387, -0.25662982, 0.1896328, 0, 0.5942895, 0.8042512, -0.31909165, -0.76220804, 0.56322235, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_bnm7t")
+camera_attributes = SubResource("CameraAttributesPractical_q4nr1")
+compositor = SubResource("Compositor_s6w6s")
+
+[node name="Platform" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="Collider" type="CollisionShape3D" parent="Platform"]
+shape = SubResource("BoxShape3D_m313i")
+
+[node name="Mesh" type="MeshInstance3D" parent="Platform"]
+mesh = SubResource("BoxMesh_46j3l")
