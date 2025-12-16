@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://colpnmwti45a0"]
+
+[ext_resource type="Script" uid="uid://dn847ab8yi1j8" path="res://worlds/world_manager.gd" id="1_1qi50"]
+[ext_resource type="PackedScene" uid="uid://but783mhkxl8n" path="res://worlds/main.tscn" id="2_hgis5"]
+
+[node name="WorldManager" type="Node"]
+script = ExtResource("1_1qi50")
+
+[node name="Main" parent="." instance=ExtResource("2_hgis5")]
